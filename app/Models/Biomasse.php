@@ -27,7 +27,8 @@ class Biomasse extends Model
     }
 
     public function Latest($sowingId, $amount = 20) {
-        return Biomasse::with('Sowing')
+        return Biomasse::orderBy('manual_created_at', 'asc')
+            ->with('Sowing')
             ->where('sowing_id', $sowingId)
             ->limit($amount)
             ->get();

@@ -20,12 +20,11 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
      * @param {Object} sowing - The sowing object to be deleted.
      * @returns {void}
      */
-    const confirmDeleteSowing = (sowing) => {
-        const { name, id } = sowing; // Destructure sowing object
+    const confirmDeleteSowing = (sowingId) => {
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
-            text: `¿Deseas eliminar el usuario ${name.toUpperCase()}?`,
+            text: `¿Deseas eliminar la cosecha ?`,
             showCancelButton: true,
             confirmButtonColor: "#dd2627",
             cancelButtonColor: "#1f2937",
@@ -33,7 +32,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
             cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteSowing(id);
+                deleteSowing(sowingId);
             }
         });
     };
@@ -99,7 +98,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
             <Head title="Sowinges"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <ButtonsGroup baseUrl={baseUrl} sowing={sowing} />
+                    <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing}/>
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
                         <div
                             className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">

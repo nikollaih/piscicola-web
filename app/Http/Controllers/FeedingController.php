@@ -89,7 +89,7 @@ class FeedingController extends Controller
             'request' => $request,
             'baseUrl' => url('/'),
             'indexRoute' => route('feeding', ['sowingId' => $sowingId]),
-            'compareRoute' => 'medicate.readings.compare',
+            'compareRoute' => 'feeding.readings.compare',
             'csrfToken' => csrf_token()
         ]);
     }

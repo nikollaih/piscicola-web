@@ -93,10 +93,7 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={route('biomasse.readings', {sowingId: sowing.id})}>
-                            <PrimaryButton>Comparar Suministros</PrimaryButton>
-                        </Link>
-                        <Link href={route('biomasse.readings', {sowingId: sowing.id})}>
-                            <PrimaryButton>Comparar Lecturas</PrimaryButton>
+                            <PrimaryButton className="bg-gray-800">Histórico de lecturas</PrimaryButton>
                         </Link>
                         <Link href={usePages.props.createBiomasseUrl}>
                             <PrimaryButton className="bg-orange-600">Agregar</PrimaryButton>

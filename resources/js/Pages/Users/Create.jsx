@@ -198,7 +198,7 @@ export default function CreateUser({ auth, usersUrl, roles }) {
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
                             <Link href={usersUrl}>
-                                <PrimaryButton className="gray">Cancelar</PrimaryButton>
+                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
                                 className="bg-indigo-500"

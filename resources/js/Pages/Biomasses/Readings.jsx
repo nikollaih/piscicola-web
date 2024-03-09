@@ -48,7 +48,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={route('biomasses', {sowingId: sowing.id})}>
-                            <PrimaryButton>Regresar</PrimaryButton>
+                            <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
                         </Link>
                     </div>
 

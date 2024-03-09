@@ -4,11 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Sowing;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class SowingCreateRequest extends FormRequest
+class SowingUpdateRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,15 +14,19 @@ class SowingCreateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $sowingId = $this->route('sowingId');
+
         return [
             'fish_id' => ['required', 'numeric'],
             'step_id' => ['required', 'numeric'],
             'pond_id' => [
                 'required',
                 'numeric',
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($sowingId) {
                     // Verificar si el pond_id está siendo utilizado en un Sowing
-                    $existingSowing = Sowing::where('pond_id', $value)->exists();
+                    $existingSowing = Sowing::where('pond_id', $value)
+                        ->where('id', "!=", $sowingId)
+                        ->exists();
 
                     // Si existe un Sowing con el pond_id especificado, la validación falla
                     if ($existingSowing) {

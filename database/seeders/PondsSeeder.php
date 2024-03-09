@@ -14,8 +14,26 @@ class PondsSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['id' => 1, 'productive_unit_id' => 1, 'name' => 'Estanque 1', 'capacity' => 5000],
-            ['id' => 2, 'productive_unit_id' => 1, 'name' => 'Estanque 2', 'capacity' => 7000],
+            [
+                'id' => 1,
+                'productive_unit_id' => 1,
+                'name' => 'Estanque 1',
+                'area' => 200,
+                'volume' => 150,
+                'entrance' => 20,
+                'exit' => 20,
+                'covered' => 2
+            ],
+            [
+                'id' => 2,
+                'productive_unit_id' => 1,
+                'name' => 'Estanque 2',
+                'area' => 150,
+                'volume' => 100,
+                'entrance' => 12,
+                'exit' => 12,
+                'covered' => 1
+            ],
             // Add more cities as needed
         ];
 

@@ -1,19 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination.jsx';
-import SowingItem from "@/Pages/Sowings/Partials/Item.jsx";
+import PondItem from "@/Pages/Ponds/Partials/Item.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import {useEffect, useState} from "react";
 import {deleteService} from "@/Services/Services.ts";
 import Swal from "sweetalert2";
 
-export default function Sowings({ auth, sowings, request, createSowingUrl, baseUrl }) {
+export default function Ponds({ auth, ponds, request }) {
     let usePages = usePage();
-    const [sowingsList, setUsersList] = useState([]);
+    const [pondsList, setUsersList] = useState([]);
 
     useEffect(() => {
-        if(sowingsList.length === 0){
-            setUsersList(sowings.data)
+        if(pondsList.length === 0){
+            setUsersList(ponds.data)
         }
     }, [])
 
@@ -58,7 +58,7 @@ export default function Sowings({ auth, sowings, request, createSowingUrl, baseU
             // Check if the deletion was successful
             if(response.ok) {
                 // If successful, update the user list
-                const updatedUsers = sowingsList.filter(user => user.id !== userId);
+                const updatedUsers = pondsList.filter(user => user.id !== userId);
                 setUsersList(updatedUsers);
 
                 // Show a success message to the user
@@ -81,31 +81,31 @@ export default function Sowings({ auth, sowings, request, createSowingUrl, baseU
         }
     };
 
-    const getSowingsDom = () => {
-        return sowings.data.map((sowing) => {
-            return <SowingItem sowing={sowing} baseUrl={baseUrl}/>
+    const getPondsDom = () => {
+        return ponds.data.map((pond) => {
+            return <PondItem pond={pond}/>
         })
     }
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Cosechas</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Estanques</h2>}
         >
-            <Head title="Cosechas" />
+            <Head title="Estanques" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-end">
-                        <Link href={createSowingUrl}>
+                        <Link>
                             <PrimaryButton className="bg-orange-600 h-10">
-                                Agregar Cosecha
+                                Agregar Estanque
                             </PrimaryButton>
                         </Link>
                     </div>
                     <div className="grid grid-cols-4 border border-dashed border-gray-200 rounded-lg gap-4 p-1">
-                        {getSowingsDom()}
+                        {getPondsDom()}
                     </div>
-                    <Pagination class="mt-6" links={sowings.links} search={request.search}/>
+                    <Pagination class="mt-6" links={ponds.links}/>
                 </div>
             </div>
         </AuthenticatedLayout>

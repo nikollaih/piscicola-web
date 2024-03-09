@@ -27,7 +27,7 @@ class BiomassesController extends Controller
 
         $sowing = $Sowing->Get();
         $biomasses = $Biomasse->AllBySowing($sowingId);
-        $latestBiomasses = $Biomasse->Latest($sowingId);
+        $latestBiomasses = $Biomasse->Latest($sowingId, 50);
 
         return \inertia('Biomasses/Index', [
             'sowing' => $sowing,

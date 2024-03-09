@@ -233,7 +233,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
                             <Link href={route('supplies')}>
-                                <PrimaryButton className="gray">Regresar</PrimaryButton>
+                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
                                 className="bg-orange-600"

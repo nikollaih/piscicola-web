@@ -265,7 +265,7 @@ export default function PartyForm({ auth, states, partiesUrl, roleId }) {
                     </div>
                     <div className="flex gap-4 justify-end mt-4">
                         <Link href={partiesUrl}>
-                            <PrimaryButton className="gray">Cancelar</PrimaryButton>
+                            <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                         </Link>
                         <PrimaryButton
                             className="bg-indigo-500"

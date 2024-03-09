@@ -4,7 +4,9 @@ use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicateController;
+use App\Http\Controllers\MortalitiesController;
 use App\Http\Controllers\PartiesController;
+use App\Http\Controllers\PondsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\SowingNewsController;
@@ -77,9 +79,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{sowingId}/view', [SowingsController::class, 'view'])->name('sowing.view');
         Route::get('create', [SowingsController::class, 'create'])->name('sowing.create');
         Route::post('store', [SowingsController::class, 'store'])->name('sowing.store');
-        /*Route::get('{userId}/edit', [UsersController::class, 'edit'])->name('sowing.edit');
-        Route::patch('{userId}/update', [UsersController::class, 'update'])->name('sowing.update');
-        Route::delete('{userId}', [UsersController::class, 'destroy'])->name('sowing.delete');*/
+        Route::get('{sowingId}/edit', [SowingsController::class, 'edit'])->name('sowing.edit');
+        Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowing.update');
+        Route::delete('{sowingId}', [SowingsController::class, 'destroy'])->name('sowing.delete');
+    });
+});
+
+// Ponds routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('ponds')->group(function() {
+        Route::get('/', [PondsController::class, 'index'])->name('ponds');
+        /*
+        Route::get('{pondId}/view', [PondsController::class, 'view'])->name('pond.view');
+        Route::get('create', [PondsController::class, 'create'])->name('pond.create');
+        Route::post('store', [PondsController::class, 'store'])->name('pond.store');
+        Route::get('{pondId}/edit', [PondsController::class, 'edit'])->name('pond.edit');
+        Route::patch('{pondId}/update', [PondsController::class, 'update'])->name('pond.update');
+        Route::delete('{pondId}', [PondsController::class, 'destroy'])->name('pond.delete');*/
     });
 });
 
@@ -141,6 +157,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('{feedingId}/update', [MedicateController::class, 'update'])->name('medicate.update');
         Route::delete('{feedingId}', [MedicateController::class, 'destroy'])->name('medicate.delete');
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MedicateController::class, 'readings'])->name('medicate.readings.compare');
+    });
+});
+
+// Mortalities routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('mortalities')->group(function() {
+        Route::get('sowing/{sowingId}', [MortalitiesController::class, 'index'])->name('mortalities');
+        Route::get('sowing/{sowingId}/create', [MortalitiesController::class, 'create'])->name('mortality.create');
+        Route::post('{sowingId}/store', [MortalitiesController::class, 'store'])->name('mortality.store');
+        Route::get('{mortalityId}/edit', [MortalitiesController::class, 'edit'])->name('mortality.edit');
+        Route::patch('{mortalityId}/update', [MortalitiesController::class, 'update'])->name('mortality.update');
+        Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy'])->name('mortality.delete');
+        Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MortalitiesController::class, 'readings'])->name('mortality.readings');
     });
 });
 

@@ -22,7 +22,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
         sowing_id: sowingId,
         quantity_of_fish: null,
         approximate_weight: null,
-        manual_created_at: null
+        manual_created_at: moment().format(Constants.DATEFORMAT)
     });
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -133,7 +133,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
                             <Link href={biomassesUrl}>
-                                <PrimaryButton className="gray">Cancelar</PrimaryButton>
+                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
                                 className="bg-orange-600"

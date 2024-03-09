@@ -10,8 +10,9 @@ import InputError from '@/Components/InputError.jsx';
 import AlertMessage from '@/Components/AlertMessage.jsx';
 import {useEffect, useState, useRef} from "react";
 
-export default function CreateSowing({ auth, sowingsUrl, fish, steps, ponds }) {
+export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
     // Create a ref for the reset button
+    const goBackRoute = (sowing?.id) ? route('sowing.view', {sowingId: sowing.id}) : route('sowings');
     const buttonResetRef = useRef(null);
     const hasErrors = usePage().props.errors;
     const pageProps = usePage().props;
@@ -37,6 +38,7 @@ export default function CreateSowing({ auth, sowingsUrl, fish, steps, ponds }) {
         setData({
             fish_id: sowing.fish_id,
             step_id: sowing.step_id,
+            pond_id: sowing.pond_id,
             quantity: sowing.quantity
         });
 
@@ -181,8 +183,8 @@ export default function CreateSowing({ auth, sowingsUrl, fish, steps, ponds }) {
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={sowingsUrl}>
-                                <PrimaryButton className="gray">Cancelar</PrimaryButton>
+                            <Link href={goBackRoute}>
+                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
                                 className="bg-orange-600"

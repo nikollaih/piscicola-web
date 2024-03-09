@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('productive_unit_id')->constrained('productive_units');
             $table->string('name');
-            $table->string('capacity');
+            $table->double('area');
+            $table->double('volume');
+            $table->double('entrance');
+            $table->double('exit');
+            $table->boolean('covered');
             $table->timestamps();
         });
     }

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sowing_news', function (Blueprint $table) {
+        Schema::create('mortalities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sowing_id')->constrained('sowings');
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('title');
-            $table->dateTime('sale_date');
-            $table->longText('description');
+            $table->foreignId('biomasse_id')->constrained('biomasses');
+            $table->double('sample_quantity');
+            $table->double('dead');
+            $table->dateTime('manual_created_at');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sowing_news');
+        Schema::dropIfExists('mortalities');
     }
 };

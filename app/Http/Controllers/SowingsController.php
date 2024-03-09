@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\EnvHelper;
 use App\Http\Requests\SowingCreateRequest;
+use App\Http\Requests\SowingUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Models\Biomasse;
 use App\Models\Fish;
@@ -68,6 +69,38 @@ class SowingsController extends Controller
     }
 
     /**
+     * Display the sowings  form.
+     */
+    public function edit($sowingId): Response
+    {
+        $user = Auth::user();
+        $Sowing = new Sowing();
+        $Sowing->setSowingId($sowingId);
+
+        $sowing = $Sowing->Get();
+        $fish = Fish::all();
+        $steps = Step::all();
+        $ponds = Pond::where('productive_unit_id', $user->productive_unit_id)->get();
+
+        return \inertia('Sowings/Create', [
+            'sowing' => $sowing,
+            'steps' => $steps,
+            'fish' => $fish,
+            'ponds' => $ponds,
+            'formActionUrl' => route('sowing.update', ['sowingId' => $sowingId])
+        ]);
+    }
+
+    /**
+     * Update the supply's profile information.
+     */
+    public function update(SowingUpdateRequest $request, $sowingId)
+    {
+        $sowingRequest = $request->all();
+        Sowing::where('id', $sowingId)->update($sowingRequest);
+    }
+
+    /**
      * Display the user's profile information.
      */
     public function view($sowingId)
@@ -92,6 +125,32 @@ class SowingsController extends Controller
         }
         else {
             return Redirect::route('sowings');
+        }
+    }
+
+    /**
+     * Delete the sowing row
+     */
+    public function destroy($sowingId)
+    {
+        // Get the biomasse the user is trying to delete
+        $sowing = Sowing::find($sowingId);
+
+        // If the user exists
+        if($sowing){
+            // Do the soft delete
+            if($sowing->delete()){
+                // Return a confirmation message
+                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
+            }
+            else {
+                // In case the soft delete generate an error then return a warning message
+                return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
+            }
+        }
+        else {
+            // If the user doesn't exist
+            return response()->json(["msg" => "El registro no existe"], 404);
         }
     }
 }

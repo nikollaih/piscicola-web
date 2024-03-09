@@ -4,12 +4,11 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputLabel from "@/Components/InputLabel.jsx";
 import Dropdown from "@/Components/Dropdown.jsx";
 import DropDownToggle from "@/Components/DropDownToggle.jsx";
-import InputError from "@/Components/InputError.jsx";
 import DropDownItem from "@/Components/DropDownItem.jsx";
 import {useState} from "react";
 import ReadingStatHistory from "@/Components/ReadingStatHistory.jsx";
 
-export default function SupplyUseReadings({ auth, sowing, biomasses, readings, biomasseOne, biomasseTwo, indexRoute, compareRoute, title }) {
+export default function MortalitiesReadings({ auth, sowing, biomasses, readings, biomasseOne, biomasseTwo }) {
     console.log(readings)
     let usePages = usePage();
     const [selectedBiomasseOne, setSelectedBiomasseOne] = useState(biomasseOne);
@@ -29,7 +28,7 @@ export default function SupplyUseReadings({ auth, sowing, biomasses, readings, b
     }
 
     const getReadings = () => {
-        router.visit(route(compareRoute, {sowingId: sowing.id, biomasseIdOne: selectedBiomasseOne.id, biomasseIdTwo: selectedBiomasseTwo.id}))
+        router.visit(route('mortality.readings', {sowingId: sowing.id, biomasseIdOne: selectedBiomasseOne.id, biomasseIdTwo: selectedBiomasseTwo.id}))
     }
 
     return (
@@ -38,16 +37,16 @@ export default function SupplyUseReadings({ auth, sowing, biomasses, readings, b
             header={
                 <div className="flex items-center">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Registros de {title}
+                        Registros de mortalidad
                     </h2>
                 </div>
             }
         >
-            <Head title={`Registros de ${title}`}/>
+            <Head title="Registros de mortalidad"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
-                        <Link href={indexRoute}>
+                        <Link href={route('mortalities', {sowingId: sowing.id})}>
                             <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
                         </Link>
                     </div>
@@ -58,7 +57,7 @@ export default function SupplyUseReadings({ auth, sowing, biomasses, readings, b
                             <div className="md:col-span-1 sm:col-span-2">
                                 <p className="font-bold text-lg mb-1">Biomasas</p>
                                 <InputLabel className="mb-4"
-                                            value="A continuación podrá seleccionar hasta 2 biomasas para generar la comparación de lecturas entre ellas."/>
+                                            value="A continuación podrá seleccionar hasta 2 biomasas para generar la comparación de registros entre ellas."/>
                                 <div className="flex align-middle items-center gap-2">
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -88,18 +87,10 @@ export default function SupplyUseReadings({ auth, sowing, biomasses, readings, b
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            {
-                                readings.map((reading) => {
-                                    return <ReadingStatHistory key={reading.id} readings={reading.data_one} stepStat={reading.step_stat} date="manual_created_at" value="quantity" />
-                                })
-                            }
+                            <ReadingStatHistory key={1} readings={readings.data_one} stepStat={readings.step_stat} value="dead" date="manual_created_at"  />
                         </div>
                         <div>
-                            {
-                                readings.map((reading) => {
-                                    return <ReadingStatHistory key={reading.id} readings={reading.data_two} stepStat={reading.step_stat} date="manual_created_at" value="quantity" />
-                                })
-                            }
+                            <ReadingStatHistory key={1} readings={readings.data_two} stepStat={readings.step_stat} value="dead" date="manual_created_at"  />
                         </div>
                     </div>
                 </div>
