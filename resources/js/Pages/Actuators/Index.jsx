@@ -1,13 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link, router, usePage} from '@inertiajs/react';
 import Pagination from '@/Components/Pagination.jsx';
-import PondItem from "@/Pages/Ponds/Partials/Item.jsx";
+import ActuatorItem from "@/Pages/Actuators/Partials/Item.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import {useEffect, useState} from "react";
 import {deleteService} from "@/Services/Services.ts";
 import Swal from "sweetalert2";
 
-export default function Ponds({ auth, ponds }) {
+export default function Actuators({ auth, actuators }) {
     let usePages = usePage();
 
     useEffect(() => {
@@ -19,8 +19,8 @@ export default function Ponds({ auth, ponds }) {
      * @param {Object} user - The user object to be deleted.
      * @returns {void}
      */
-    const confirmDeletePond = (pond) => {
-        const { name, id } = pond; // Destructure user object
+    const confirmDeleteActuator = (actuator) => {
+        const { name, id } = actuator; // Destructure user object
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
@@ -32,7 +32,7 @@ export default function Ponds({ auth, ponds }) {
             cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                deletePond(id);
+                deleteActuator(id);
             }
         });
     };
@@ -43,10 +43,10 @@ export default function Ponds({ auth, ponds }) {
      * @param {number} userId - The ID of the user to be deleted.
      * @returns {Promise<void>} - A promise that resolves once the user is deleted.
      */
-    const deletePond = async (pondId) => {
+    const deleteActuator = async (actuatorId) => {
         try {
             // Send a request to delete the user
-            const response = await deleteService(route('pond.delete', {pondId}), usePages.props.csrfToken);
+            const response = await deleteService(route('actuator.delete', {actuatorId}), usePages.props.csrfToken);
 
             // Parse the response body as JSON
             const jsonResponse = await response.json();
@@ -61,7 +61,7 @@ export default function Ponds({ auth, ponds }) {
                     confirmButtonText: "Continuar",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                       router.reload()
+                        router.reload()
                     }
                 });
             } else {
@@ -78,31 +78,31 @@ export default function Ponds({ auth, ponds }) {
         }
     };
 
-    const getPondsDom = () => {
-        return ponds.data.map((pond) => {
-            return <PondItem pond={pond} onDelete={confirmDeletePond}/>
+    const getActuatorsDom = () => {
+        return actuators.data.map((actuator) => {
+            return <ActuatorItem actuator={actuator} onDelete={confirmDeleteActuator}/>
         })
     }
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Estanques</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Actuadores</h2>}
         >
-            <Head title="Estanques" />
+            <Head title="Actuadores" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-end">
-                        <Link href={route('pond.create')}>
+                        <Link href={route('actuator.create')}>
                             <PrimaryButton className="bg-orange-600 h-10">
-                                Agregar Estanque
+                                Agregar Actuador
                             </PrimaryButton>
                         </Link>
                     </div>
                     <div className="grid grid-cols-4 border border-dashed border-gray-200 rounded-lg gap-4 p-1">
-                        {getPondsDom()}
+                        {getActuatorsDom()}
                     </div>
-                    <Pagination class="mt-6" links={ponds.links}/>
+                    <Pagination class="mt-6" links={actuators.links}/>
                 </div>
             </div>
         </AuthenticatedLayout>

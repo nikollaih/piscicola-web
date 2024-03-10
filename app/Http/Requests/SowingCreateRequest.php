@@ -17,6 +17,7 @@ class SowingCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required'],
             'fish_id' => ['required', 'numeric'],
             'step_id' => ['required', 'numeric'],
             'pond_id' => [

@@ -11,16 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ponds', function (Blueprint $table) {
+        Schema::create('actuator_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productive_unit_id')->constrained('productive_units');
             $table->string('name');
-            $table->double('area');
-            $table->double('volume');
-            $table->double('entrance');
-            $table->double('exit');
-            $table->boolean('covered');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ponds');
+        Schema::dropIfExists('actuator_types');
     }
 };

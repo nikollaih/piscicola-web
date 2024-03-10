@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('sowing_id')->constrained('sowings');
             $table->foreignId('user_id')->constrained('users');
             $table->string('title');
-            $table->dateTime('sale_date');
             $table->longText('description');
             $table->timestamps();
         });

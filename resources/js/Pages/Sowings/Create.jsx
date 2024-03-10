@@ -20,7 +20,8 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
         step_id: null,
         fish_id: null,
         pond_id: null,
-        quantity: null
+        quantity: null,
+        name: ""
     });
 
     const [fishTitle, setFishTitle] = useState('Seleccionar');
@@ -39,7 +40,8 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
             fish_id: sowing.fish_id,
             step_id: sowing.step_id,
             pond_id: sowing.pond_id,
-            quantity: sowing.quantity
+            quantity: sowing.quantity,
+            name: sowing.name
         });
 
         setFishTitle(fish.filter((r) => r.id === sowing.fish_id).at(0).name);
@@ -126,7 +128,19 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                         />
 
                         <div class="bg-white shadow-sm sm:rounded-lg p-5">
-                            <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                    <InputLabel value="Nombre"/>
+                                    <TextInput
+                                        type="text"
+                                        className="w-full"
+                                        placeholder=""
+                                        name="name"
+                                        value={data.name}
+                                        required
+                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                    {(hasErrors?.name) ? <InputError message={hasErrors.name}/> : ""}
+                                </div>
                                 <div className="md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Producto"/>
                                     <Dropdown>

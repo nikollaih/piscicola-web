@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StepStatSeeder::class);
         $this->call(MeasurementUnitsTypesSeeder::class);
         $this->call(MeasurementUnitsSeeder::class);
+        $this->call(ActuatorTypesSeeder::class);
 
         Association::factory(1)->create();
         ProductiveUnit::factory(3)->create();

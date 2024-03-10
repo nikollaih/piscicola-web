@@ -16,6 +16,8 @@ class Sowing extends Model
         'fish_id',
         'step_id',
         'pond_id',
+        'name',
+        'sale_date',
         'quantity'
     ];
 

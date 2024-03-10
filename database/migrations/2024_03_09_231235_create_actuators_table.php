@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ponds', function (Blueprint $table) {
+        Schema::create('actuators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productive_unit_id')->constrained('productive_units');
+            $table->foreignId('pond_id')->constrained('ponds');
+            $table->foreignId('actuator_type_id')->constrained('actuator_types');
             $table->string('name');
-            $table->double('area');
-            $table->double('volume');
-            $table->double('entrance');
-            $table->double('exit');
-            $table->boolean('covered');
-            $table->softDeletes();
+            $table->text('description')->nullable();
+            $table->double('cost_by_minute');
+            $table->boolean('is_turned_on')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ponds');
+        Schema::dropIfExists('actuators');
     }
 };

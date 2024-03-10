@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActuatorsController;
 use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\FeedingController;
@@ -89,13 +90,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('ponds')->group(function() {
         Route::get('/', [PondsController::class, 'index'])->name('ponds');
-        /*
-        Route::get('{pondId}/view', [PondsController::class, 'view'])->name('pond.view');
         Route::get('create', [PondsController::class, 'create'])->name('pond.create');
         Route::post('store', [PondsController::class, 'store'])->name('pond.store');
+        Route::delete('{pondId}', [PondsController::class, 'destroy'])->name('pond.delete');
+        Route::delete('{pondId}', [PondsController::class, 'destroy'])->name('pond.delete');
         Route::get('{pondId}/edit', [PondsController::class, 'edit'])->name('pond.edit');
         Route::patch('{pondId}/update', [PondsController::class, 'update'])->name('pond.update');
-        Route::delete('{pondId}', [PondsController::class, 'destroy'])->name('pond.delete');*/
+    });
+});
+
+// Actuators routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('actuators')->group(function() {
+        Route::get('/{pondId?}', [ActuatorsController::class, 'index'])->name('actuators');
+        Route::get('create', [ActuatorsController::class, 'create'])->name('actuator.create');
+        Route::post('store', [ActuatorsController::class, 'store'])->name('actuator.store');
+        /*
+
+        Route::delete('{actuatorId}', [ActuatorsController::class, 'destroy'])->name('actuator.delete');
+        Route::delete('{actuatorId}', [ActuatorsController::class, 'destroy'])->name('actuator.delete');
+        Route::get('{actuatorId}/edit', [ActuatorsController::class, 'edit'])->name('actuator.edit');
+        Route::patch('{actuatorId}/update', [ActuatorsController::class, 'update'])->name('actuator.update');*/
     });
 });
 

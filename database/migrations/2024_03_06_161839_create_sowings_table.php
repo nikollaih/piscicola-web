@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('fish_id')->constrained('fish');
             $table->foreignId('step_id')->constrained('steps');
             $table->foreignId('pond_id')->constrained('ponds');
+            $table->string('name');
             $table->integer('quantity');
+            $table->dateTime('sale_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
