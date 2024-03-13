@@ -6,13 +6,17 @@ use App\Helpers\EnvHelper;
 use App\Http\Requests\SowingCreateRequest;
 use App\Http\Requests\SowingUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
+use App\Models\ActuatorUse;
 use App\Models\Biomasse;
+use App\Models\Expense;
 use App\Models\Fish;
 use App\Models\Pond;
 use App\Models\Role;
 use App\Models\Sowing;
+use App\Models\SowingExpense;
 use App\Models\StatsReading;
 use App\Models\Step;
+use App\Models\SupplyUse;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -152,5 +156,29 @@ class SowingsController extends Controller
             // If the user doesn't exist
             return response()->json(["msg" => "El registro no existe"], 404);
         }
+    }
+
+    public function resume($sowingId): Response
+    {
+        $Sowing = new Sowing();
+        $SupplyUse = new SupplyUse();
+        $ActuatorUse = new ActuatorUse();
+        $Expense = new Expense();
+        $Sowing->setSowingId($sowingId);
+        $sowing = $Sowing->get();
+
+        $feedingCost = $SupplyUse->getSowingCost($sowingId, 'ALIMENT');
+        $medicineCost = $SupplyUse->getSowingCost($sowingId, 'MEDICINE');
+        $actuatorsCost = $ActuatorUse->getSowingCost($sowingId);
+        $expensesCost = $Expense->getSowingCost($sowingId);
+
+        return \inertia('Sowings/Resume', [
+            'sowing' => $sowing,
+            'feedingCost' => $feedingCost,
+            'medicineCost' => $medicineCost,
+            'actuatorsCost' => $actuatorsCost,
+            'expensesCost' => $expensesCost,
+            'csrfToken' => csrf_token()
+        ]);
     }
 }

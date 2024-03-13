@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('actuators', function (Blueprint $table) {
+        Schema::create('expense_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pond_id')->constrained('ponds');
-            $table->foreignId('actuator_type_id')->constrained('actuator_types');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->double('cost_by_minute');
-            $table->boolean('is_turned_on')->default(0);
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('actuators');
+        Schema::dropIfExists('expense_categories');
     }
 };

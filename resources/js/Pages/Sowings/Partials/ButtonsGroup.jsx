@@ -6,7 +6,7 @@ export default function ButtonsGroup({onDelete = () => {}, sowing}) {
         <div className="mb-4 flex gap-2">
             <div className="flex gap-2 flex-1">
                 <Link href={route('sowing_news', {sowingId: sowing.id})}>
-                    <PrimaryButton className="bg-rose-500">Novedades</PrimaryButton>
+                    <PrimaryButton className="bg-rose-500">Actividad</PrimaryButton>
                 </Link>
                 <Link href={route('feeding', {sowingId: sowing.id})}>
                     <PrimaryButton className="bg-green-600">Alimentación</PrimaryButton>
@@ -19,6 +19,12 @@ export default function ButtonsGroup({onDelete = () => {}, sowing}) {
                 </Link>
                 <Link href={route('mortalities', {sowingId: sowing.id})}>
                     <PrimaryButton className="bg-gray-800">Mortalidad</PrimaryButton>
+                </Link>
+                <Link href={route('expenses', {sowingId: sowing.id})}>
+                    <PrimaryButton className="bg-amber-500">Gastos</PrimaryButton>
+                </Link>
+                <Link href={route('sowing.resume', {sowingId: sowing.id})}>
+                    <PrimaryButton className="bg-emerald-600">R. Financiero</PrimaryButton>
                 </Link>
             </div>
 

@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const partyRoleId = route().params.partyRoleId;
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -41,7 +42,7 @@ export default function Authenticated({ user, header, children }) {
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('supplies')} active={route().current('supplies')}>
+                                <NavLink href={route('expenses')} active={route().current('expenses')}>
                                     Gastos
                                 </NavLink>
                             </div>
@@ -50,10 +51,40 @@ export default function Authenticated({ user, header, children }) {
                                     Suministros
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('users')} active={route().current('users')}>
-                                    Usuarios
-                                </NavLink>
+                            <div className="hidden sm:flex sm:items-center">
+                                <div className="relative">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                            >
+                                                Personas
+                                                <svg
+                                                    className="ms-2 -me-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Dropdown.Link href={route('users')} active={route().current('users')}>Usuarios</Dropdown.Link>
+                                            <Dropdown.Link href={route('parties', {partyRoleId: 1})}
+                                                           active={(route().current('parties') || route().current('party.create')) && partyRoleId == 1}>Clientes</Dropdown.Link>
+                                            <Dropdown.Link href={route('parties', {partyRoleId: 2})}
+                                                           active={(route().current('parties') || route().current('party.create')) && partyRoleId == 2}>Empleados</Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                </div>
                             </div>
                         </div>
 
@@ -124,9 +155,6 @@ export default function Authenticated({ user, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Inicio
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('clients')} active={route().current('clients')}>
-                            Clientes
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('users')} active={route().current('users')}>
                             Usuarios

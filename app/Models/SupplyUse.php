@@ -64,6 +64,14 @@ class SupplyUse extends Model
             ->get();
     }
 
+    public function getSowingCost($sowingId, $useType){
+        return SupplyUse::where('sowing_id', $sowingId)
+            ->whereHas('Supply', function ($query) use ($useType) {
+                $query->where('use_type', $useType);
+            })
+            ->sum(\DB::raw('unit_cost * quantity'));
+    }
+
     public function Supply(){
         return $this->belongsTo(Supply::class);
     }

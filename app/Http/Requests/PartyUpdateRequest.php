@@ -15,18 +15,13 @@ class PartyUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $partyId = $this->route('partyId');
-
         return [
-            'document' => ['required', 'min:7', Rule::unique(Party::class)->ignore($partyId)],
-            'name' => ['required', 'string', 'min:5'],
-            'mobile_phone' => ['required', 'min:10'],
-            'email' => [
-                'required',
-                'email',
-                Rule::unique(Party::class)->ignore($partyId)
-            ],
-            'city_id' => ['required']
+            'party_role_id' => ['required'],
+            'document' => 'required|min:7',
+            'name' => 'required|string|min:5',
+            'mobile_phone' => 'required|min:10',
+            'email' => 'required|email',
+            'city_id' => 'required'
         ];
     }
 }

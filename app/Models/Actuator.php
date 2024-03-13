@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Actuator extends Model
 {
-    use HasFactory;
+    use HasFactory, softDeletes;
 
     protected $fillable = [
         'pond_id',
@@ -23,6 +24,12 @@ class Actuator extends Model
 
     public function ActuatorType() {
         return $this->belongsTo(ActuatorType::class);
+    }
+
+    public function Get($actuatorId) {
+        return Actuator::with('Pond')
+            ->with('ActuatorType')
+            ->find($actuatorId);
     }
 
     public function getAll($pondId = null) {

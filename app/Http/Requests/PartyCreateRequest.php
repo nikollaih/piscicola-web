@@ -16,11 +16,11 @@ class PartyCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'document' => 'required|min:7|unique:clients',
+            'party_role_id' => ['required'],
+            'document' => 'required|min:7',
             'name' => 'required|string|min:5',
             'mobile_phone' => 'required|min:10',
-            'email' => 'required|email|unique:clients',
-            'city_id' => 'required'
+            'email' => 'required|email'
         ];
     }
 }

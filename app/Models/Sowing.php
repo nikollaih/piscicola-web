@@ -23,6 +23,10 @@ class Sowing extends Model
 
     protected $sowingId = null;
 
+    public function Expenses() {
+        return $this->belongsToMany(Expense::class, 'sowing_expenses');
+    }
+
     public function setSowingId($sowingId) {
         $this->sowingId = $sowingId;
     }

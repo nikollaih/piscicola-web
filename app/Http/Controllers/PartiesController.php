@@ -5,28 +5,68 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PartyCreateRequest;
 use App\Http\Requests\PartyUpdateRequest;
 use App\Models\Party;
+use App\Models\PartyRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PartiesController extends Controller
 {
-    /**
-     * Update the parti's profile information.
-     */
-    public function store(PartyCreateRequest $request)
-    {
-        $clientRequest = $request->all();
-        $clientRequest["company_id"] = Auth::user()->company_id;
-        Party::create($clientRequest);
+    public function index ($partyRoleId) {
+        $partyRoles = PartyRole::all();
+        $Parties = new Party();
+        $parties = $Parties->getAllByRole($partyRoleId);
+
+        return \inertia('Parties/Index', [
+            'parties' => $parties,
+            'partyRoles' => $partyRoles,
+            'partyRoleId' => $partyRoleId,
+            'createPartyUrl' => route('party.create', ['partyRoleId' => $partyRoleId]),
+            'csrfToken' => csrf_token()
+        ]);
+    }
+
+    public function create($partyRoleId) {
+        $partyRoles = PartyRole::all();
+
+        return \inertia('Parties/Create', [
+            'partyRoles' => $partyRoles,
+            'partyRoleId' => $partyRoleId,
+            'formActionUrl' => route('party.store', ['partyRoleId' => $partyRoleId]),
+            'csrfToken' => csrf_token()
+        ]);
     }
 
     /**
      * Update the parti's profile information.
      */
-    public function update(PartyUpdateRequest $request, $partyId)
+    public function store(PartyCreateRequest $request)
     {
-        $clientRequest = $request->all();
-        Party::where('id', $partyId)->update($clientRequest);
+        $user = Auth::user();
+        $partyRequest = $request->all();
+        $partyRequest["productive_unit_id"] = $user->productive_unit_id;
+        Party::create($partyRequest);
+    }
+
+    public function edit($partyId) {
+        $party = Party::find($partyId);
+        $partyRoles = PartyRole::all();
+
+        return \inertia('Parties/Create', [
+            'partyRoles' => $partyRoles,
+            'partyRoleId' => $party->party_role_id,
+            'party' => $party,
+            'formActionUrl' => route('party.update', ['partyId' => $partyId]),
+            'csrfToken' => csrf_token()
+        ]);
+    }
+
+    /**
+     * Update the parti's profile information.
+     */
+    public function update(PartyCreateRequest $request, $partyId)
+    {
+        $partyRequest = $request->all();
+        Party::where('id', $partyId)->update($partyRequest);
     }
 
     /**

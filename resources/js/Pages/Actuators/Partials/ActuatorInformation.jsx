@@ -1,9 +1,12 @@
-import {Link} from "@inertiajs/react";
-export default function PondItem ({actuator}) {
+import moment from "moment";
+import {Link, usePage} from "@inertiajs/react";
+export default function ActuatorInformation ({actuator}) {
     let iconTurnedOnColor = (actuator.is_turned_on === 1) ? "text-green-500" : "text-red-500";
-    return (
-        <Link href={route('actuator.view', {actuatorId: actuator.id})} className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 w-full cursor-pointer hover:bg-gray-50">
-            <p className="text-lg font-bold mb-2">{actuator.name}</p>
+    let usePages = usePage();
+
+    return <div className="p-3  rounded-md">
+        <div className="mb-3">
+            <p className="font-bold text-lg mb-2">{actuator.name}</p>
             <p className="text-gray-500">Estanque</p>
             <p className="font-bold mb-1">{actuator.pond.name}</p>
             <p className="text-gray-500">Tipo de actuador</p>
@@ -18,6 +21,6 @@ export default function PondItem ({actuator}) {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"/>
                 </svg>
             </div>
-        </Link>
-    )
+        </div>
+    </div>
 }

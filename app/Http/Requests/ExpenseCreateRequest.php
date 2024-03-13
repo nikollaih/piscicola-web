@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Supply;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SupplyUseCreateRequest extends FormRequest
+class ExpenseCreateRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,13 +14,10 @@ class SupplyUseCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-
-        $maxQuantity = Supply::findOrFail($this->supply_id)->available_quantity;
-
         return [
-            'supply_id' => ['required', 'numeric'],
-            'biomasse_id' => ['required'],
-            'quantity' => ['required', 'numeric', 'max:' . $maxQuantity],
+            'cost' => ['required'],
+            'category_id' => ['required'],
+            'concept' => ['required'],
             'manual_created_at' => ['required']
         ];
     }

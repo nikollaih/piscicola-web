@@ -13,7 +13,7 @@ export default function LinearChart({readings, date, value, chartId}) {
         else {
             setData();
         }
-    }, [readings]);
+    }, [readings, value]);
 
     const getDataStat = () => {
         if(readings.length > 0)
@@ -101,6 +101,6 @@ export default function LinearChart({readings, date, value, chartId}) {
     }
 
     return (
-        <div id={chartId} className="w-full h-full" />
+        <div id={chartId} className="w-full h-full" style={{height: 300}} />
     )
 }

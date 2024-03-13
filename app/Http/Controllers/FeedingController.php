@@ -118,7 +118,7 @@ class FeedingController extends Controller
     {
         $Supply = new Supply();
         $feedingRequest = $request->all();
-        $feedingRequest["unit_cost"] = $Supply->getCost($feedingRequest["supply_id"], $feedingRequest["quantity"]);
+        $feedingRequest["unit_cost"] = $Supply->getCost($feedingRequest["supply_id"]);
         $feeding = SupplyUse::create($feedingRequest);
 
         if ($feeding) {

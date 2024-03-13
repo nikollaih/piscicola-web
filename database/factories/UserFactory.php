@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'document' => fake()->numberBetween(1000000, 1100000000),
             'productive_unit_id' => 1,
             'name' => fake()->name(),
-            'email' => 'nikollai@gmail.com',
+            'email' => 'prueba@gmail.com',
             'email_verified_at' => now(),
             'role_id' => 2,
             'password' => static::$password ??= Hash::make('password'),

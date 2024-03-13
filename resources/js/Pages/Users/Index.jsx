@@ -94,8 +94,9 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
             <Head title="Useres" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex mb-4">
-                        <div className="flex-1">
+                    <div className="flex mb-4 justify-between">
+                        <div/>
+                        {/*<div className="flex-1">
                             <form>
                                 <TextInput
                                     onChange={(event) => {
@@ -124,9 +125,9 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                                         </Link>: null
                                 }
                             </form>
-                        </div>
+                        </div>*/}
                         <Link href={createUserUrl}>
-                            <PrimaryButton className="bg-indigo-500 h-10">
+                            <PrimaryButton className="bg-orange-500 h-10">
                                 Agregar
                             </PrimaryButton>
                         </Link>

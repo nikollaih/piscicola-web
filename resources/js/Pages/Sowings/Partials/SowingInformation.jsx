@@ -3,7 +3,7 @@ import {Link, usePage} from "@inertiajs/react";
 export default function SowingInformation ({sowing}) {
     let usePages = usePage();
 
-    return <Link href={`${usePages.props.baseUrl}/sowings/${sowing.id}/view`}>
+    return <Link href={route('sowing.view', {sowingId: sowing.id})}>
         <div className="p-3 hover:bg-gray-100 rounded-md">
             <div className="mb-3">
                 <p className="text-gray-600">Producto</p>

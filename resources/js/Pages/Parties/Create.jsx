@@ -3,9 +3,13 @@ import {Head, usePage} from '@inertiajs/react';
 import {useEffect} from "react";
 import PartyForm from '@/Pages/Parties/Partials/PartyForm.jsx'
 
-export default function CreateParty({ auth, states, partiesUrl }) {
+export default function CreateParty({ auth, party, partyRoles, partyRoleId, formActionUrl }) {
     const pageProps = usePage().props;
-    const pageTitle = ((pageProps?.party?.id) ? "Modificar " : "Agregar ") + 'cliente';
+    const getTitle = () => {
+        return partyRoles.filter((role) => role.id == partyRoleId)[0].name;
+    }
+
+    const pageTitle = ((pageProps?.party?.id) ? "Modificar " : "Agregar ") + getTitle();
 
     return (
         <AuthenticatedLayout
@@ -14,7 +18,7 @@ export default function CreateParty({ auth, states, partiesUrl }) {
         >
             <Head title={pageTitle} />
             <div className="py-12">
-                <PartyForm auth={auth} states={states} partiesUrl={partiesUrl} />
+                <PartyForm auth={auth} party={party}  partyRoleId={partyRoleId} formActionUrl={formActionUrl}/>
             </div>
         </AuthenticatedLayout>
     );
