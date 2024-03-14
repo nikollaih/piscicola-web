@@ -21,12 +21,12 @@ export default function CreateUser({ auth, usersUrl, roles }) {
         name: '',
         mobile_phone: null,
         email: '',
-        role_id: 3,
+        role_id: 2,
         password: '',
         password_confirmation: ''
     });
 
-    const [roleTitle, setRoleTitle] = useState('Abogado');
+    const [roleTitle, setRoleTitle] = useState('Manager');
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
@@ -201,7 +201,7 @@ export default function CreateUser({ auth, usersUrl, roles }) {
                                 <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-indigo-500"
+                                className="bg-orange-500"
                                 disabled={processing}
                             >
                                 Guardar

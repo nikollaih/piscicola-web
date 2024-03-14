@@ -25,7 +25,7 @@ class UserFactory extends Factory
     {
         return [
             'document' => fake()->numberBetween(1000000, 1100000000),
-            'productive_unit_id' => 1,
+            'productive_unit_id' => 2,
             'name' => fake()->name(),
             'email' => 'prueba@gmail.com',
             'email_verified_at' => now(),

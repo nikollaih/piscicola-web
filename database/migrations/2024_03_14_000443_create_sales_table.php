@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('party_roles', function (Blueprint $table) {
+        Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('sowing_id')->constrained('sowings');
+            $table->double('unit_cost');
+            $table->double('total_weight');
+            $table->dateTime('manual_created_at');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('party_roles');
+        Schema::dropIfExists('sales');
     }
 };

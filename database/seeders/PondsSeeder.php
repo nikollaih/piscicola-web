@@ -16,7 +16,7 @@ class PondsSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'productive_unit_id' => 1,
+                'productive_unit_id' => 2,
                 'name' => 'Estanque 1',
                 'area' => 200,
                 'volume' => 150,
@@ -26,7 +26,7 @@ class PondsSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'productive_unit_id' => 1,
+                'productive_unit_id' => 2,
                 'name' => 'Estanque 2',
                 'area' => 150,
                 'volume' => 100,

@@ -10,6 +10,7 @@ use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
 
@@ -18,23 +19,24 @@ class UsersController extends Controller
     /**
      * Display users listing
      */
-    public function index(Request $request): Response
+    public function index(Request $request, $productiveUnitId = null): Response
     {
         $searchValue = $request->input('search');
         $url = $request->url();
         $user = Auth::user();
+        $productiveUnit = ($productiveUnitId && $user->role_id === 1) ? $productiveUnitId : $user->productive_unit_id;
 
         if($request->has('search')){
-            $users = User::where('productive_unit_id', $user->productive_unit_id)
-                ->where('deleted_at', null)
+            $users = User::where('productive_unit_id', $productiveUnit)
+                ->with('role')
                 ->where('document', 'LIKE', "%{$searchValue}%")
                 ->orWhere('name', 'LIKE', "%{$searchValue}%")
                 ->orderBy('name', 'asc')
                 ->paginate(10);
         }
         else {
-            $users = User::where('productive_unit_id', $user->productive_unit_id)
-                ->where('deleted_at', null)
+            $users = User::where('productive_unit_id', $productiveUnit)
+                ->with('role')
                 ->orderBy('name', 'asc')
                 ->paginate(10);
         }
@@ -44,7 +46,7 @@ class UsersController extends Controller
             'request' => $request,
             'url' => $url,
             'baseUrl' => url('/'),
-            'createUserUrl' => route('user.create'),
+            'createUserUrl' => route('user.create', ['productiveUnitId' => $productiveUnit]),
             'csrfToken' => csrf_token()
         ]);
     }
@@ -53,24 +55,29 @@ class UsersController extends Controller
      * Display the create new user form
      * @return Response
      */
-    public function create(): Response
+    public function create($productiveUnitId = null): Response
     {
         $roles = Role::where('id', '>', 1)->get();
+        $user = Auth::user();
+        $productiveUnitId = ($productiveUnitId && $user->role_id === 1) ? $productiveUnitId : $user->productive_unit_id;
 
         return \inertia('Users/Create', [
             'roles' => $roles,
-            'usersUrl' => url('/users'),
-            'formActionUrl' => route('user.store'),
+            'usersUrl' => route('users', ['productiveUnitId' => $productiveUnitId]),
+            'formActionUrl' => route('user.store', ['productiveUnitId' => $productiveUnitId]),
         ]);
     }
 
     /**
      * Create a new user.
      */
-    public function store(UserCreateRequest $request)
+    public function store(UserCreateRequest $request, $productiveUnitId = null)
     {
         $userRequest = $request->all();
-        $userRequest["productive_unit_id"] = Auth::user()->productive_unit_id;
+        $user = Auth::user();
+        $productiveUnitId = ($productiveUnitId && $user->role_id === 1) ? $productiveUnitId : $user->productive_unit_id;
+
+        $userRequest["productive_unit_id"] = $productiveUnitId;
         User::create($userRequest);
     }
 
@@ -148,6 +155,33 @@ class UsersController extends Controller
             else {
                 // In case the soft delete generate an error then return a warning message
                 return response()->json(["msg" => "No ha sido posible eliminar el usuario"], 500);
+            }
+        }
+        else {
+            // If the user doesn't exist
+            return response()->json(["msg" => "El usuario no existe"], 404);
+        }
+    }
+
+    public function restorePassword(Request $request, $userId)
+    {
+        // Get the logged user instance
+        $loggedUser = Auth::user();
+        // Get the user is supposed to be deleted
+        $user = User::where('id', $userId)
+            ->first();
+
+        // If the user exists
+        if($user && $loggedUser->role_id <= 2){
+            $restored = User::where('id', $userId)->update(['password' => Hash::make(env('DEFAULT_PASSWORD'))]);
+            // Do the soft delete
+            if($restored){
+                // Return a confirmation message
+                return response()->json(["msg" => "Contraseña restablecida exitosamente"], 200);
+            }
+            else {
+                // In case the soft delete generate an error then return a warning message
+                return response()->json(["msg" => "No ha sido posible restaurar la contraseña el usuario"], 500);
             }
         }
         else {

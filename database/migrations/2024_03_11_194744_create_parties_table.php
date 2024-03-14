@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('document');
             $table->foreignId('productive_unit_id')->constrained('productive_units');
-            $table->foreignId('party_role_id')->constrained('parties_rol');
+            $table->foreignId('party_role_id')->constrained('party_roles');
             $table->string('name');
             $table->string('mobile_phone')->nullable();
             $table->string('home_phone')->nullable();

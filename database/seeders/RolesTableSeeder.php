@@ -27,13 +27,8 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'name' => 'Investigador',
-                'rol' => 'investigator'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Cliente',
-                'rol' => 'client'
+                'name' => 'Asistente',
+                'rol' => 'assistant'
             ]
             // Add more states as needed
         ];

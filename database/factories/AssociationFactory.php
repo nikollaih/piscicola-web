@@ -17,7 +17,7 @@ class AssociationFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => 1,
+            'id' => 2,
             'name' => 'Asopifil',
             'email' => fake()->email(),
             'mobile_phone' => fake()->phoneNumber(),

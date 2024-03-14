@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductiveUnit extends Model
 {
-    use HasFactory;
+    use HasFactory, softDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,6 +16,7 @@ class ProductiveUnit extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'association_id',
         'name',
         'mobile_phone',
         'phone',

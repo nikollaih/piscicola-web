@@ -6,6 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
 export default function Authenticated({ user, header, children }) {
+    console.log(user)
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const partyRoleId = route().params.partyRoleId;
 
@@ -20,41 +21,56 @@ export default function Authenticated({ user, header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800"/>
                                 </Link>
                             </div>
-
                             <div className="hidden space-x-2 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Inicio
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('sowings')} active={route().current('sowings')}>
-                                    Cosechas
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('actuators')} active={route().current('actuators')}>
-                                    Actuadores
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('ponds')} active={route().current('ponds')}>
-                                    Estanques
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('expenses')} active={route().current('expenses')}>
-                                    Gastos
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                <NavLink href={route('supplies')} active={route().current('supplies')}>
-                                    Suministros
-                                </NavLink>
-                            </div>
-                            <div className="hidden sm:flex sm:items-center">
-                                <div className="relative">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
+                            {
+                                (user.role_id === 1) ?
+                                    <div className="flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('associations')} active={route().current('associations')}>
+                                                Asociaciones
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('productive_units')} active={route().current('productive_units')}>
+                                                Unidades productivas
+                                            </NavLink>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('sowings')} active={route().current('sowings')}>
+                                                Cosechas
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('actuators')} active={route().current('actuators')}>
+                                            Actuadores
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('ponds')} active={route().current('ponds')}>
+                                                Estanques
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('expenses')} active={route().current('expenses')}>
+                                                Gastos
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('supplies')} active={route().current('supplies')}>
+                                                Suministros
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden sm:flex sm:items-center">
+                                            <div className="relative">
+                                                <Dropdown>
+                                                    <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
@@ -75,17 +91,20 @@ export default function Authenticated({ user, header, children }) {
                                                 </svg>
                                             </button>
                                         </span>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content>
-                                            <Dropdown.Link href={route('users')} active={route().current('users')}>Usuarios</Dropdown.Link>
-                                            <Dropdown.Link href={route('parties', {partyRoleId: 1})}
-                                                           active={(route().current('parties') || route().current('party.create')) && partyRoleId == 1}>Clientes</Dropdown.Link>
-                                            <Dropdown.Link href={route('parties', {partyRoleId: 2})}
-                                                           active={(route().current('parties') || route().current('party.create')) && partyRoleId == 2}>Empleados</Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
-                            </div>
+                                                    </Dropdown.Trigger>
+                                                    <Dropdown.Content>
+                                                        <Dropdown.Link href={route('users')}
+                                                                       active={route().current('users')}>Usuarios</Dropdown.Link>
+                                                        <Dropdown.Link href={route('parties', {partyRoleId: 1})}
+                                                                       active={(route().current('parties') || route().current('party.create')) && partyRoleId == 1}>Clientes</Dropdown.Link>
+                                                        <Dropdown.Link href={route('parties', {partyRoleId: 2})}
+                                                                       active={(route().current('parties') || route().current('party.create')) && partyRoleId == 2}>Empleados</Dropdown.Link>
+                                                    </Dropdown.Content>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                            }
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
@@ -116,9 +135,9 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
+                                            Cerrar sesión
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>

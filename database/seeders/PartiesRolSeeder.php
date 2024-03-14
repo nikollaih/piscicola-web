@@ -20,7 +20,7 @@ class PartiesRolSeeder extends Seeder
             // Add more cities as needed
         ];
 
-        DB::table('parties_rol')->delete();
-        DB::table('parties_rol')->insert($data);
+        DB::table('party_roles')->delete();
+        DB::table('party_roles')->insert($data);
     }
 }

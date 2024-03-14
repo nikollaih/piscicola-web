@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActuatorsController;
+use App\Http\Controllers\AssociationsController;
 use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ExpensesController;
@@ -9,8 +10,9 @@ use App\Http\Controllers\MedicateController;
 use App\Http\Controllers\MortalitiesController;
 use App\Http\Controllers\PartiesController;
 use App\Http\Controllers\PondsController;
+use App\Http\Controllers\ProductiveUnitsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SowingNewsController;
 use App\Http\Controllers\SowingsController;
 use App\Http\Controllers\StatReadingsController;
@@ -64,12 +66,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Users routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('users')->group(function() {
-        Route::get('/', [UsersController::class, 'index'])->name('users');
+        Route::get('/{productiveUnitId?}', [UsersController::class, 'index'])->name('users');
         Route::get('{clientId}/view', [UsersController::class, 'view'])->name('user.view');
-        Route::get('create', [UsersController::class, 'create'])->name('user.create');
-        Route::post('store', [UsersController::class, 'store'])->name('user.store');
+        Route::get('create/{productiveUnitId?}', [UsersController::class, 'create'])->name('user.create');
+        Route::post('store/{productiveUnitId?}', [UsersController::class, 'store'])->name('user.store');
         Route::get('{userId}/edit', [UsersController::class, 'edit'])->name('user.edit');
         Route::patch('{userId}/update', [UsersController::class, 'update'])->name('user.update');
+        Route::patch('{userId}/password', [UsersController::class, 'restorePassword'])->name('user.password');
         Route::delete('{userId}', [UsersController::class, 'destroy'])->name('user.delete');
     });
 });
@@ -197,6 +200,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('{mortalityId}/update', [MortalitiesController::class, 'update'])->name('mortality.update');
         Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy'])->name('mortality.delete');
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MortalitiesController::class, 'readings'])->name('mortality.readings');
+    });
+});
+
+// Associations routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('associations')->group(function() {
+        Route::get('/', [AssociationsController::class, 'index'])->name('associations');
+        Route::get('create', [AssociationsController::class, 'create'])->name('association.create');
+        Route::post('store', [AssociationsController::class, 'store'])->name('association.store');
+        Route::get('{associationId}/edit', [AssociationsController::class, 'edit'])->name('association.edit');
+        Route::patch('{associationId}/update', [AssociationsController::class, 'update'])->name('association.update');
+        Route::delete('{associationId}', [AssociationsController::class, 'destroy'])->name('association.delete');
+    });
+});
+
+// Productive units routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('productive_units')->group(function() {
+        Route::get('/', [ProductiveUnitsController::class, 'index'])->name('productive_units');
+        Route::get('create', [ProductiveUnitsController::class, 'create'])->name('productive_unit.create');
+        Route::post('store', [ProductiveUnitsController::class, 'store'])->name('productive_unit.store');
+        Route::get('{productiveUnitId}/edit', [ProductiveUnitsController::class, 'edit'])->name('productive_unit.edit');
+        Route::patch('{productiveUnitId}/update', [ProductiveUnitsController::class, 'update'])->name('productive_unit.update');
+        Route::delete('{productiveUnitId}', [ProductiveUnitsController::class, 'destroy'])->name('productive_unit.delete');
+    });
+});
+
+// Sales routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('sales')->group(function() {
+        Route::get('/', [SalesController::class, 'index'])->name('sales');
+        Route::get('create/{sowingId}', [SalesController::class, 'create'])->name('sale.create');
+        Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
+        Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
+        Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
     });
 });
 

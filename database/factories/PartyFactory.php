@@ -20,7 +20,7 @@ class PartyFactory extends Factory
     {
         return [
             'document' => fake()->numberBetween(1000000, 1100000000),
-            'productive_unit_id' => 1,
+            'productive_unit_id' => 2,
             'name' => fake()->name(),
             'mobile_phone' => fake()->phoneNumber(),
             'email' => fake()->email(),

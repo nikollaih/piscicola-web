@@ -4,7 +4,7 @@ import Pagination from '@/Components/Pagination.jsx';
 import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import {useEffect, useState} from "react";
-import {deleteService} from "@/Services/Services.ts";
+import {deleteService, pathService} from "@/Services/Services.ts";
 import Swal from "sweetalert2";
 
 export default function Users({ auth, users, request, url, createUserUrl }) {
@@ -44,6 +44,55 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                 deleteUser(id);
             }
         });
+    };
+
+    const confirmRestorePassword = (user) => {
+        const { name, id } = user; // Destructure user object
+
+        Swal.fire({
+            title: "¿Estás seguro(a)?",
+            text: `¿Deseas restablecer la contraseña para el usuario ${name.toUpperCase()}?`,
+            showCancelButton: true,
+            confirmButtonColor: "#dd2627",
+            cancelButtonColor: "#1f2937",
+            confirmButtonText: "Sí, restablecer",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                restorePassword(id);
+            }
+        });
+    };
+
+    const restorePassword = async (userId) => {
+        try {
+            // Send a request to delete the user
+            const response = await pathService(route('user.password', {userId}), usePages.props.csrfToken);
+
+            // Parse the response body as JSON
+            const jsonResponse = await response.json();
+
+            // Check if the deletion was successful
+            if(response.ok) {
+                // Show a success message to the user
+                Swal.fire({
+                    title: "Exito",
+                    text: jsonResponse.msg,
+                    icon: "success"
+                });
+            } else {
+                // If deletion failed, show an error message to the user
+                throw new Error(jsonResponse.msg || 'Failed to delete user.');
+            }
+        } catch (error) {
+            console.log(error)
+            // Handle any errors
+            Swal.fire({
+                title: "Error",
+                text: 'Ha ocurrido un error, intente de nuevo más tarde.',
+                icon: "error"
+            });
+        }
     };
 
     /**
@@ -135,20 +184,21 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
                         <table id="table-users" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
-                                <td className="pl-5">Nombre</td>
-                                <td>Documento</td>
-                                <td>Celular</td>
-                                <td>Email</td>
-                                <td></td>
+                            <td className="pl-5">Nombre</td>
+                            <td>Rol</td>
+                            <td>Documento</td>
+                            <td>Celular</td>
+                            <td>Email</td>
+                            <td></td>
                             </thead>
                             <tbody>
                             { usersList.map( (user) => (
-                                <tr key={user.id} id={user.id} className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
+                                <tr key={user.id} id={user.id}
+                                    className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
                                     <td className="font-bold pl-5">
-                                        <Link href={usePages.props.baseUrl + '/users/' + user.id + '/view'} className="text-indigo-600">
-                                            {user.name.toUpperCase()}
-                                        </Link>
+                                        {user.name.toUpperCase()}
                                     </td>
+                                    <td className=" pr-2">{user.role.name}</td>
                                     <td className=" pr-2">{user.document}</td>
                                     <td className="pr-2">{user.mobile_phone}</td>
                                     <td>{user.email}</td>
@@ -161,7 +211,21 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                                                       d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                                             </svg>
                                         </Link>
-                                        <svg onClick={() => {confirmDeleteUser(user)}} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        {
+                                            (auth.user.role_id <= 2) ?
+                                                <svg onClick={() => {
+                                                    confirmRestorePassword(user)
+                                                }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor"
+                                                     className="w-5 h-5 text-orange-600">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                                                </svg> : null
+                                        }
+
+                                        <svg onClick={() => {
+                                            confirmDeleteUser(user)
+                                        }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1" stroke="currentColor"
                                              className="w-5 h-5 text-red-600">
                                             <path stroke-linecap="round" stroke-linejoin="round"

@@ -20,7 +20,7 @@ class ProductiveUnitFactory extends Factory
     public function definition(): array
     {
         return [
-            'association_id' => 1,
+            'association_id' => 2,
             'name' => fake()->company(),
             'email' => fake()->email(),
             'mobile_phone' => fake()->phoneNumber(),
