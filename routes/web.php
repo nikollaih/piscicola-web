@@ -85,9 +85,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{sowingId}/view', [SowingsController::class, 'view'])->name('sowing.view');
         Route::get('create', [SowingsController::class, 'create'])->name('sowing.create');
         Route::post('store', [SowingsController::class, 'store'])->name('sowing.store');
-        Route::get('{sowingId}/edit', [SowingsController::class, 'edit'])->name('sowing.edit');
+        Route::get('{sowingId}/edit', [SowingsController::class, 'edit'])->name('sowing.edit')->middleware(['check.saledate']);
         Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowing.update');
-        Route::delete('{sowingId}', [SowingsController::class, 'destroy'])->name('sowing.delete');
+        Route::delete('{sowingId}', [SowingsController::class, 'destroy'])->name('sowing.delete')->middleware(['check.saledate']);
     });
 });
 
@@ -120,24 +120,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Biomasses routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('biomasses')->group(function() {
+        Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/create', [BiomassesController::class, 'create'])->name('biomasse.create');
+            Route::post('store', [BiomassesController::class, 'store'])->name('biomasse.store');
+            Route::get('{biomasseId}/edit', [BiomassesController::class, 'edit'])->name('biomasse.edit');
+            Route::patch('{biomasseId}/update', [BiomassesController::class, 'update'])->name('biomasse.update');
+            Route::delete('{biomasseId}', [BiomassesController::class, 'destroy'])->name('biomasse.delete');
+        });
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [BiomassesController::class, 'readings'])->name('biomasse.readings');
         Route::get('sowing/{sowingId}', [BiomassesController::class, 'index'])->name('biomasses');
-        Route::get('sowing/{sowingId}/create', [BiomassesController::class, 'create'])->name('biomasse.create');
-        Route::post('store', [BiomassesController::class, 'store'])->name('biomasse.store');
-        Route::get('{biomasseId}/edit', [BiomassesController::class, 'edit'])->name('biomasse.edit');
-        Route::patch('{biomasseId}/update', [BiomassesController::class, 'update'])->name('biomasse.update');
-        Route::delete('{biomasseId}', [BiomassesController::class, 'destroy'])->name('biomasse.delete');
     });
 });
 
 // Expenses routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('expenses')->group(function() {
+        Route::middleware(['check.saledate'])->group(function () {
+            Route::get('create/{sowingId?}', [ExpensesController::class, 'create'])->name('expense.create');
+            Route::post('store/{sowingId?}', [ExpensesController::class, 'store'])->name('expense.store');
+            Route::get('{expenseId}/edit/{sowingId?}', [ExpensesController::class, 'edit'])->name('expense.edit');
+            Route::patch('{expenseId}/update', [ExpensesController::class, 'update'])->name('expense.update');
+        });
         Route::get('all/{sowingId?}', [ExpensesController::class, 'index'])->name('expenses');
-        Route::get('create/{sowingId?}', [ExpensesController::class, 'create'])->name('expense.create');
-        Route::post('store/{sowingId?}', [ExpensesController::class, 'store'])->name('expense.store');
-        Route::get('{expenseId}/edit/{sowingId?}', [ExpensesController::class, 'edit'])->name('expense.edit');
-        Route::patch('{expenseId}/update', [ExpensesController::class, 'update'])->name('expense.update');
         Route::delete('{expenseId}', [ExpensesController::class, 'destroy'])->name('expense.delete');
     });
 });
@@ -167,12 +171,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // SupplyUse Feeding routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('feeding')->group(function() {
+        Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/create', [FeedingController::class, 'create'])->name('feeding.create');
+            Route::post('store', [FeedingController::class, 'store'])->name('feeding.store');
+            Route::get('{feedingId}/edit', [FeedingController::class, 'edit'])->name('feeding.edit');
+            Route::patch('{feedingId}/update', [FeedingController::class, 'update'])->name('feeding.update');
+            Route::delete('{feedingId}', [FeedingController::class, 'destroy'])->name('feeding.delete');
+        });
         Route::get('sowing/{sowingId}', [FeedingController::class, 'index'])->name('feeding');
-        Route::get('sowing/{sowingId}/create', [FeedingController::class, 'create'])->name('feeding.create');
-        Route::post('store', [FeedingController::class, 'store'])->name('feeding.store');
-        Route::get('{feedingId}/edit', [FeedingController::class, 'edit'])->name('feeding.edit');
-        Route::patch('{feedingId}/update', [FeedingController::class, 'update'])->name('feeding.update');
-        Route::delete('{feedingId}', [FeedingController::class, 'destroy'])->name('feeding.delete');
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [FeedingController::class, 'readings'])->name('feeding.readings.compare');
     });
 });
@@ -180,12 +186,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // SupplyUse Medicate routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('medicate')->group(function() {
+        Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/create', [MedicateController::class, 'create'])->name('medicate.create');
+            Route::post('store', [MedicateController::class, 'store'])->name('medicate.store');
+            Route::get('{feedingId}/edit', [MedicateController::class, 'edit'])->name('medicate.edit');
+            Route::patch('{feedingId}/update', [MedicateController::class, 'update'])->name('medicate.update');
+            Route::delete('{feedingId}', [MedicateController::class, 'destroy'])->name('medicate.delete');
+        });
         Route::get('sowing/{sowingId}', [MedicateController::class, 'index'])->name('medicate');
-        Route::get('sowing/{sowingId}/create', [MedicateController::class, 'create'])->name('medicate.create');
-        Route::post('store', [MedicateController::class, 'store'])->name('medicate.store');
-        Route::get('{feedingId}/edit', [MedicateController::class, 'edit'])->name('medicate.edit');
-        Route::patch('{feedingId}/update', [MedicateController::class, 'update'])->name('medicate.update');
-        Route::delete('{feedingId}', [MedicateController::class, 'destroy'])->name('medicate.delete');
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MedicateController::class, 'readings'])->name('medicate.readings.compare');
     });
 });
@@ -193,12 +201,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Mortalities routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('mortalities')->group(function() {
+        Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/create', [MortalitiesController::class, 'create'])->name('mortality.create');
+            Route::post('{sowingId}/store', [MortalitiesController::class, 'store'])->name('mortality.store');
+            Route::get('{mortalityId}/edit', [MortalitiesController::class, 'edit'])->name('mortality.edit');
+            Route::patch('{mortalityId}/update', [MortalitiesController::class, 'update'])->name('mortality.update');
+            Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy'])->name('mortality.delete');
+        });
         Route::get('sowing/{sowingId}', [MortalitiesController::class, 'index'])->name('mortalities');
-        Route::get('sowing/{sowingId}/create', [MortalitiesController::class, 'create'])->name('mortality.create');
-        Route::post('{sowingId}/store', [MortalitiesController::class, 'store'])->name('mortality.store');
-        Route::get('{mortalityId}/edit', [MortalitiesController::class, 'edit'])->name('mortality.edit');
-        Route::patch('{mortalityId}/update', [MortalitiesController::class, 'update'])->name('mortality.update');
-        Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy'])->name('mortality.delete');
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MortalitiesController::class, 'readings'])->name('mortality.readings');
     });
 });
@@ -235,6 +245,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
         Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
         Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
+        Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
     });
 });
 

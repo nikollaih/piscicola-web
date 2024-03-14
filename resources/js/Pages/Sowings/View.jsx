@@ -95,7 +95,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
                 </div>
             }
         >
-            <Head title="Sowinges"/>
+            <Head title="Cosehca"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing}/>

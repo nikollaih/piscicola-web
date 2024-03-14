@@ -88,10 +88,15 @@ class ExpensesController extends Controller
     public function destroy($expenseId)
     {
         // Get the biomasse the user is trying to delete
-        $expense = Expense::find($expenseId);
+        $expense = Expense::with('Sowings')->find($expenseId);
 
         // If the user exists
         if($expense){
+            if($expense->sowings) {
+                $sowing = Sowing::find($expense->sowings[0]->id);
+                if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
+            }
+
             // Do the soft delete
             if($expense->delete()){
                 // Return a confirmation message

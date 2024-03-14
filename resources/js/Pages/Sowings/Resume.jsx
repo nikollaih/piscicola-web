@@ -39,6 +39,14 @@ export default function SowingResume({ auth, sowing }) {
         return total;
     }
 
+    const getSalePrice = () => {
+        if(sowing.sale && sowing.sale_date){
+            return (sowing.sale.unit_cost * sowing.sale.total_weight);
+        }
+
+        return 0;
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -95,8 +103,22 @@ export default function SowingResume({ auth, sowing }) {
                             </div>
                             <hr className="my-3"/>
                             <div className="flex justify-between">
-                                <p className="text-lg font-bold">Total</p>
+                                <p className="text-lg font-bold">Venta</p>
+                                {
+                                    (sowing.sale) ?
+                                        <p className="text-lg font-bold text-green-500">${getSalePrice().toLocaleString('es-CO')}</p> :
+                                        <p className="text-lg font-bold text-gray-800">--</p>
+                                }
+                            </div>
+
+
+                            <div className="flex justify-between">
+                                <p className="text-lg font-bold">Costo</p>
                                 <p className="text-lg font-bold text-red-500">${getTotal().toLocaleString('es-CO')}</p>
+                            </div>
+                            <div className="flex justify-between mt-6">
+                                <p className="text-lg font-bold">Utilidad</p>
+                                <p className="text-lg font-bold text-gray-800">${(getSalePrice() - getTotal()).toLocaleString('es-CO')}</p>
                             </div>
                         </div>
                     </div>

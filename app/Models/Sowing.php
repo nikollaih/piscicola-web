@@ -18,10 +18,16 @@ class Sowing extends Model
         'pond_id',
         'name',
         'sale_date',
-        'quantity'
+        'quantity',
+        'dead_quantity',
+        'manual_created_at'
     ];
 
     protected $sowingId = null;
+
+    public function Sale() {
+        return $this->hasOne(Sale::class);
+    }
 
     public function Expenses() {
         return $this->belongsToMany(Expense::class, 'sowing_expenses');
@@ -61,6 +67,7 @@ class Sowing extends Model
         return $sowings = Sowing::with('step')
             ->with('fish')
             ->with('pond')
+            ->with('Sale')
             ->where('productive_unit_id', $user->productive_unit_id)
             ->find($this->sowingId);
     }

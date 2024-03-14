@@ -25,7 +25,9 @@ class SowingCreateRequest extends FormRequest
                 'numeric',
                 function ($attribute, $value, $fail) {
                     // Verificar si el pond_id está siendo utilizado en un Sowing
-                    $existingSowing = Sowing::where('pond_id', $value)->exists();
+                    $existingSowing = Sowing::where('pond_id', $value)
+                        ->where('sale_date', null)
+                        ->exists();
 
                     // Si existe un Sowing con el pond_id especificado, la validación falla
                     if ($existingSowing) {

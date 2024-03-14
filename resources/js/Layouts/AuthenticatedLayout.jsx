@@ -49,7 +49,7 @@ export default function Authenticated({ user, header, children }) {
                                         </div>
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
                                             <NavLink href={route('actuators')} active={route().current('actuators')}>
-                                            Actuadores
+                                                Actuadores
                                             </NavLink>
                                         </div>
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
@@ -60,6 +60,11 @@ export default function Authenticated({ user, header, children }) {
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
                                             <NavLink href={route('expenses')} active={route().current('expenses')}>
                                                 Gastos
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('sales')} active={route().current('sales')}>
+                                                Ventas
                                             </NavLink>
                                         </div>
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">

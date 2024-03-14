@@ -56,18 +56,24 @@ class MortalitiesController extends Controller
 
     public function store (MortalityCreateRequest $request, $sowingId) {
         $Biomasse = new Biomasse();
+        $sowing = Sowing::find($sowingId);
         $activeBiomasse = $Biomasse->Active($sowingId);
 
         $mortailityRequest = $request->all();
         $mortailityRequest["biomasse_id"] = $activeBiomasse->id;
         $mortality = Mortality::create($mortailityRequest);
 
-        if($mortality) $this->SowingNews->newMortality($mortality->id);
+        if($mortality) {
+            $deadQuantity = doubleval($sowing->dead_quantity) + doubleval($mortailityRequest["dead"]);
+            Sowing::where('id', $sowingId)->update(['dead_quantity' => $deadQuantity]);
+            $this->SowingNews->newMortality($mortality->id);
+        }
 
         // Api response
         if($request->is('api/*')){
             if($mortality){
                 $Mortality = Mortality::class;
+
                 return response()->json($Mortality::find($mortality->id), 200);
             }
             return response()->json([], 500);
@@ -97,10 +103,12 @@ class MortalitiesController extends Controller
     public function destroy($mortalityId): JsonResponse
     {
         // Get the mortality the user is trying to delete
-        $mortality = Mortality::find($mortalityId);
+        $mortality = Mortality::with('Biomasse')->find($mortalityId);
+        $sowing = Sowing::find($mortality->biomasse->id);
 
         // If the user exists
         if($mortality){
+            if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
             // Do the soft delete
             if($mortality->delete()){
                 // Return a confirmation message

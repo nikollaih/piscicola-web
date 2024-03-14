@@ -11,6 +11,7 @@ class Sale extends Model
 
     protected $fillable = [
       'sowing_id',
+        'client_id',
       'unit_cost',
       'total_weight',
       'manual_created_at'
@@ -18,5 +19,20 @@ class Sale extends Model
 
     public function Sowing() {
         return $this->belongsTo(Sowing::class);
+    }
+
+    public function Client() {
+        return $this->belongsTo(Party::class);
+    }
+
+    public function Get($saleId) {
+        return Sale::with('Client')
+            ->find($saleId);
+    }
+
+    public function getAll() {
+        return Sale::orderBy('manual_created_at', 'desc')
+            ->with('Client')
+            ->paginate(20);
     }
 }

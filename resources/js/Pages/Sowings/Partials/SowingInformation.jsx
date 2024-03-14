@@ -18,13 +18,20 @@ export default function SowingInformation ({sowing}) {
                 <p className="font-semibold">{sowing.pond.name}</p>
             </div>
             <div className="mb-3">
-                <p className="text-gray-600">Cantidad de peces</p>
-                <p className="font-semibold">{sowing.quantity}</p>
+                <p className="text-gray-600">Cantidad de siembra</p>
+                <p className="font-semibold">{(sowing.quantity - sowing.dead_quantity).toLocaleString('es-CO')} / {sowing.quantity.toLocaleString('es-CO')}</p>
             </div>
             <div className="">
-                <p className="text-gray-600">Fecha de creación</p>
-                <p className="font-semibold">{moment(sowing.created_at).format('YYYY-MM-DD')}</p>
+                <p className="text-gray-600">Fecha de siembra</p>
+                <p className="font-semibold">{moment(sowing.manual_created_at).format('YYYY-MM-DD')}</p>
             </div>
+            {
+                (sowing.sale_date) ?
+                    <div className="mt-3">
+                        <p className="text-gray-600">Fecha de venta</p>
+                        <p className="font-semibold">{moment(sowing.sale_date).format('YYYY-MM-DD')} ({ moment(sowing.sale_date).diff(sowing.manual_created_at, 'months', true).toFixed(1)} meses)</p>
+                    </div> : null
+            }
         </div>
     </Link>
 }

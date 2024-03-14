@@ -129,9 +129,10 @@ class BiomassesController extends Controller
     {
         // Get the biomasse the user is trying to delete
         $biomasse = Biomasse::find($biomasseId);
-
+        $sowing = Sowing::find($biomasse->sowing_id);
         // If the user exists
         if($biomasse){
+            if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
             // Do the soft delete
             if($biomasse->delete()){
                 // Return a confirmation message

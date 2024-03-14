@@ -69,11 +69,15 @@ export default function ActionsButton({sowing}) {
                                 <p className="text-gray-700 block px-4 py-2 hover:bg-gray-50 cursor-pointer">Resumen financiaro</p>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item>
-                            <Link href={route('sowing.resume', {sowingId: sowing.id})}>
-                                <p className="text-gray-700 block px-4 py-2 hover:bg-gray-50 cursor-pointer">Vender</p>
-                            </Link>
-                        </Menu.Item>
+                        {
+                            (!sowing.sale_date && !sowing.sale) ?
+                                <Menu.Item>
+                                    <Link href={route('sale.create', {sowingId: sowing.id})}>
+                                        <p className="text-gray-700 block px-4 py-2 hover:bg-gray-50 cursor-pointer">Vender</p>
+                                    </Link>
+                                </Menu.Item> : null
+                        }
+
                     </div>
                 </Menu.Items>
             </Transition>

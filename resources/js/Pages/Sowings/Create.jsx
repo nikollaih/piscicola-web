@@ -9,6 +9,8 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputError from '@/Components/InputError.jsx';
 import AlertMessage from '@/Components/AlertMessage.jsx';
 import {useEffect, useState, useRef} from "react";
+import moment from "moment";
+import Constants from "../../../Constants.js";
 
 export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
     // Create a ref for the reset button
@@ -21,6 +23,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
         fish_id: null,
         pond_id: null,
         quantity: null,
+        manual_created_at: moment().format(Constants.DATEFORMAT),
         name: ""
     });
 
@@ -41,7 +44,8 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
             step_id: sowing.step_id,
             pond_id: sowing.pond_id,
             quantity: sowing.quantity,
-            name: sowing.name
+            name: sowing.name,
+            manual_created_at: moment(sowing.manual_created_at).format(Constants.DATEFORMAT),
         });
 
         setFishTitle(fish.filter((r) => r.id === sowing.fish_id).at(0).name);
@@ -168,7 +172,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                     {(hasErrors?.step_id) ? <InputError message={hasErrors.step_id}/> : ""}
                                 </div>
                             </div>
-                            <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Estanque"/>
                                     <Dropdown>
@@ -181,6 +185,18 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                         </Dropdown.Content>
                                     </Dropdown>
                                     {(hasErrors?.pond_id) ? <InputError message={hasErrors.pond_id}/> : ""}
+                                </div>
+                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                    <InputLabel value="Fecha de siembra"/>
+                                    <TextInput
+                                        type="date"
+                                        className="w-full"
+                                        placeholder=""
+                                        name="manual_created_at"
+                                        value={data.manual_created_at}
+                                        required
+                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                    {(hasErrors?.manual_created_at) ? <InputError message={hasErrors.manual_created_at}/> : ""}
                                 </div>
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Cantidad de peces"/>

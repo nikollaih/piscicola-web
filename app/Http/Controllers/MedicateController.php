@@ -166,9 +166,11 @@ class MedicateController extends Controller
 
         // Get the biomasse the user is trying to delete
         $supplyUse = SupplyUse::find($feedingId);
+        $sowing = Sowing::find($supplyUse->sowing_id);
 
         // If the user exists
         if($supplyUse){
+            if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
             // Do the soft delete
             if($supplyUse->delete()){
                 $Supply->modifyUse($supplyUse->supply_id, $supplyUse->quantity, 0);

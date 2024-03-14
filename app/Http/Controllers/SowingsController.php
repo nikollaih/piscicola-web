@@ -142,6 +142,7 @@ class SowingsController extends Controller
 
         // If the user exists
         if($sowing){
+            if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar una cosecha vendida"], 500);
             // Do the soft delete
             if($sowing->delete()){
                 // Return a confirmation message

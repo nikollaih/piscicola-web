@@ -24,7 +24,7 @@ class SalesCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sowing_id' => ['required'],
+            'client_id' => ['required'],
             'unit_cost' => ['required'],
             'total_weight' => ['required'],
             'manual_created_at' => ['required']

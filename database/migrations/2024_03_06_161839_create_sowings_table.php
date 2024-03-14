@@ -19,7 +19,9 @@ return new class extends Migration
             $table->foreignId('pond_id')->constrained('ponds');
             $table->string('name');
             $table->integer('quantity');
+            $table->integer('dead_quantity')->default(0);
             $table->dateTime('sale_date')->nullable();
+            $table->dateTime('manual_created_at');
             $table->softDeletes();
             $table->timestamps();
         });
