@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pond_id')->constrained('ponds');
             $table->foreignId('actuator_type_id')->constrained('actuator_types');
             $table->string('name');
+            $table->string('mqtt_id')->nullable();
             $table->text('description')->nullable();
             $table->double('cost_by_minute');
             $table->boolean('is_turned_on')->default(0);

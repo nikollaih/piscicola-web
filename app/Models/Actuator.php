@@ -15,7 +15,8 @@ class Actuator extends Model
         'name',
         'actuator_type_id',
         'description',
-        'cost_by_minute'
+        'cost_by_minute',
+        'mqtt_id'
     ];
 
     public function Pond() {

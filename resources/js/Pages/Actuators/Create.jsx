@@ -24,7 +24,8 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
         name: "",
         actuator_type_id: null,
         description: "",
-        cost_by_minute: ""
+        cost_by_minute: "",
+        mqtt_id: ""
     });
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -43,7 +44,8 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
             name: actuator.name,
             actuator_type_id: actuator.actuator_type_id,
             description: actuator.description,
-            cost_by_minute: actuator.cost_by_minute
+            cost_by_minute: actuator.cost_by_minute,
+            mqtt_id: actuator.mqtt_id
         });
 
         setActuatorTypeTitle(actuator.actuator_type.name);
@@ -146,8 +148,8 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                                             <InputError message={hasErrors.cost_by_minute}/> : ""}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4 col-span-1 mb-4">
-                                    <div className="md:col-span-1 sm:col-span-4">
+                                <div className="grid grid-cols-3 gap-4 col-span-1 mb-4">
+                                    <div className="md:col-span-1 sm:col-span-3">
                                         <InputLabel value="Estanque"/>
                                         <Dropdown>
                                             <Dropdown.Trigger>
@@ -161,7 +163,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                                         {(hasErrors?.pond_id) ?
                                             <InputError message={hasErrors.pond_id}/> : ""}
                                     </div>
-                                    <div className="md:col-span-1 sm:col-span-4">
+                                    <div className="md:col-span-1 sm:col-span-3">
                                         <InputLabel value="Tipo de actuador"/>
                                         <Dropdown>
                                             <Dropdown.Trigger>
@@ -172,7 +174,21 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                                                 {getActuatorTypeDom()}
                                             </Dropdown.Content>
                                         </Dropdown>
-                                        {(hasErrors?.actuator_type_id) ? <InputError message={hasErrors.actuator_type_id}/> : ""}
+                                        {(hasErrors?.actuator_type_id) ?
+                                            <InputError message={hasErrors.actuator_type_id}/> : ""}
+                                    </div>
+                                    <div className="md:col-span-1 sm:col-span-3">
+                                        <InputLabel value="MQTT ID"/>
+                                        <TextInput
+                                            type="text"
+                                            className="w-full"
+                                            placeholder=""
+                                            name="mqtt_id"
+                                            value={data.mqtt_id}
+                                            required
+                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                        {(hasErrors?.mqtt_id) ?
+                                            <InputError message={hasErrors.mqtt_id}/> : ""}
                                     </div>
                                 </div>
                                 <div>

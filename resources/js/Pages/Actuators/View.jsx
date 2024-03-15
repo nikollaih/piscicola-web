@@ -3,7 +3,7 @@ import { Head, usePage, Link, router } from '@inertiajs/react';
 import {useEffect, useState} from "react";
 import ActuatorInformation from "@/Pages/Actuators/Partials/ActuatorInformation.jsx";
 import Swal from "sweetalert2";
-import {deleteService} from "@/Services/Services.ts";
+import {deleteService, postService} from "@/Services/Services.ts";
 import LinearChart from "@/Components/LinearChart.jsx";
 import moment from "moment";
 import Pagination from "@/Components/Pagination.jsx";
@@ -85,6 +85,58 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
         }
     };
 
+    const confirmTurnActuatorMqtt = (turned_on) => {
+        let action = (turned_on) ? "encender" : "apagar";
+        Swal.fire({
+            title: "¿Estás seguro(a)?",
+            text: '¿Deseas '+action+' el actuador?',
+            showCancelButton: true,
+            confirmButtonColor: "#eb580b",
+            cancelButtonColor: "#1f2937",
+            confirmButtonText: "Sí, " + action,
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTurnActuatorMqtt(turned_on);
+            }
+        });
+    }
+
+    const setTurnActuatorMqtt = async (turned_on) => {
+        try {
+            // Send a request to delete the actuator
+            const response = await postService(route('mqtt.set.actuator.turn'), usePages.props.csrfToken, {mqtt_id: actuator.mqtt_id, status: turned_on});
+
+            // Parse the response body as JSON
+            const jsonResponse = await response.json();
+
+            // Check if the deletion was successful
+            if(response.ok) {
+                // Show a success message to the actuator
+                Swal.fire({
+                    title: "Exito",
+                    text: jsonResponse.msg,
+                    icon: "success",
+                    confirmButtonText: "Continuar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.reload();
+                    }
+                });
+            } else {
+                // If deletion failed, show an error message to the actuator
+                throw new Error(jsonResponse.msg || 'Failed to delete actuator.');
+            }
+        } catch (error) {
+            // Handle any errors
+            Swal.fire({
+                title: "Error",
+                text: error.message || 'An unexpected error occurred.',
+                icon: "error"
+            });
+        }
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -104,10 +156,10 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                             {
                                 (actuator.is_turned_on === 1)
                                 ?
-                                    <Link>
+                                    <Link onClick={() => {confirmTurnActuatorMqtt(0)}}>
                                         <PrimaryButton className="bg-red-600">Apagar</PrimaryButton>
                                     </Link> :
-                                    <Link>
+                                    <Link onClick={() => {confirmTurnActuatorMqtt(1)}}>
                                         <PrimaryButton className="bg-green-600">Encender</PrimaryButton>
                                     </Link>
                             }

@@ -8,6 +8,7 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicateController;
 use App\Http\Controllers\MortalitiesController;
+use App\Http\Controllers\MqttController;
 use App\Http\Controllers\PartiesController;
 use App\Http\Controllers\PondsController;
 use App\Http\Controllers\ProductiveUnitsController;
@@ -253,6 +254,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('sowing_news')->group(function() {
         Route::get('{sowingId}', [SowingNewsController::class, 'index'])->name('sowing_news');
+    });
+});
+
+// MQTT routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('mqtt')->group(function() {
+        Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
     });
 });
 
