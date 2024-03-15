@@ -69,7 +69,7 @@ class SowingsController extends Controller
         $sowingRequest = $request->all();
         $sowingRequest["productive_unit_id"] = Auth::user()->productive_unit_id;
         $newSowing = Sowing::create($sowingRequest);
-        $Biomasse->AddFirst($newSowing->id);
+        $Biomasse->AddFirst($newSowing);
     }
 
     /**
@@ -116,7 +116,7 @@ class SowingsController extends Controller
 
         $sowing = $Sowing->Get();
         $biomasses = $Biomasse->AllBySowing($sowingId);
-        $stats = $Stat->latest($sowingId);
+        $stats = $Stat->latest($sowing->id, $sowing->step_id);
 
         if(!empty($sowing)){
             return \inertia('Sowings/View', [

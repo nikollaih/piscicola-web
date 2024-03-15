@@ -8,22 +8,35 @@ use PhpMqtt\Client\Facades\MQTT;
 
 class ListenMqttCommand extends Command
 {
+
     protected $signature = 'mqtt:listen';
     protected $description = 'Listen to MQTT broker';
+    private MqttController $MqttController;
+    private \PhpMqtt\Client\Contracts\MqttClient $mqtt;
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->MqttController = new MqttController();
+        $this->mqtt = MQTT::connection();
+    }
 
     public function handle()
     {
         try {
-            $MqttController = new MqttController();
-            $mqtt = MQTT::connection();
-            $mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message) use ($MqttController) {
-                $MqttController->getTurnActuator($topic, $message);
+            $this->mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message) {
+                $this->MqttController->getTurnActuator($topic, $message);
             }, 1);
-            $mqtt->loop(true);
+
+            $this->mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message) {
+                $this->MqttController->setReadings($message);
+            }, 1);
 
         } catch (\Exception $e) {
-            echo sprintf('No es posible conectar');
+            echo sprintf('No es posible conectar'. $e->getMessage());
         }
+
+        $this->mqtt->loop(true);
 
     }
 }

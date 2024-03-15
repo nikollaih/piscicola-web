@@ -13,7 +13,8 @@ class Biomasse extends Model
         'sowing_id',
         'approximate_weight',
         'quantity_of_fish',
-        'manual_created_at'
+        'manual_created_at',
+        'step_id'
     ];
 
 
@@ -48,9 +49,10 @@ class Biomasse extends Model
             ->paginate(20);
     }
 
-    public function AddFirst($sowingId){
+    public function AddFirst($sowing){
         $biomasse = [
-            'sowing_id' => $sowingId,
+            'sowing_id' => $sowing->id,
+            'step_id' => $sowing->step_id,
             'approximate_weight' => 25,
             'quantity_of_fish' => 1
         ];

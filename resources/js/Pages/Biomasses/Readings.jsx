@@ -90,14 +90,21 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                         <div>
                             {
                                 readings.map((reading) => {
-                                    return <ReadingStatHistory key={reading.step_stat.id} readings={reading.data_one} stepStat={reading.step_stat} />
+
+                                    if(reading.data_one.length > 0) {
+                                        return <ReadingStatHistory key={reading.step_stat.id} readings={reading.data_one} stepStat={reading.step_stat} />
+                                    }
+                                    return null;
                                 })
                             }
                         </div>
                         <div>
                             {
                                 readings.map((reading) => {
-                                    return <ReadingStatHistory key={reading.step_stat.id} readings={reading.data_two} stepStat={reading.step_stat} />
+                                    if(reading.data_two.length > 0) {
+                                        return <ReadingStatHistory key={reading.step_stat.id} readings={reading.data_two} stepStat={reading.step_stat} />
+                                    }
+                                    return null
                                 })
                             }
                         </div>

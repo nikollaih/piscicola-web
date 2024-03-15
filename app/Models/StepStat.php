@@ -19,4 +19,10 @@ class StepStat extends Model
     public function Step() {
         return $this->belongsTo(Step::class);
     }
+
+    public function getByKeyStep($key, $stepId) {
+        return StepStat::where('key', $key)
+            ->where('step_id', $stepId)
+            ->first();
+    }
 }

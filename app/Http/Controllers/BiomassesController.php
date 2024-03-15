@@ -63,6 +63,7 @@ class BiomassesController extends Controller
 
         for ($i = 0; $i < count($latestReadings); $i++) {
             $latestReading = $latestReadings[$i];
+            $latestReading->StepStat["step"] = $latestReading->Step;
             $readings[$i]['step_stat'] = $latestReading->StepStat;
             $readings[$i]['data_one'] = $StatsReading->GetByBiomasseType($biomasseIdOne, $latestReading->StepStat->id);
             $readings[$i]['data_two'] = $StatsReading->GetByBiomasseType($biomasseIdTwo, $latestReading->StepStat->id);
@@ -95,6 +96,8 @@ class BiomassesController extends Controller
     public function store(CreateBiomasseRequest $request)
     {
         $biomasseRequest = $request->all();
+        $sowing = Sowing::find($biomasseRequest["sowing_id"]);
+        $biomasseRequest["step_id"] = $sowing->step_id;
         Biomasse::create($biomasseRequest);
     }
 

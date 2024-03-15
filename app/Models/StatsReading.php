@@ -36,9 +36,14 @@ class StatsReading extends Model
         return $this->belongsTo(Biomasse::class);
     }
 
-    public function latest($sowingId) {
+    public function latest($sowingId, $stepId = null) {
         return StatsReading::where('sowing_id', $sowingId)
             ->with('stepStat')
+            ->with('stepStat.Step')
+            ->whereHas('stepStat', function ($query) use ($stepId) {
+                if($stepId)
+                    $query->where('step_id', $stepId);
+            })
             ->whereIn('id', function($query) {
                 $query->selectRaw('MAX(id)')
                     ->from('stats_readings')

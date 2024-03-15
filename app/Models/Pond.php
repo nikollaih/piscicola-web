@@ -18,7 +18,8 @@ class Pond extends Model
         'entrance',
         'exit',
         'volume',
-        'area'
+        'area',
+        'mqtt_id'
     ];
 
     public function ProductiveUnit() {
@@ -32,7 +33,6 @@ class Pond extends Model
 
     public function getAll() {
         $user = Auth::user();
-
         return Pond::where('productive_unit_id', $user->productive_unit_id)
             ->paginate(20);
     }

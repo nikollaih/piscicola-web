@@ -71,4 +71,10 @@ class Sowing extends Model
             ->where('productive_unit_id', $user->productive_unit_id)
             ->find($this->sowingId);
     }
+
+    public function getByPond($pondId) {
+        return Sowing::where('pond_id', $pondId)
+            ->whereNull('sale_date')
+            ->first();
+    }
 }

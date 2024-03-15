@@ -22,7 +22,8 @@ class PondsSeeder extends Seeder
                 'volume' => 150,
                 'entrance' => 20,
                 'exit' => 20,
-                'covered' => 2
+                'covered' => 2,
+                'mqtt_id' => 'PON-001'
             ],
             [
                 'id' => 2,
@@ -32,7 +33,8 @@ class PondsSeeder extends Seeder
                 'volume' => 100,
                 'entrance' => 12,
                 'exit' => 12,
-                'covered' => 1
+                'covered' => 1,
+                'mqtt_id' => 'PON-002'
             ],
             // Add more cities as needed
         ];

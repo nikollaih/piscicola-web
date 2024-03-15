@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('entrance');
             $table->double('exit');
             $table->boolean('covered');
+            $table->string("mqtt_id")->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

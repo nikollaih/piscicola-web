@@ -86,7 +86,7 @@ export default function ReadingStatHistory({readings, stepStat, date = "topic_ti
 
     return (
         <div className="bg-white p-4 rounded-md shadow-md mb-4">
-            <p className="text-center font-bold mb-4">{stepStat.name}</p>
+            <p className="text-center font-bold mb-4">{stepStat.name} - {stepStat.step.name}</p>
             <div id={chartId} className="w-full h-full" style={{height: 300}}/>
         </div>
     )

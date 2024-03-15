@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('biomasses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sowing_id')->constrained('sowings');
+            $table->foreignId('step_id')->constrained('steps');
             $table->double('approximate_weight');
             $table->string('quantity_of_fish');
             $table->dateTime('manual_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));;
