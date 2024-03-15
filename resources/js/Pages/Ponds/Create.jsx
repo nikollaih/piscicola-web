@@ -75,8 +75,6 @@ export default function CreatePond({ auth }) {
         buttonResetRef.current.click();
     }
 
-
-
     return (
         <AuthenticatedLayout
             user={auth.user}

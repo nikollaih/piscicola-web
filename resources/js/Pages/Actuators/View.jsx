@@ -12,7 +12,6 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputLabel from "@/Components/InputLabel.jsx";
 import Dropdown from "@/Components/Dropdown.jsx";
 import DropDownToggle from "@/Components/DropDownToggle.jsx";
-import InputError from "@/Components/InputError.jsx";
 import DropDownItem from "@/Components/DropDownItem.jsx";
 
 export default function ViewActuator({ auth, actuator, actuatorUses, readings }) {

@@ -47,16 +47,23 @@ class StatsReading extends Model
             ->get();
     }
 
-    public function latestByBiomasse($sowingId, $biomasseId) {
-        return StatsReading::where('sowing_id', $sowingId)
-            ->where('biomasse_id', $biomasseId)
+    public function latestByBiomasse($biomasseId) {
+        return StatsReading::where('biomasse_id', $biomasseId)
             ->with('stepStat')
+            ->with('stepStat.Step')
             ->whereIn('id', function($query) {
                 $query->selectRaw('MAX(id)')
                     ->from('stats_readings')
                     ->groupBy('step_stat_id');
             })
             ->get();
+    }
+
+    public function GetByBiomasseStatReport($biomasseId, $stepStatId) {
+        return StatsReading::selectRaw('value, IF(triggered_alarm = 1, "Si", "No") as triggered_alarm, topic_time')
+            ->orderBy('topic_time', 'asc')
+            ->where('biomasse_id', $biomasseId)
+            ->where('step_stat_id', $stepStatId);
     }
 
     public function GetByBiomasseType($biomasseId, $stepStatId) {

@@ -35,13 +35,18 @@ class MqttController extends Controller
         try {
             // Get the actuator id and status
             $actuatorRequest = $request->all();
+            $actuator = Actuator::where('mqtt_id', $actuatorRequest["mqtt_id"])->first();
 
-            // Publish the MQTT topic 
-            MQTT::publish(env('MQTT_TURN_ACTUATOR'), json_encode($actuatorRequest));
+            if($actuator){
+                // Publish the MQTT topic
+                MQTT::publish(env('MQTT_TURN_ACTUATOR'), json_encode($actuatorRequest));
+
+                // Return a confirmation message
+                return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);
+            }
 
             // Return a confirmation message
-            return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);
-
+            return response()->json(["msg" => "El actuador no existe"], 500);
         } catch (\Exception $e) {
             // Return a confirmation message
             return response()->json(["msg" => "No ha sido posible cambiar el estado del actuador"], 500);

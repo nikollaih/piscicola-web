@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BiomassesExport;
 use App\Http\Requests\CreateBiomasseRequest;
 use App\Http\Requests\SowingCreateRequest;
 use App\Models\Biomasse;
@@ -13,6 +14,7 @@ use App\Models\Step;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BiomassesController extends Controller
 {
@@ -146,6 +148,21 @@ class BiomassesController extends Controller
         else {
             // If the user doesn't exist
             return response()->json(["msg" => "El registro no existe"], 404);
+        }
+    }
+
+    public function getBySowing($sowingId = null)
+    {
+        // Get the biomasse the user is trying to delete
+        $biomasses = Biomasse::where('sowing_id', $sowingId)->get();
+        // If the user exists
+        if($biomasses){
+            // Return a confirmation message
+            return response()->json(["data" => $biomasses], 200);
+        }
+        else {
+            // In case the soft delete generate an error then return a warning message
+            return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
         }
     }
 }

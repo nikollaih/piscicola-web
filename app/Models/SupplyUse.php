@@ -18,11 +18,35 @@ class SupplyUse extends Model
         'manual_created_at'
     ];
 
+    public function GetBySowingSuply($sowingId, $supplyId) {
+        return SupplyUse::selectRaw('quantity, unit_cost, quantity * unit_cost AS total_cost, approximate_weight, supply_uses.manual_created_at')
+            ->where('supply_uses.sowing_id', $sowingId)
+            ->where('supply_id', $supplyId)
+            ->join('biomasses', 'biomasses.id', '=', 'biomasse_id');
+    }
+
     public function Get($id) {
          return SupplyUse::with('Supply.MeasurementUnit')
             ->with('Biomasse')
             ->with('Sowing')
             ->find($id);
+    }
+
+    public function getDifferentBySowing($sowingId = null, $useType = "ALIMENT") {
+        return SupplyUse::where('sowing_id', $sowingId)
+            ->with('Supply')
+            ->with('Biomasse')
+            ->whereIn('id', function($query) {
+                $query->selectRaw('MAX(id)')
+                    ->from('supply_uses')
+                    ->groupBy('supply_id');
+            })
+            ->whereIn('supply_id', function($query) use ($useType) {
+                $query->select('id')
+                    ->from('supplies')
+                    ->where('use_type', $useType);
+            })
+            ->get();
     }
 
     public function getAll($sowingId, $useType, $paginate = false) {

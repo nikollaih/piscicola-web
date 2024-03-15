@@ -30,3 +30,13 @@ export const postService = async (path: string, token: string, params: object = 
         body: JSON.stringify(params)
     });
 }
+
+export const getService = async (path: string, token: string) => {
+    return await fetch(path, {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token // Include the CSRF token here
+        },
+        method: "GET"
+    });
+}

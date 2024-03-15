@@ -13,6 +13,7 @@ use App\Http\Controllers\PartiesController;
 use App\Http\Controllers\PondsController;
 use App\Http\Controllers\ProductiveUnitsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SowingNewsController;
 use App\Http\Controllers\SowingsController;
@@ -130,6 +131,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [BiomassesController::class, 'readings'])->name('biomasse.readings');
         Route::get('sowing/{sowingId}', [BiomassesController::class, 'index'])->name('biomasses');
+        Route::get('all/sowing/{sowingId}', [BiomassesController::class, 'getBySowing'])->name('biomasses.sowing');
     });
 });
 
@@ -261,6 +263,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('mqtt')->group(function() {
         Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
+    });
+});
+
+// Reports routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('reports')->group(function() {
+        Route::get('/', [ReportsController::class, 'index'])->name('reports');
+        Route::get('biomasses/{sowingId}', [ReportsController::class, 'biomasses'])->name('biomasses.report.exports');
+        Route::get('readings/biomasse/{biomasseId}', [ReportsController::class, 'readingsBiomasse'])->name('readings.biomasse.report.exports');
+        Route::get('supplies/sowing/{sowingId}/{useType}', [ReportsController::class, 'sowingSupplies'])->name('supplies.sowing.report.exports');
     });
 });
 
