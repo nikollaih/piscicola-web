@@ -30,13 +30,21 @@ export default function Authenticated({ user, header, children }) {
                                 (user.role_id === 1) ?
                                     <div className="flex">
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                            <NavLink href={route('associations')} active={route().current('associations')}>
+                                            <NavLink href={route('associations')}
+                                                     active={route().current('associations')}>
                                                 Asociaciones
                                             </NavLink>
                                         </div>
                                         <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
-                                            <NavLink href={route('productive_units')} active={route().current('productive_units')}>
+                                            <NavLink href={route('productive_units')}
+                                                     active={route().current('productive_units')}>
                                                 Unidades productivas
+                                            </NavLink>
+                                        </div>
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                            <NavLink href={route('steps')}
+                                                     active={route().current('steps')}>
+                                                Etapas
                                             </NavLink>
                                         </div>
                                     </div>

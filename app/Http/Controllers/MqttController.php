@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SowingNews;
 use App\Http\Requests\SetActuatorMqttRequest;
 use App\Models\Actuator;
 use App\Models\Biomasse;
@@ -59,49 +60,54 @@ class MqttController extends Controller
 
     public function setReadings($message): void
     {
+        try {
+            $Sowing = new Sowing();
+            $StepStat = new StepStat();
+            $Biomasse = new Biomasse();
 
-        $Sowing = new Sowing();
-        $StepStat = new StepStat();
-        $Biomasse = new Biomasse();
-echo $message;
-        $data = json_decode($message, true);
-        echo count($data["readings"]);
-        if(count($data["readings"])){
-            echo "NHG";
-            $pond = Pond::where('mqtt_id', $data["pond_id"])->first();
-            $sowing = $Sowing->getByPond($pond->id);
+            $data = json_decode($message, true);
 
-            if(!empty($pond)){
-                if(!empty($sowing)){
+            if(count($data["readings"])){
+                $pond = Pond::where('mqtt_id', $data["pond_id"])->first();
+                $sowing = $Sowing->getByPond($pond->id);
 
-                    $activeBiomasse = $Biomasse->Active($sowing->id);
-                    $newReading["sowing_id"] = $sowing->id;
-                    $newReading["step_id"] = $sowing->step_id;
-                    $newReading["biomasse_id"] = $activeBiomasse->id;
+                if(!empty($pond)){
+                    if(!empty($sowing)){
 
-                    for ($i = 0; $i < count($data["readings"]); $i++) {
+                        $activeBiomasse = $Biomasse->Active($sowing->id);
+                        $newReading["sowing_id"] = $sowing->id;
+                        $newReading["step_id"] = $sowing->step_id;
+                        $newReading["biomasse_id"] = $activeBiomasse->id;
 
-                        $reading = $data["readings"][$i];
-                        $stepStat = $StepStat->getByKeyStep($reading["key"], $sowing->step_id);
-                        echo json_encode($newReading);
-                        if(!empty($stepStat)) {
+                        for ($i = 0; $i < count($data["readings"]); $i++) {
 
-                            $newReading["step_stat_id"] = $stepStat->id;
-                            $newReading["value"] = $reading["value"];
-                            $newReading["topic_time"] = date("Y-m-d h:i:s", strtotime($reading["topic_time"]));
+                            $reading = $data["readings"][$i];
+                            $stepStat = $StepStat->getByKeyStep($reading["key"], $sowing->step_id);
 
-                            $newReading["triggered_alarm"] = $this->isTriggeredAlarm($reading["value"], $stepStat->value_minimun, $stepStat->value_maximun);
+                            if(!empty($stepStat)) {
 
+                                $newReading["step_stat_id"] = $stepStat->id;
+                                $newReading["value"] = $reading["value"];
+                                $newReading["topic_time"] = date("Y-m-d h:i:s", strtotime($reading["topic_time"]));
+                                $newReading["triggered_alarm"] = $this->isTriggeredAlarm($reading["value"], $stepStat->value_minimun, $stepStat->value_maximun);
 
+                                $statReading = StatsReading::create($newReading);
 
-                            StatsReading::create($newReading);
-
+                                if($statReading && $newReading["triggered_alarm"] == 1){
+                                    $SowingNews = new SowingNews();
+                                    $SowingNews->newStatAlarm($statReading);
+                                }
+                            }
                         }
+
+
                     }
-
-
                 }
             }
+        }
+        catch (\Exception $e) {
+            // Registra la excepción en el registro
+            Log::error('Get readings MQTT controller: ' . $e->getMessage());
         }
     }
 

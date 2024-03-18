@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/react';
-import {useEffect} from "react";
 import PartyForm from '@/Pages/Parties/Partials/PartyForm.jsx'
 
 export default function CreateParty({ auth, party, partyRoles, partyRoleId, formActionUrl }) {

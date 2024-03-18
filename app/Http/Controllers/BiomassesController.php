@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\BiomassesExport;
+use App\Helpers\SowingNews;
 use App\Http\Requests\CreateBiomasseRequest;
 use App\Http\Requests\SowingCreateRequest;
 use App\Models\Biomasse;
@@ -98,7 +99,11 @@ class BiomassesController extends Controller
         $biomasseRequest = $request->all();
         $sowing = Sowing::find($biomasseRequest["sowing_id"]);
         $biomasseRequest["step_id"] = $sowing->step_id;
-        Biomasse::create($biomasseRequest);
+        $biomasse = Biomasse::create($biomasseRequest);
+        if($biomasse){
+            $SowingNews = new SowingNews();
+            $SowingNews->newBiomasse($biomasse->id);
+        }
     }
 
     /**

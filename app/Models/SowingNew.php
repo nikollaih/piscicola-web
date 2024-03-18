@@ -11,7 +11,6 @@ class SowingNew extends Model
 
     protected $fillable = [
         'sowing_id',
-        'user_id',
         'description',
         'title'
     ];
@@ -25,9 +24,5 @@ class SowingNew extends Model
 
     public function Sowing() {
         return $this->belongsTo(Sowing::class);
-    }
-
-    public function User() {
-        return $this->belongsTo(User::class);
     }
 }

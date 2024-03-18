@@ -36,6 +36,12 @@ class StatsReading extends Model
         return $this->belongsTo(Biomasse::class);
     }
 
+    public function Get($statReadingId) {
+        return StatsReading::with('StepStat')
+            ->with('StepStat.Step')
+            ->find($statReadingId);
+    }
+
     public function latest($sowingId, $stepId = null) {
         return StatsReading::where('sowing_id', $sowingId)
             ->with('stepStat')

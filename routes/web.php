@@ -18,6 +18,8 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SowingNewsController;
 use App\Http\Controllers\SowingsController;
 use App\Http\Controllers\StatReadingsController;
+use App\Http\Controllers\StepsController;
+use App\Http\Controllers\StepStatsController;
 use App\Http\Controllers\SuppliesController;
 use App\Http\Controllers\SupplyPurchasesController;
 use App\Http\Controllers\UsersController;
@@ -225,6 +227,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{associationId}/edit', [AssociationsController::class, 'edit'])->name('association.edit');
         Route::patch('{associationId}/update', [AssociationsController::class, 'update'])->name('association.update');
         Route::delete('{associationId}', [AssociationsController::class, 'destroy'])->name('association.delete');
+    });
+});
+
+// Steps routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('steps')->group(function() {
+        Route::get('/', [StepsController::class, 'index'])->name('steps');
+        Route::post('store', [StepsController::class, 'store'])->name('step.store');
+        Route::patch('{stepId}/update', [StepsController::class, 'update'])->name('step.update');
+        Route::delete('{stepId}', [StepsController::class, 'destroy'])->name('step.delete');
+    });
+});
+
+// Step stats routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('step_stats')->group(function() {
+        Route::get('/all/{stepId?}', [StepStatsController::class, 'index'])->name('step_stats');
+        Route::get('create/{stepId?}', [StepStatsController::class, 'create'])->name('step_stat.create');
+        Route::post('store', [StepStatsController::class, 'store'])->name('step_stat.store');
+        Route::get('{stepStatId}/edit/{stepId?}', [StepStatsController::class, 'edit'])->name('step_stat.edit');
+        Route::patch('{stepStatId}/update', [StepStatsController::class, 'update'])->name('step_stat.update');
+        Route::delete('{stepStatId}', [StepStatsController::class, 'destroy'])->name('step_stat.delete');
     });
 });
 

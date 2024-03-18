@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('key');
             $table->float('value_minimun');
             $table->float('value_maximun');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

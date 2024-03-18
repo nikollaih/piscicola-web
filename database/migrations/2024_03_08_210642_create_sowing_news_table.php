@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('sowing_news', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sowing_id')->constrained('sowings');
-            $table->foreignId('user_id')->constrained('users');
             $table->string('title');
             $table->longText('description');
             $table->timestamps();
