@@ -11,8 +11,10 @@ export default function PondItem ({pond, onDelete = () => {}}) {
             <p className="font-bold mb-1">{pond.entrance}L/s</p>
             <p className="text-gray-500">Caudal de salida</p>
             <p className="font-bold mb-1">{pond.exit}L/s</p>
+            <p className="text-gray-500">MQTT ID</p>
+            <p className="font-bold mb-1">{pond.mqtt_id}</p>
             <p className="text-gray-500">Cubierto</p>
-            <p className="font-bold">{(pond.covered === 1) ? "Si" : "No" }</p>
+            <p className="font-bold">{(pond.covered === 1) ? "Si" : "No"}</p>
             <hr className="my-2"/>
             <div className="flex justify-between">
                 <Link href={route('pond.edit', {pondId: pond.id})} className="flex items-center">
@@ -24,7 +26,9 @@ export default function PondItem ({pond, onDelete = () => {}}) {
                     </svg>
                     <p className="ml-1 text-blue-600">Modificar</p>
                 </Link>
-                <Link onClick={() => {onDelete(pond)}} className="flex items-center ">
+                <Link onClick={() => {
+                    onDelete(pond)
+                }} className="flex items-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1" stroke="currentColor"
                          className="w-5 h-5 text-red-600">

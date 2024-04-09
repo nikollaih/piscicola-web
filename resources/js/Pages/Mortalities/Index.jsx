@@ -92,9 +92,6 @@ export default function Mortalities({ auth, sowing, mortalities }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
-                        <Link href={route('mortality.readings', {sowingId: sowing.id})}>
-                            <PrimaryButton className="bg-gray-800">Comparar Registros</PrimaryButton>
-                        </Link>
                         <Link href={usePages.props.createMortalityUrl}>
                             <PrimaryButton className="bg-orange-600">Agregar</PrimaryButton>
                         </Link>

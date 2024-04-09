@@ -19,7 +19,7 @@ export default function SowingNews({ auth, news }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Novedades</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Bitácora</h2>}
         >
             <Head title="Novedades" />
             <div className="py-12">

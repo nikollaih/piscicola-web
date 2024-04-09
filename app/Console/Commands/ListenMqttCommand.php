@@ -24,11 +24,15 @@ class ListenMqttCommand extends Command
     public function handle()
     {
         try {
+            echo sprintf('Conectado');
+
             $this->mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message) {
+                print_r("Actuador");
                 $this->MqttController->getTurnActuator($topic, $message);
             }, 1);
 
             $this->mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message) {
+                print_r("Lectura");
                 $this->MqttController->setReadings($message);
             }, 1);
 

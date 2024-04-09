@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('mobile_phone')->nullable();
             $table->string('phone');
+            $table->string('mqtt_id');
             $table->softDeletes();
             $table->timestamps();
         });

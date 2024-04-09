@@ -24,7 +24,8 @@ export default function CreatePond({ auth }) {
         volume: "",
         entrance: "",
         exit: "",
-        covered: 0
+        covered: 0,
+        mqtt_id: ''
     });
 
     useEffect(() => {
@@ -40,7 +41,8 @@ export default function CreatePond({ auth }) {
             volume: pond.volume,
             entrance: pond.entrance,
             exit: pond.exit,
-            covered: pond.covered
+            covered: pond.covered,
+            mqtt_id: pond.mqtt_id
         });
 
     }
@@ -130,6 +132,8 @@ export default function CreatePond({ auth }) {
                                     {(hasErrors?.volume) ?
                                         <InputError message={hasErrors.volume}/> : ""}
                                 </div>
+                            </div>
+                            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Caudal de entrada (L/s)"/>
                                     <TextInput
@@ -155,6 +159,19 @@ export default function CreatePond({ auth }) {
                                         onChange={(e) => setData(e.target.name, e.target.value)}/>
                                     {(hasErrors?.exit) ?
                                         <InputError message={hasErrors.exit}/> : ""}
+                                </div>
+                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                    <InputLabel value="MQTT ID"/>
+                                    <TextInput
+                                        type="text"
+                                        className="w-full"
+                                        placeholder=""
+                                        name="mqtt_id"
+                                        value={data.mqtt_id}
+                                        required
+                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                    {(hasErrors?.mqtt_id) ?
+                                        <InputError message={hasErrors.mqtt_id}/> : ""}
                                 </div>
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Cubierto"/>

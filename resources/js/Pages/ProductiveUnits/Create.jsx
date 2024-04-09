@@ -22,7 +22,8 @@ export default function CreateProductiveUnit({ auth, productive_unit, associatio
         email: '',
         mobile_phone: '',
         phone: '',
-        address:''
+        address:'',
+        mqtt_id: ''
     });
     const [successMessage, setSuccessMessage] = useState('');
     const [associationTitle, setAssociationTitle] = useState('Seleccionar');
@@ -40,7 +41,8 @@ export default function CreateProductiveUnit({ auth, productive_unit, associatio
             email: productive_unit.email,
             mobile_phone: productive_unit.mobile_phone,
             phone: productive_unit.phone,
-            address: productive_unit.address
+            address: productive_unit.address,
+            mqtt_id: productive_unit.mqtt_id
         });
 
         setAssociationTitle(productive_unit.association.name);
@@ -155,7 +157,7 @@ export default function CreateProductiveUnit({ auth, productive_unit, associatio
                                     {(hasErrors?.phone) ?
                                         <InputError message={hasErrors.phone}/> : ""}
                                 </div>
-                                <div className="w-full md:col-span-2 sm:col-span-3">
+                                <div className="w-full md:col-span-1 sm:col-span-3">
                                     <InputLabel value="Correo electrónico"/>
                                     <TextInput
                                         type="email"
@@ -167,6 +169,18 @@ export default function CreateProductiveUnit({ auth, productive_unit, associatio
                                         onChange={(e) => setData(e.target.name, e.target.value)}/>
                                     {(hasErrors?.email) ?
                                         <InputError message={hasErrors.email}/> : ""}
+                                </div>
+                                <div className="w-full md:col-span-1 sm:col-span-3">
+                                    <InputLabel value="MQTT ID"/>
+                                    <TextInput
+                                        type="text"
+                                        className="w-full"
+                                        placeholder=""
+                                        name="mqtt_id"
+                                        value={data.mqtt_id}
+                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                    {(hasErrors?.mqtt_id) ?
+                                        <InputError message={hasErrors.mqtt_id}/> : ""}
                                 </div>
                                 <div className="w-full md:col-span-3 sm:col-span-3">
                                     <InputLabel value="Dirección"/>

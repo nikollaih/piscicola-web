@@ -59,6 +59,7 @@ class Sowing extends Model
             ->with('fish')
             ->with('pond')
             ->where('productive_unit_id', $user->productive_unit_id)
+            ->orderBy('created_at', 'desc')
             ->paginate(50);
     }
 

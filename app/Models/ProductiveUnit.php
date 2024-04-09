@@ -21,7 +21,8 @@ class ProductiveUnit extends Model
         'mobile_phone',
         'phone',
         'address',
-        'email'
+        'email',
+        'mqtt_id'
     ];
 
     public function association(){

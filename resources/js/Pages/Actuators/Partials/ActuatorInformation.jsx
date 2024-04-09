@@ -13,6 +13,8 @@ export default function ActuatorInformation ({actuator}) {
             <p className="font-bold mb-1">{actuator.actuator_type.name}</p>
             <p className="text-gray-500">Costo por minuto</p>
             <p className="font-bold mb-1">${actuator.cost_by_minute.toLocaleString('es-CO')}</p>
+            <p className="text-gray-500">MQTT ID</p>
+            <p className="font-bold mb-1">{actuator.mqtt_id}</p>
             <hr className="my-2"/>
             <div className="flex">
                 <p className={iconTurnedOnColor}>{(actuator.is_turned_on === 1) ? "Encendido" : "Apagado"}</p>

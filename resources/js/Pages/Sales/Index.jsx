@@ -6,6 +6,8 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import {useEffect, useState} from "react";
 import {deleteService} from "@/Services/Services.ts";
 import Swal from "sweetalert2";
+import Constants from "../../../Constants.js";
+import moment from "moment";
 
 export default function Sales({ auth, sales }) {
     let usePages = usePage();
@@ -95,6 +97,7 @@ export default function Sales({ auth, sales }) {
                             <td>Precio unitario</td>
                             <td>Peso total</td>
                             <td>Precio de venta</td>
+                            <td>Fecha</td>
                             <td></td>
                             </thead>
                             <tbody>
@@ -104,6 +107,7 @@ export default function Sales({ auth, sales }) {
                                     <td className=" pr-2">${sale.unit_cost.toLocaleString('es-CO')}</td>
                                     <td className="pr-2">{sale.total_weight.toLocaleString('es-CO')}</td>
                                     <td className="font-bold text-green-600">${(sale.unit_cost * sale.total_weight).toLocaleString('es-CO')}</td>
+                                    <td>{moment(sale.manual_created_at).format(Constants.DATEFORMAT)}</td>
                                     <td className="flex gap-2 py-4">
                                         <Link href={route('sale.edit', {saleId: sale.id})}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -4,6 +4,9 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import UQ from '@/../images/uq.png'
+import GQ from '@/../images/gq.png'
+import SR from '@/../images/SR.png'
 
 export default function Authenticated({ user, header, children }) {
     console.log(user)
@@ -220,7 +223,13 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className="flex-1 pb-36">{children}</main>
+            <footer
+                className="fixed bottom-0 right-0 left-0 bg-white p-4 items-center justify-center align-middle flex gap-6 shadow-md">
+                <img src={UQ} alt="" width={50} className="mx-6"/>
+                <img src={GQ} alt="" width={100} style={{marginTop: -15}} className="mx-6"/>
+                <img src={SR} alt="" width={160} className="mx-6"/>
+            </footer>
         </div>
     );
 }

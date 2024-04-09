@@ -11,6 +11,7 @@ class ActuatorUse extends Model
 
     protected $fillable = [
         'actuator_id',
+        'biomasse_id',
         'turned_on',
         'turned_off',
         'minutes',
@@ -23,6 +24,12 @@ class ActuatorUse extends Model
 
     public function Biomasse() {
         return $this->belongsTo(Biomasse::class);
+    }
+
+    public function Get($actuatorId) {
+        return ActuatorUse::where('actuator_id', $actuatorId)
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 
     public function getAll($actuatorId, $paginate = 20) {
@@ -48,6 +55,9 @@ class ActuatorUse extends Model
             ->whereHas('Biomasse', function ($query) use ($sowingId) {
                 $query->where('sowing_id', $sowingId);
             })
+            ->whereNotNull('turned_off')
+            ->whereNotNull('cost')
+            ->whereNotNull('minutes')
             ->get();
     }
 }

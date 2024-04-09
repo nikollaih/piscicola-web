@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SowingNews;
+use App\Helpers\ActuatorHelper;
 use App\Http\Requests\SetActuatorMqttRequest;
 use App\Models\Actuator;
 use App\Models\Biomasse;
@@ -25,9 +26,14 @@ class MqttController extends Controller
         try {
             $data = json_decode($message, true);
             $mqttId = $data['mqtt_id'];
-            $mqttStatus = $data['status'];
+            $mqttStatus = ($data['status'] == 'on') ? 1 : 0;
+            $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
+            $actuator = Actuator::where('mqtt_id', $mqttId)->first();
 
-            Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
+            if ($updated) {
+                $ActuatorHelper = new ActuatorHelper();
+                $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+            }
 
         } catch (\Exception $e) {
             Log::error('Error al procesar el mensaje MQTT: ' . $e->getMessage());
@@ -67,8 +73,10 @@ class MqttController extends Controller
 
             $data = json_decode($message, true);
 
-            if(count($data["readings"])){
-                $pond = Pond::where('mqtt_id', $data["pond_id"])->first();
+            if(count($data["valores"])){
+                //TODO change the constant id
+                //$pond = Pond::where('mqtt_id', $data["pond_id"])->first();
+                $pond = Pond::where('mqtt_id', "1")->first();
                 $sowing = $Sowing->getByPond($pond->id);
 
                 if(!empty($pond)){
@@ -79,17 +87,15 @@ class MqttController extends Controller
                         $newReading["step_id"] = $sowing->step_id;
                         $newReading["biomasse_id"] = $activeBiomasse->id;
 
-                        for ($i = 0; $i < count($data["readings"]); $i++) {
-
-                            $reading = $data["readings"][$i];
-                            $stepStat = $StepStat->getByKeyStep($reading["key"], $sowing->step_id);
+                        foreach ($data["valores"] as $key => $reading) {
+                            $stepStat = $StepStat->getByKeyStep($key, $sowing->step_id);
 
                             if(!empty($stepStat)) {
 
                                 $newReading["step_stat_id"] = $stepStat->id;
-                                $newReading["value"] = $reading["value"];
-                                $newReading["topic_time"] = date("Y-m-d h:i:s", strtotime($reading["topic_time"]));
-                                $newReading["triggered_alarm"] = $this->isTriggeredAlarm($reading["value"], $stepStat->value_minimun, $stepStat->value_maximun);
+                                $newReading["value"] = $reading;
+                                $newReading["topic_time"] = date("Y-m-d H:i:s", strtotime($data["t_medida"]));
+                                $newReading["triggered_alarm"] = $this->isTriggeredAlarm($reading, $stepStat->value_minimun, $stepStat->value_maximun);
 
                                 $statReading = StatsReading::create($newReading);
 
@@ -99,8 +105,6 @@ class MqttController extends Controller
                                 }
                             }
                         }
-
-
                     }
                 }
             }

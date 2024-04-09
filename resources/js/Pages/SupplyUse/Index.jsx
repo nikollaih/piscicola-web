@@ -122,9 +122,6 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
-                        <Link href={compareRoute}>
-                            <PrimaryButton className="bg-gray-800">Comparar Biomasas</PrimaryButton>
-                        </Link>
                         <Link href={addRoute}>
                             <PrimaryButton className="bg-orange-600">Agregar</PrimaryButton>
                         </Link>

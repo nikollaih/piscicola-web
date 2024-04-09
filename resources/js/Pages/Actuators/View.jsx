@@ -104,7 +104,7 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
     const setTurnActuatorMqtt = async (turned_on) => {
         try {
             // Send a request to delete the actuator
-            const response = await postService(route('mqtt.set.actuator.turn'), usePages.props.csrfToken, {mqtt_id: actuator.mqtt_id, status: turned_on});
+            const response = await postService(route('mqtt.set.actuator.turn'), usePages.props.csrfToken, {mqtt_id: actuator.mqtt_id, status: (turned_on === 1) ? 'on' : 'off'});
 
             // Parse the response body as JSON
             const jsonResponse = await response.json();
@@ -154,13 +154,10 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                         <div className="flex gap-4">
                             {
                                 (actuator.is_turned_on === 1)
-                                ?
-                                    <Link onClick={() => {confirmTurnActuatorMqtt(0)}}>
-                                        <PrimaryButton className="bg-red-600">Apagar</PrimaryButton>
-                                    </Link> :
-                                    <Link onClick={() => {confirmTurnActuatorMqtt(1)}}>
-                                        <PrimaryButton className="bg-green-600">Encender</PrimaryButton>
-                                    </Link>
+                                    ?
+                                    <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(0)}} className="bg-red-600">Apagar</PrimaryButton>
+                                    :
+                                    <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(1)}} className="bg-green-600">Encender</PrimaryButton>
                             }
                         </div>
                         <div className="flex gap-4">
