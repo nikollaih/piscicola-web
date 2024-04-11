@@ -4,6 +4,7 @@ use App\Http\Controllers\ActuatorsController;
 use App\Http\Controllers\AssociationsController;
 use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
+use App\Http\Controllers\CronJobs;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicateController;
@@ -45,6 +46,9 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+});
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('manual_cronjobs', [CronJobs::class, 'index'])->name('manual_cronjobs');
 });
 
 Route::post('simulate', [StatReadingsController::class, 'index'])->name('simulate');
