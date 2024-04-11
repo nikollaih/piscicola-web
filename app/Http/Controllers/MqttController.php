@@ -25,8 +25,8 @@ class MqttController extends Controller
     {
         try {
             $data = json_decode($message, true);
-            $mqttId = $data['mqtt_id'];
-            $mqttStatus = ($data['status'] == 'on') ? 1 : 0;
+            $mqttId = $data['vcontrol'];
+            $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
             $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
             $actuator = Actuator::where('mqtt_id', $mqttId)->first();
 
@@ -49,8 +49,10 @@ class MqttController extends Controller
             $actuator = Actuator::where('mqtt_id', $actuatorRequest["mqtt_id"])->first();
 
             if($actuator){
+                $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
+                $mqtt["valor"] = $actuatorRequest["status"];
                 // Publish the MQTT topic
-                MQTT::publish(env('MQTT_TURN_ACTUATOR'), json_encode($actuatorRequest));
+                MQTT::publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
 
                 // Return a confirmation message
                 return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);

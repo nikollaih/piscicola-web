@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\MqttController;
+use App\Models\AuditorMQTTConnection;
 use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 
@@ -25,6 +26,7 @@ class ListenMqttCommand extends Command
     {
         try {
             echo sprintf('Conectado');
+            AuditorMQTTConnection::create(["register_time" => date('Y-m-d H:i:s'), "status" => 1]);
 
             $this->mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message) {
                 print_r("Actuador");
@@ -38,6 +40,7 @@ class ListenMqttCommand extends Command
 
         } catch (\Exception $e) {
             echo sprintf('No es posible conectar'. $e->getMessage());
+            AuditorMQTTConnection::create(["register_time" => date('Y-m-d H:i:s'), "status" => 0, "failed" => $e->getMessage()]);
         }
 
         $this->mqtt->loop(true);
