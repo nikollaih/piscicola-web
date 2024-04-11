@@ -72,13 +72,15 @@ class MqttController extends Controller
             $Sowing = new Sowing();
             $StepStat = new StepStat();
             $Biomasse = new Biomasse();
+            $Pond = new Pond();
 
             $data = json_decode($message, true);
 
             if(count($data["valores"])){
                 //TODO change the constant id
                 //$pond = Pond::where('mqtt_id', $data["pond_id"])->first();
-                $pond = Pond::where('mqtt_id', "1")->first();
+                $pond = $Pond->getPondMQTT($data["estanque_id"], $data["unidad_productiva"]);
+
                 $sowing = $Sowing->getByPond($pond->id);
 
                 if(!empty($pond)){

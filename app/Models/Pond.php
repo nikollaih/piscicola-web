@@ -36,4 +36,12 @@ class Pond extends Model
         return Pond::where('productive_unit_id', $user->productive_unit_id)
             ->paginate(20);
     }
+
+    public function getPondMQTT($pondMQTT, $productiveUnitMQTT) {
+        return Pond::select('ponds.*')
+            ->join('productive_units', 'productive_units.id', '=', 'ponds.productive_unit_id')
+            ->where('ponds.mqtt_id', $pondMQTT)
+            ->where('productive_units.mqtt_id', $productiveUnitMQTT)
+            ->first();
+    }
 }
