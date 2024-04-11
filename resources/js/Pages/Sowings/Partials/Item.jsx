@@ -1,5 +1,6 @@
 import {Link} from "@inertiajs/react";
 import moment from "moment/moment.js";
+
 export default function SowingItem ({sowing, baseUrl}) {
     return (
         <Link href={`${baseUrl}/sowings/${sowing.id}/view`}
