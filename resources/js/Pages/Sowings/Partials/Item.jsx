@@ -1,6 +1,5 @@
 import {Link} from "@inertiajs/react";
 import moment from "moment/moment.js";
-import {p} from "../../../../../public/build/assets/transition-UFfGiMLq.js";
 export default function SowingItem ({sowing, baseUrl}) {
     return (
         <Link href={`${baseUrl}/sowings/${sowing.id}/view`}
