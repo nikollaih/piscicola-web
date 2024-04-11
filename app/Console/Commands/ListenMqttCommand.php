@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\MqttController;
-use App\Models\AuditorMQTTConnection;
+use App\Models\AuditorMqttConnection;
 use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 
