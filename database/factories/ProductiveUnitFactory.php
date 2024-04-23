@@ -25,7 +25,8 @@ class ProductiveUnitFactory extends Factory
             'email' => fake()->email(),
             'mobile_phone' => fake()->phoneNumber(),
             'phone' => fake()->phoneNumber(),
-            'address' => fake()->address()
+            'address' => fake()->address(),
+            'mqtt_id' => '12222',
         ];
     }
 }
