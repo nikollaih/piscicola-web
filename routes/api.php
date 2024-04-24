@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\PartiesController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -46,5 +47,18 @@ Route::prefix('auth')->group(function() {
 
     });
 
+});
+
+// Parties routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('personas')->group(function() {
+        Route::get('/{partyRoleId}', [PartiesController::class, 'getPartiesByRoleId']);
+        Route::get('{partyId}/view', [PartiesController::class, 'getPartyInfoById']);
+        //Route::get('{partyRoleId}/create', [PartiesController::class, 'create'])->name('party.create');
+        //Route::post('store', [PartiesController::class, 'store'])->name('party.store');
+        //Route::get('{partyId}/edit', [PartiesController::class, 'edit'])->name('party.edit');
+        //Route::patch('{partyId}/update', [PartiesController::class, 'update'])->name('party.update');
+        //Route::delete('{partyId}', [PartiesController::class, 'destroy'])->name('party.delete');
+    });
 });
 
