@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('{partyId}/view', [PartiesController::class, 'getPartyInfoById']);
         Route::post('store-party', [PartiesController::class, 'storeParty']);
         Route::post('{partyId}/update', [PartiesController::class, 'updateParty']);
-        //Route::delete('{partyId}', [PartiesController::class, 'destroy'])->name('party.delete');
+        Route::delete('{partyId}', [PartiesController::class, 'deleteParty']);
     });
 });
 

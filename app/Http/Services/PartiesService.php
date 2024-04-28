@@ -58,4 +58,29 @@ class PartiesService {
         $partyRequest = $request->all();
         Party::where('id', $partyId)->update($partyRequest);
     }
+    public function deleteParty($partyId = -1){
+        // Get the logged user instance
+        $user = Auth::user();
+        // Get the client the user is trying to delete
+        $client = Party::where('id', $partyId)
+            ->where('productive_unit_id', $user->productive_unit_id)
+            ->first();
+
+        // If the user exists
+        if($client){
+            // Do the soft delete
+            if($client->delete()){
+                // Return a confirmation message
+                return ["msg" => "Registro eliminado satisfactoriamente", "success" => true];
+            }
+            else {
+                // In case the soft delete generate an error then return a warning message
+                return ["msg" => "No ha sido posible eliminar el registro", "success" => false];
+            }
+        }
+        else {
+            // If the user doesn't exist
+            return ["msg" => "El registro no existe", "success" => false];
+        }
+    }
 }

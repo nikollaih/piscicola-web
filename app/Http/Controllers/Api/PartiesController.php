@@ -76,5 +76,23 @@ class PartiesController extends BaseController
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
     }
+    /**
+     * Delete a party .
+     */
+    public function deleteParty($partyId = -1)
+    {
+        try {
+
+            $status = $this->partiesService->deleteParty($partyId);
+            if($status['success']){
+                return $this->sendResponse(true, $status['msg']);
+            }else{
+                return $this->sendError('Error.', $status['msg']);
+            }
+
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', ['error'=>$th->getMessage()]);
+        }
+    }
 
 }
