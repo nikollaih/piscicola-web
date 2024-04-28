@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Services\PartiesService;
+use App\Http\Requests\PartyCreateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
@@ -43,4 +44,21 @@ class PartiesController extends BaseController
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
     }
+
+    /**
+     * Create a party profile information.
+     */
+    public function storeParty(PartyCreateRequest $request)
+    {
+        try {
+
+            $this->partiesService->storeParty($request);
+
+            return $this->sendResponse(true, 'Persona creada correctamente');
+
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', ['error'=>$th->getMessage()]);
+        }
+    }
+
 }

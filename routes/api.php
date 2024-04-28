@@ -54,8 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('personas')->group(function() {
         Route::get('/{partyRoleId}', [PartiesController::class, 'getPartiesByRoleId']);
         Route::get('{partyId}/view', [PartiesController::class, 'getPartyInfoById']);
-        //Route::get('{partyRoleId}/create', [PartiesController::class, 'create'])->name('party.create');
-        //Route::post('store', [PartiesController::class, 'store'])->name('party.store');
+        Route::post('store-party', [PartiesController::class, 'storeParty']);
         //Route::get('{partyId}/edit', [PartiesController::class, 'edit'])->name('party.edit');
         //Route::patch('{partyId}/update', [PartiesController::class, 'update'])->name('party.update');
         //Route::delete('{partyId}', [PartiesController::class, 'destroy'])->name('party.delete');

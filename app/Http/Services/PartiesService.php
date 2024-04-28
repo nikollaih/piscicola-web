@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\Party;
 use App\Models\PartyRole;
 use App\Http\Controllers\Api\BaseController as BaseController;
+use App\Http\Requests\PartyCreateRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -43,5 +44,12 @@ class PartiesService {
             return null;
         }
     }
-}
+    public function  storeParty(PartyCreateRequest $request){
 
+        $user = Auth::user();
+        $partyRequest = $request->all();
+        $partyRequest["productive_unit_id"] = $user->productive_unit_id;
+        Party::create($partyRequest);
+
+    }
+}
