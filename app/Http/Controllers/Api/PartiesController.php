@@ -61,4 +61,20 @@ class PartiesController extends BaseController
         }
     }
 
+    /**
+     * Update a party profile information.
+     */
+    public function updateParty(PartyCreateRequest $request, $partyId = -1)
+    {
+        try {
+
+            $this->partiesService->updateParty($request, $partyId);
+
+            return $this->sendResponse(true, 'Persona actualizada correctamente');
+
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', ['error'=>$th->getMessage()]);
+        }
+    }
+
 }

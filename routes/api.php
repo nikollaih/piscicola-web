@@ -55,8 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{partyRoleId}', [PartiesController::class, 'getPartiesByRoleId']);
         Route::get('{partyId}/view', [PartiesController::class, 'getPartyInfoById']);
         Route::post('store-party', [PartiesController::class, 'storeParty']);
-        //Route::get('{partyId}/edit', [PartiesController::class, 'edit'])->name('party.edit');
-        //Route::patch('{partyId}/update', [PartiesController::class, 'update'])->name('party.update');
+        Route::post('{partyId}/update', [PartiesController::class, 'updateParty']);
         //Route::delete('{partyId}', [PartiesController::class, 'destroy'])->name('party.delete');
     });
 });

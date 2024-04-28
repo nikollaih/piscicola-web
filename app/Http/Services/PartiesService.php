@@ -52,4 +52,10 @@ class PartiesService {
         Party::create($partyRequest);
 
     }
+
+    public function updateParty(PartyCreateRequest $request, $partyId = -1){
+
+        $partyRequest = $request->all();
+        Party::where('id', $partyId)->update($partyRequest);
+    }
 }
