@@ -34,11 +34,10 @@ class Party extends Model
         'party_role_id'
     ];
 
-    public function ProductiveUnit(){
+    public function productiveUnit(){
         return $this->belongsTo(ProductiveUnit::class);
     }
-
-    public function PartyRol(){
+    public function partyRole(){
         return $this->belongsTo(PartyRole::class);
     }
 

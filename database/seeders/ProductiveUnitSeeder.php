@@ -21,8 +21,12 @@ class ProductiveUnitSeeder extends Seeder
             'mobile_phone' => '',
             'phone' => '',
             'address' => '',
-            'deleted_at' => now()
+            'deleted_at' => now(),
+            'mqtt_id' => '122', 
+            'association_id' => 1,
         ];
+        
+
 
         DB::table('productive_units')->delete();
         DB::table('productive_units')->insert($data);
