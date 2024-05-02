@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\PartiesController;
+use App\Http\Controllers\Api\UserController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -57,6 +58,26 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('store-party', [PartiesController::class, 'storeParty']);
         Route::post('{partyId}/update', [PartiesController::class, 'updateParty']);
         Route::delete('{partyId}', [PartiesController::class, 'deleteParty']);
+    });
+});
+
+
+// Users routes
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('users')->group(function() {
+        //gets all users that are on the productive unit
+        Route::get('/{productiveUnitId?}', [UserController::class, 'getUserList']);
+        //gets details about a client using clientId
+        Route::get('{userId}/view', [UserController::class, 'getUserInformation']);
+        //allows to create a new user
+        Route::post('store/{productiveUnitId?}', [UserController::class, 'addNewUser']);
+        //update a user record
+        Route::post('{userId}/update', [UserController::class, 'updateUser']);
+        //set the password of the user as default
+        Route::post('{userId}/password', [UserController::class, 'restorePassword']);
+        //soft delete of a user
+        Route::delete('{userId}', [UserController::class, 'destroy']);
     });
 });
 
