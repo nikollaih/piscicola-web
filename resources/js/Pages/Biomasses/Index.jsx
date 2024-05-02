@@ -113,11 +113,11 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
                             <table id="table-biomasses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                    <th className="pl-5">Peso (gr)</th>
-                                    <th className="pl-5">Tamaño (cm)</th>
-                                    <th>Cantidad de muestra</th>
-                                    <th>Fecha</th>
-                                    <th></th>
+                                    <td className="pl-5">Peso (gr)</td>
+                                    <td className="pl-5">Tamaño (cm)</td>
+                                    <td>Cantidad de muestra</td>
+                                    <td>Fecha</td>
+                                    <td></td>
                                 </thead>
                                 <tbody>
                                 {biomasses.data.map((biomasse) => (
