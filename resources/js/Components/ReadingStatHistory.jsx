@@ -18,7 +18,6 @@ export default function ReadingStatHistory({readings, stepStat, date = "topic_ti
     }
 
     const setChart = () => {
-        console.log(getDataStat())
         // Create root and chart
         let root = am5.Root.new(chartId);
 
@@ -29,6 +28,8 @@ export default function ReadingStatHistory({readings, stepStat, date = "topic_ti
                 layout: root.verticalLayout
             })
         );
+
+        chart.set('scrollbarX', am5.Scrollbar.new(root, {orientation: "horizontal"}))
 
         // Craete Y-axis
         let yAxis = chart.yAxes.push(
