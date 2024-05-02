@@ -54,7 +54,7 @@ class MqttController extends Controller
                 $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
                 $mqtt["valor"] = $actuatorRequest["status"];
                 // Publish the MQTT topic
-                MQTT::publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
+                $this->MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
 
                 // Return a confirmation message
                 return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);
