@@ -12,6 +12,7 @@ class Biomasse extends Model
     protected $fillable = [
         'sowing_id',
         'approximate_weight',
+        'approximate_height',
         'quantity_of_fish',
         'manual_created_at',
         'step_id'

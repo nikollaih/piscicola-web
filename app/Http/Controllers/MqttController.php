@@ -13,6 +13,7 @@ use App\Models\StatsReading;
 use App\Models\StepStat;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
 
 class MqttController extends Controller
@@ -25,6 +26,7 @@ class MqttController extends Controller
     {
         try {
             $data = json_decode($message, true);
+            print_r($data);
             $mqttId = $data['vcontrol'];
             $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
             $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
