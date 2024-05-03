@@ -48,9 +48,9 @@ class ActuatorUse extends Model
     }
 
     public function getSowingCost($sowingId){
-        return ActuatorUse::selectRaw('actuator_id, SUM(cost) as total_cost, Actuators.name as name')
-            ->groupBy('actuator_id')
-            ->leftJoin('Actuators', 'Actuators.id', '=', 'actuator_id')
+        return ActuatorUse::selectRaw('actuator_id, SUM(cost) as total_cost, actuators.name as name')
+            ->groupBy('actuator_id','actuators.name')
+            ->leftJoin('actuators', 'actuators.id', '=', 'actuator_id')
             ->with('Biomasse')
             ->whereHas('Biomasse', function ($query) use ($sowingId) {
                 $query->where('sowing_id', $sowingId);

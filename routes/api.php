@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\PartiesController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\SowingsController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -81,3 +82,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
+// Sowings routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('sowings')->group(function() {
+        Route::get('/list', [SowingsController::class, 'getSowingsList']);
+        Route::get('{sowingId}/resume', [SowingsController::class, 'resumeSowing']);
+        Route::get('{sowingId}/view', [SowingsController::class, 'view']);
+        Route::get('createInfo', [SowingsController::class, 'getCreateInfo']);
+        Route::post('store', [SowingsController::class, 'storeSowing']);
+        Route::post('{sowingId}/update', [SowingsController::class, 'updateSowing']);
+        Route::delete('{sowingId}', [SowingsController::class, 'destroySowing'])->middleware(['check.saledate']);
+    });
+});
