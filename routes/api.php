@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PartiesController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SowingsController;
 use App\Http\Controllers\Api\PondsController;
+use App\Http\Controllers\Api\ActuatorsController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -111,3 +112,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('{pondId}', [PondsController::class, 'destroyPond']);
     });
 });
+
+// Actuators routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('actuators')->group(function() {
+        Route::get('/', [ActuatorsController::class, 'getAllActuators']);
+        //permite obtener la informacion necesaria par acrear un actuador
+        Route::get('getInfoToCreateActuator', [ActuatorsController::class, 'getInfoToCreateActuator']);
+        //permite almacenar un actuador nuevo en la base de datos
+        Route::post('store', [ActuatorsController::class, 'storeActuator']);
+        Route::get('{actuatorId}/view', [ActuatorsController::class, 'getActuatorDetails']);
+        Route::post('{actuatorId}/update', [ActuatorsController::class, 'updateActuator']);
+        Route::delete('{actuatorId}', [ActuatorsController::class, 'destroyActuator']);
+    });
+});
+
+
