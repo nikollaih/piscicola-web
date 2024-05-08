@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\PartiesController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SowingsController;
+use App\Http\Controllers\Api\PondsController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -92,5 +93,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('store', [SowingsController::class, 'storeSowing']);
         Route::post('{sowingId}/update', [SowingsController::class, 'updateSowing']);
         Route::delete('{sowingId}', [SowingsController::class, 'destroySowing'])->middleware(['check.saledate']);
+    });
+});
+
+// Ponds routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('ponds')->group(function() {
+        //obtain all the ponds, paginated
+        Route::get('/all', [PondsController::class, 'getAllPonds']);
+        //allows to create a pond based on PondCreateRequest
+        Route::post('store', [PondsController::class, 'storePond']);
+        //obtains the pond info
+        Route::get('{pondId}/view', [PondsController::class, 'getPond']);
+        //update a pond using it id and PondCreateRequest
+        Route::post('{pondId}/update', [PondsController::class, 'updatePond']);
+        //soft delete of the pond based on the pondId
+        Route::delete('{pondId}', [PondsController::class, 'destroyPond']);
     });
 });
