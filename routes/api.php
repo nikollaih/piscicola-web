@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\SowingsController;
 use App\Http\Controllers\Api\PondsController;
 use App\Http\Controllers\Api\ActuatorsController;
 use App\Http\Controllers\Api\BiomassesController;
+use App\Http\Controllers\Api\ExpensesController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -142,5 +143,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [BiomassesController::class, 'getBiomasseReadings']);
         Route::get('sowing/{sowingId}', [BiomassesController::class, 'getIndexInfo']);
         Route::get('all/sowing/{sowingId}', [BiomassesController::class, 'getAllBySowing']);
+    });
+});
+
+// Expenses routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('expenses')->group(function() {
+        //Route::middleware(['check.saledate'])->group(function () {
+            Route::get('categories', [ExpensesController::class, 'getExpensesCategories']);
+            Route::post('store/{sowingId?}', [ExpensesController::class, 'storeExpense']);
+            Route::get('{expenseId}/view', [ExpensesController::class, 'getExpenseInfo']);
+            Route::post('{expenseId}/update', [ExpensesController::class, 'updateExpense']);
+        //});
+        Route::get('all/{sowingId?}', [ExpensesController::class, 'getAllExpenses']);
+        Route::delete('{expenseId}', [ExpensesController::class, 'destroyExpense']);
     });
 });
