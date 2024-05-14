@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SowingsController;
 use App\Http\Controllers\Api\PondsController;
 use App\Http\Controllers\Api\ActuatorsController;
+use App\Http\Controllers\Api\BiomassesController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -128,3 +129,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 
+// Biomasses routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('biomasses')->group(function() {
+        //TODO: revisar si es necesario el middleware o si se puede omitir
+        //Route::middleware(['check.saledate'])->group(function () {
+            Route::post('store', [BiomassesController::class, 'storeBiomasse']);
+            Route::get('{biomasseId}/view', [BiomassesController::class, 'getBiomasseInfo']);
+            Route::post('{biomasseId}/update', [BiomassesController::class, 'updateBiomasse']);
+            Route::delete('{biomasseId}', [BiomassesController::class, 'destroyBiomasse']);
+        //});
+        Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [BiomassesController::class, 'getBiomasseReadings']);
+        Route::get('sowing/{sowingId}', [BiomassesController::class, 'getIndexInfo']);
+        Route::get('all/sowing/{sowingId}', [BiomassesController::class, 'getAllBySowing']);
+    });
+});
