@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SuppliesController;
 use App\Http\Controllers\Api\SupplyPurchasesController;
 use App\Http\Controllers\Api\FeedingController;
 use App\Http\Controllers\Api\MedicateController;
+use App\Http\Controllers\Api\MortalitiesController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -211,5 +212,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //});
         Route::get('sowing/{sowingId}', [MedicateController::class, 'index']);
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MedicateController::class, 'readings']);
+    });
+});
+
+// Mortalities routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('mortalities')->group(function() {
+        //Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/biomasseId', [MortalitiesController::class, 'biomasseId']);
+            Route::post('{sowingId}/store', [MortalitiesController::class, 'store']);
+            Route::get('{mortalityId}/view', [MortalitiesController::class, 'view']);
+            Route::post('{mortalityId}/update', [MortalitiesController::class, 'update']);
+            Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy']);
+        //});
+        Route::get('sowing/{sowingId}', [MortalitiesController::class, 'index']);
+        Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MortalitiesController::class, 'readings']);
     });
 });
