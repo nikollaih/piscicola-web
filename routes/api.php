@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\BiomassesController;
 use App\Http\Controllers\Api\ExpensesController;
 use App\Http\Controllers\Api\SuppliesController;
 use App\Http\Controllers\Api\SupplyPurchasesController;
+use App\Http\Controllers\Api\FeedingController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -180,5 +181,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::delete('{supplyPurchaseId}', [SupplyPurchasesController::class, 'destroy']);
         });
 
+    });
+});
+
+// SupplyUse Feeding routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('feeding')->group(function() {
+        //Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/infoToCreate', [FeedingController::class, 'infoToCreate']);
+            Route::post('store', [FeedingController::class, 'store']);
+            Route::get('{feedingId}/view', [FeedingController::class, 'view']);
+            Route::post('{feedingId}/update', [FeedingController::class, 'update']);
+            Route::delete('{feedingId}', [FeedingController::class, 'destroy']);
+        //});
+        Route::get('sowing/{sowingId}', [FeedingController::class, 'index']);
+        Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [FeedingController::class, 'readings'])->name('feeding.readings.compare');
     });
 });
