@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\PondsController;
 use App\Http\Controllers\Api\ActuatorsController;
 use App\Http\Controllers\Api\BiomassesController;
 use App\Http\Controllers\Api\ExpensesController;
+use App\Http\Controllers\Api\SuppliesController;
+use App\Http\Controllers\Api\SupplyPurchasesController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -157,5 +159,26 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //});
         Route::get('all/{sowingId?}', [ExpensesController::class, 'getAllExpenses']);
         Route::delete('{expenseId}', [ExpensesController::class, 'destroyExpense']);
+    });
+});
+
+// Supplies routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('supplies')->group(function() {
+        Route::get('/', [SuppliesController::class, 'getAllSupplies']);
+        Route::get('measurements', [SuppliesController::class, 'getMeasurements']);
+        Route::post('store', [SuppliesController::class, 'storeSupply']);
+        Route::delete('{supplyId}', [SuppliesController::class, 'destroySupply']);
+        Route::get('{supplyId}/view', [SuppliesController::class, 'viewSupply']);
+        Route::post('{supplyId}/update', [SuppliesController::class, 'updateSupply']);
+
+        // Stock routes
+        Route::prefix('purchases')->group(function() {
+            Route::post('store', [SupplyPurchasesController::class, 'store']);
+            Route::get('{supplyPurchaseId}/view', [SupplyPurchasesController::class, 'view']);
+            Route::post('update/{supplyPurchaseId}', [SupplyPurchasesController::class, 'update']);
+            Route::delete('{supplyPurchaseId}', [SupplyPurchasesController::class, 'destroy']);
+        });
+
     });
 });
