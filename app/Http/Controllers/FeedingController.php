@@ -126,7 +126,6 @@ class FeedingController extends Controller
             $this->SowingNews->newFeeding($feeding->id);
         }
     }
-
     /**
      * Display the user's profile form.
      */

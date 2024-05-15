@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\ExpensesController;
 use App\Http\Controllers\Api\SuppliesController;
 use App\Http\Controllers\Api\SupplyPurchasesController;
 use App\Http\Controllers\Api\FeedingController;
+use App\Http\Controllers\Api\MedicateController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -196,5 +197,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //});
         Route::get('sowing/{sowingId}', [FeedingController::class, 'index']);
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [FeedingController::class, 'readings'])->name('feeding.readings.compare');
+    });
+});
+// SupplyUse Medicate routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('medicate')->group(function() {
+        //Route::middleware(['check.saledate'])->group(function () {
+            Route::get('sowing/{sowingId}/infoToCreate', [MedicateController::class, 'infoToCreate']);
+            Route::post('store', [MedicateController::class, 'store']);
+            Route::get('{feedingId}/view', [MedicateController::class, 'view']);
+            Route::post('{feedingId}/update', [MedicateController::class, 'update']);
+            Route::delete('{feedingId}', [MedicateController::class, 'destroy']);
+        //});
+        Route::get('sowing/{sowingId}', [MedicateController::class, 'index']);
+        Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MedicateController::class, 'readings']);
     });
 });
