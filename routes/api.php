@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\MortalitiesController;
 use App\Http\Controllers\Api\AssociationsController;
 use App\Http\Controllers\Api\StepsController;
 use App\Http\Controllers\Api\StepStatsController;
+use App\Http\Controllers\Api\ProductiveUnitsController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -267,19 +268,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-/*
 // Productive units routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('productive_units')->group(function() {
-        Route::get('/', [ProductiveUnitsController::class, 'index'])->name('productive_units');
-        Route::get('create', [ProductiveUnitsController::class, 'create'])->name('productive_unit.create');
-        Route::post('store', [ProductiveUnitsController::class, 'store'])->name('productive_unit.store');
-        Route::get('{productiveUnitId}/edit', [ProductiveUnitsController::class, 'edit'])->name('productive_unit.edit');
-        Route::patch('{productiveUnitId}/update', [ProductiveUnitsController::class, 'update'])->name('productive_unit.update');
-        Route::delete('{productiveUnitId}', [ProductiveUnitsController::class, 'destroy'])->name('productive_unit.delete');
+        Route::get('/', [ProductiveUnitsController::class, 'index']);
+        //route equivalent to web /create
+        Route::get('allAssociations', [ProductiveUnitsController::class, 'allAssociations']);
+        Route::post('store', [ProductiveUnitsController::class, 'store']);
+        //route equivalent to web /edit
+        Route::get('{productiveUnitId}/view', [ProductiveUnitsController::class, 'view']);
+        Route::post('{productiveUnitId}/update', [ProductiveUnitsController::class, 'update']);
+        Route::delete('{productiveUnitId}', [ProductiveUnitsController::class, 'destroy']);
     });
 });
 
+/*
 // Sales routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('sales')->group(function() {
