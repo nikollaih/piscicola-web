@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\MedicateController;
 use App\Http\Controllers\Api\MortalitiesController;
 use App\Http\Controllers\Api\AssociationsController;
 use App\Http\Controllers\Api\StepsController;
+use App\Http\Controllers\Api\StepStatsController;
+
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -252,3 +254,75 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('{stepId}', [StepsController::class, 'destroy']);
     });
 });
+
+// Step stats routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('step_stats')->group(function() {
+        Route::get('/all/{stepId?}', [StepStatsController::class, 'index']);
+        Route::get('create/{stepId?}', [StepStatsController::class, 'create']);
+        Route::post('store', [StepStatsController::class, 'store']);
+        Route::get('{stepStatId}/edit/{stepId?}', [StepStatsController::class, 'edit']);
+        Route::post('{stepStatId}/update', [StepStatsController::class, 'update']);
+        Route::delete('{stepStatId}', [StepStatsController::class, 'destroy']);
+    });
+});
+
+/*
+// Productive units routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('productive_units')->group(function() {
+        Route::get('/', [ProductiveUnitsController::class, 'index'])->name('productive_units');
+        Route::get('create', [ProductiveUnitsController::class, 'create'])->name('productive_unit.create');
+        Route::post('store', [ProductiveUnitsController::class, 'store'])->name('productive_unit.store');
+        Route::get('{productiveUnitId}/edit', [ProductiveUnitsController::class, 'edit'])->name('productive_unit.edit');
+        Route::patch('{productiveUnitId}/update', [ProductiveUnitsController::class, 'update'])->name('productive_unit.update');
+        Route::delete('{productiveUnitId}', [ProductiveUnitsController::class, 'destroy'])->name('productive_unit.delete');
+    });
+});
+
+// Sales routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('sales')->group(function() {
+        Route::get('/', [SalesController::class, 'index'])->name('sales');
+        Route::get('create/{sowingId}', [SalesController::class, 'create'])->name('sale.create');
+        Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
+        Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
+        Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
+        Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
+    });
+});
+
+// Sowing news routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('sowing_news')->group(function() {
+        Route::get('{sowingId}', [SowingNewsController::class, 'index'])->name('sowing_news');
+    });
+});
+
+// MQTT routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('mqtt')->group(function() {
+        Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
+    });
+});
+
+// Reports routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('reports')->group(function() {
+        Route::get('/', [ReportsController::class, 'index'])->name('reports');
+        Route::get('biomasses/{sowingId}', [ReportsController::class, 'biomasses'])->name('biomasses.report.exports');
+        Route::get('readings/biomasse/{biomasseId}', [ReportsController::class, 'readingsBiomasse'])->name('readings.biomasse.report.exports');
+        Route::get('supplies/sowing/{sowingId}/{useType}', [ReportsController::class, 'sowingSupplies'])->name('supplies.sowing.report.exports');
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('states')->group(function() {
+    Route::get('{state}/cities', [CitiesController::class, 'getCities'])->name('get.cities');
+});
+*/
