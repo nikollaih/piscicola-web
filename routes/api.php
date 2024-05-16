@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\FeedingController;
 use App\Http\Controllers\Api\MedicateController;
 use App\Http\Controllers\Api\MortalitiesController;
 use App\Http\Controllers\Api\AssociationsController;
+use App\Http\Controllers\Api\StepsController;
 
 use Illuminate\Support\Facades\Auth;
 /*
@@ -239,5 +240,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('{associationId}/view', [AssociationsController::class, 'view']);
         Route::post('{associationId}/update', [AssociationsController::class, 'update']);
         Route::delete('{associationId}', [AssociationsController::class, 'destroy']);
+    });
+});
+
+// Steps routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('steps')->group(function() {
+        Route::get('/', [StepsController::class, 'index']);
+        Route::post('store', [StepsController::class, 'store']);
+        Route::post('{stepId}/update', [StepsController::class, 'update']);
+        Route::delete('{stepId}', [StepsController::class, 'destroy']);
     });
 });
