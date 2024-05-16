@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\StepStatsController;
 use App\Http\Controllers\Api\ProductiveUnitsController;
 use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\SowingNewsController;
+use App\Http\Controllers\Api\MqttController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -305,14 +306,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-/*
 // MQTT routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('mqtt')->group(function() {
-        Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
+        Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator']);
     });
 });
 
+/*
 // Reports routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('reports')->group(function() {
