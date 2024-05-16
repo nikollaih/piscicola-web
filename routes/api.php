@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\StepsController;
 use App\Http\Controllers\Api\StepStatsController;
 use App\Http\Controllers\Api\ProductiveUnitsController;
 use App\Http\Controllers\Api\SalesController;
+use App\Http\Controllers\Api\SowingNewsController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -293,18 +294,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //route equivalent to web /edit
         Route::get('{saleId}/view', [SalesController::class, 'view']);
         Route::post('{saleId}/update', [SalesController::class, 'update']);
-        Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
+        Route::delete('{saleId}', [SalesController::class, 'destroy']);
+    });
+});
+
+// Sowing news routes
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('sowing_news')->group(function() {
+        Route::get('{sowingId}', [SowingNewsController::class, 'index']);
     });
 });
 
 /*
-// Sowing news routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::prefix('sowing_news')->group(function() {
-        Route::get('{sowingId}', [SowingNewsController::class, 'index'])->name('sowing_news');
-    });
-});
-
 // MQTT routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('mqtt')->group(function() {
