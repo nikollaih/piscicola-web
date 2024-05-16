@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\AssociationsController;
 use App\Http\Controllers\Api\StepsController;
 use App\Http\Controllers\Api\StepStatsController;
 use App\Http\Controllers\Api\ProductiveUnitsController;
+use App\Http\Controllers\Api\SalesController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -282,19 +283,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-/*
 // Sales routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('sales')->group(function() {
-        Route::get('/', [SalesController::class, 'index'])->name('sales');
-        Route::get('create/{sowingId}', [SalesController::class, 'create'])->name('sale.create');
-        Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
-        Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
-        Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
+        Route::get('/', [SalesController::class, 'index']);
+        //route equivalent to web /create
+        Route::get('infoToCreate/{sowingId}', [SalesController::class, 'infoToCreate']);
+        Route::post('store/{sowingId}', [SalesController::class, 'store']);
+        //route equivalent to web /edit
+        Route::get('{saleId}/view', [SalesController::class, 'view']);
+        Route::post('{saleId}/update', [SalesController::class, 'update']);
         Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
     });
 });
 
+/*
 // Sowing news routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('sowing_news')->group(function() {
