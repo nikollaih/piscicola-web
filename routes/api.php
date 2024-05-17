@@ -144,17 +144,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-
 // Biomasses routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('biomasses')->group(function() {
         //TODO: revisar si es necesario el middleware o si se puede omitir
-        //Route::middleware(['check.saledate'])->group(function () {
+        Route::middleware(['check.saledate'])->group(function () {
             Route::post('store', [BiomassesController::class, 'storeBiomasse']);
             Route::get('{biomasseId}/view', [BiomassesController::class, 'getBiomasseInfo']);
             Route::post('{biomasseId}/update', [BiomassesController::class, 'updateBiomasse']);
             Route::delete('{biomasseId}', [BiomassesController::class, 'destroyBiomasse']);
-        //});
+        });
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [BiomassesController::class, 'getBiomasseReadings']);
         Route::get('sowing/{sowingId}', [BiomassesController::class, 'getIndexInfo']);
         Route::get('all/sowing/{sowingId}', [BiomassesController::class, 'getAllBySowing']);
@@ -164,12 +163,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Expenses routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('expenses')->group(function() {
-        //Route::middleware(['check.saledate'])->group(function () {
+        Route::middleware(['check.saledate'])->group(function () {
             Route::get('categories', [ExpensesController::class, 'getExpensesCategories']);
             Route::post('store/{sowingId?}', [ExpensesController::class, 'storeExpense']);
             Route::get('{expenseId}/view', [ExpensesController::class, 'getExpenseInfo']);
             Route::post('{expenseId}/update', [ExpensesController::class, 'updateExpense']);
-        //});
+        });
         Route::get('all/{sowingId?}', [ExpensesController::class, 'getAllExpenses']);
         Route::delete('{expenseId}', [ExpensesController::class, 'destroyExpense']);
     });
@@ -199,13 +198,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // SupplyUse Feeding routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('feeding')->group(function() {
-        //Route::middleware(['check.saledate'])->group(function () {
+        Route::middleware(['check.saledate'])->group(function () {
             Route::get('sowing/{sowingId}/infoToCreate', [FeedingController::class, 'infoToCreate']);
             Route::post('store', [FeedingController::class, 'store']);
             Route::get('{feedingId}/view', [FeedingController::class, 'view']);
             Route::post('{feedingId}/update', [FeedingController::class, 'update']);
             Route::delete('{feedingId}', [FeedingController::class, 'destroy']);
-        //});
+        });
         Route::get('sowing/{sowingId}', [FeedingController::class, 'index']);
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [FeedingController::class, 'readings'])->name('feeding.readings.compare');
     });
@@ -213,13 +212,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // SupplyUse Medicate routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('medicate')->group(function() {
-        //Route::middleware(['check.saledate'])->group(function () {
+        Route::middleware(['check.saledate'])->group(function () {
             Route::get('sowing/{sowingId}/infoToCreate', [MedicateController::class, 'infoToCreate']);
             Route::post('store', [MedicateController::class, 'store']);
             Route::get('{feedingId}/view', [MedicateController::class, 'view']);
             Route::post('{feedingId}/update', [MedicateController::class, 'update']);
             Route::delete('{feedingId}', [MedicateController::class, 'destroy']);
-        //});
+        });
         Route::get('sowing/{sowingId}', [MedicateController::class, 'index']);
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MedicateController::class, 'readings']);
     });
@@ -228,13 +227,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Mortalities routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('mortalities')->group(function() {
-        //Route::middleware(['check.saledate'])->group(function () {
+        Route::middleware(['check.saledate'])->group(function () {
             Route::get('sowing/{sowingId}/biomasseId', [MortalitiesController::class, 'biomasseId']);
             Route::post('{sowingId}/store', [MortalitiesController::class, 'store']);
             Route::get('{mortalityId}/view', [MortalitiesController::class, 'view']);
             Route::post('{mortalityId}/update', [MortalitiesController::class, 'update']);
             Route::delete('{mortalityId}', [MortalitiesController::class, 'destroy']);
-        //});
+        });
         Route::get('sowing/{sowingId}', [MortalitiesController::class, 'index']);
         Route::get('sowing/{sowingId?}/readings/{biomasseIdOne?}/{biomasseIdTwo?}', [MortalitiesController::class, 'readings']);
     });
