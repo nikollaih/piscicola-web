@@ -55,6 +55,11 @@ class ListenMqttCommand extends Command
                 $this->MqttController->setReadings($message);
             }, 1);
 
+            $mqtt->subscribe(env('MQTT_GET_READINGS_MANUAL'), function (string $topic, string $message) {
+                print_r("Lectura");
+                $this->MqttController->setReadings($message);
+            }, 1);
+
             $mqtt->loop(true);
 
         } catch (\Exception $e) {
