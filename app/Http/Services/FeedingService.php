@@ -1,59 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Services;
+use App\Models\Biomasse;
+use App\Models\Sowing;
+use App\Models\SupplyUse;
+use App\Models\Supply;
 use App\Helpers\SowingNews;
 use App\Http\Requests\SupplyUseCreateRequest;
 use App\Http\Requests\SupplyUseUpdateRequest;
-use App\Models\Biomasse;
-use App\Models\SowingNew;
-use App\Models\SupplyUse;
-use App\Models\Sowing;
-use App\Models\Supply;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
 
-class FeedingController extends Controller
-{
+class FeedingService {
 
-    public function __construct()
-    {
-        $this->SowingNews = new SowingNews();
-    }
 
-    /**
-    * Display feeding listing
-    */
-    public function index(Request $request, $sowingId): Response
-    {
-        $Sowing = new Sowing();
-        $Feeding = new SupplyUse();
-        $Supply = new Supply();
-
-        $supplies = $Supply->getAllByUse("ALIMENT");
-        $Sowing->setSowingId($sowingId);
-
-        $sowing = $Sowing->Get();
-        $feeding = $Feeding->getAll($sowingId, 'ALIMENT', true);
-        $allFeeding["data"] = $Feeding->getAll($sowingId, 'ALIMENT');
-
-        return \inertia('SupplyUse/Index', [
-            'title' => 'alimentación',
-            'supplies' => $supplies,
-            'sowing' => $sowing,
-            'feeds' => $feeding,
-            'readings' => $allFeeding,
-            'request' => $request,
-            'baseUrl' => url('/'),
-            'addRoute' => route('feeding.create', ['sowingId' => $sowingId]),
-            'deleteRoute' => 'feeding.delete',
-            'compareRoute' => route('feeding.readings.compare', ['sowingId' => $sowingId]),
-            'csrfToken' => csrf_token()
-        ]);
-    }
-
-    public function readings(Request $request, $sowingId, $biomasseIdOne = null, $biomasseIdTwo = null): Response
+    public function readings(Request $request, $sowingId, $biomasseIdOne = null, $biomasseIdTwo = null)
     {
         $readings = [];
         $Biomasse = new Biomasse();
@@ -79,7 +39,7 @@ class FeedingController extends Controller
             }
         }
 
-        return \inertia('SupplyUse/Readings', [
+        return [
             'title' => 'alimentación',
             'sowing' => $sowing,
             'biomasseOne' => $biomasseOne,
@@ -87,33 +47,43 @@ class FeedingController extends Controller
             'biomasses' => $biomasses,
             'readings' => $readings,
             'request' => $request,
-            'baseUrl' => url('/'),
-            'indexRoute' => route('feeding', ['sowingId' => $sowingId]),
-            'compareRoute' => 'feeding.readings.compare',
-            'csrfToken' => csrf_token()
-        ]);
+ 
+        ];
+    }
+    public function index($sowingId = -1){
+        $Sowing = new Sowing();
+        $Feeding = new SupplyUse();
+        $Supply = new Supply();
+
+        $supplies = $Supply->getAllByUse("ALIMENT");
+        $Sowing->setSowingId($sowingId);
+
+        $sowing = $Sowing->Get();
+        $feeding = $Feeding->getAll($sowingId, 'ALIMENT', true);
+        $allFeeding["data"] = $Feeding->getAll($sowingId, 'ALIMENT');
+
+        return [
+            'title' => 'alimentación',
+            'supplies' => $supplies,
+            'sowing' => $sowing,
+            'feeds' => $feeding,
+            'readings' => $allFeeding,
+        ];
     }
 
-    public function create($sowingId): Response
-    {
+    public function infoToCreate($sowingId){
         $Biomasse = new Biomasse();
         $Supply = new Supply();
 
         $latestBiomasse = $Biomasse->Active($sowingId);
         $supplies = $Supply->getAllByUse("ALIMENT");
 
-        return \inertia('SupplyUse/Create', [
+        return [
             'sowingId' => $sowingId,
             'biomasseId' => $latestBiomasse->id,
             'supplies' => $supplies,
-            'indexRoute' => route('feeding', ['sowingId' => $sowingId]),
-            'formActionUrl' => route('feeding.store')
-        ]);
+        ];
     }
-
-    /**
-     * Create a new biomasse.
-     */
     public function store(SupplyUseCreateRequest $request)
     {
         $Supply = new Supply();
@@ -123,32 +93,23 @@ class FeedingController extends Controller
 
         if ($feeding) {
             $Supply->Use($feedingRequest["supply_id"], $feedingRequest["quantity"]);
-            $this->SowingNews->newFeeding($feeding->id);
+            $SowingNews = new SowingNews();
+            $SowingNews->newFeeding($feeding->id);
         }
     }
-    /**
-     * Display the user's profile form.
-     */
-    public function edit($feedingId): Response
-    {
+
+    public function view($feedingId = -1){
         $Supply = new Supply();
         $feeding = SupplyUse::with('Supply.MeasurementUnit')->find($feedingId);
         $supplies = $Supply->getAllByUse("ALIMENT");
-
-        return \inertia('SupplyUse/Create', [
+        return [
             'sowingId' => $feeding->sowing_id,
             'biomasseId' => $feeding->biomasse_id,
             'feed' => $feeding,
             'supplies' => $supplies,
-            'formActionUrl' => route('feeding.update', ['feedingId' => $feedingId])
-        ]);
+        ];
     }
-
-    /**
-     * Update the user's profile information.
-     */
-    public function update(SupplyUseUpdateRequest $request, $feedingId)
-    {
+    public function update(SupplyUseUpdateRequest $request, $feedingId){
         $Supply = new Supply();
         $oldFeeding = SupplyUse::find($feedingId);
         $feedingRequest = $request->all();
@@ -158,11 +119,7 @@ class FeedingController extends Controller
         }
     }
 
-    /**
-     * Delete the biomasse row
-     */
-    public function destroy($feedingId)
-    {
+    public function destroy($feedingId){
         $Supply = new Supply();
 
         // Get the biomasse the user is trying to delete
@@ -171,21 +128,21 @@ class FeedingController extends Controller
 
         // If the user exists
         if($supplyUse){
-            if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
+            if($sowing->sale_date) return ["msg" => "No es posible eliminar el registro para una cosecha vendida", "status" => false];
             // Do the soft delete
             if($supplyUse->delete()){
                 $Supply->modifyUse($supplyUse->supply_id, $supplyUse->quantity, 0);
                 // Return a confirmation message
-                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
+                return ["msg" => "Registro eliminado satisfactoriamente","status" => true];
             }
             else {
                 // In case the soft delete generate an error then return a warning message
-                return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
+                return ["msg" => "No ha sido posible eliminar el registro","status" => false];
             }
         }
         else {
             // If the user doesn't exist
-            return response()->json(["msg" => "El registro no existe"], 404);
+            return ["msg" => "El registro no existe","status" => false];
         }
     }
 }

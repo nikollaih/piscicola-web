@@ -38,7 +38,7 @@ class Expense extends Model
             ->leftJoin('sowing_expenses', 'sowing_expenses.expense_id', '=', 'expenses.id')
             ->leftJoin('expense_categories', 'expenses.category_id', '=', 'expense_categories.id')
             ->where('sowing_expenses.sowing_id', $sowingId)
-            ->groupBy('expenses.category_id')
+            ->groupBy('expenses.category_id', 'expense_categories.name')
             ->get();
 
     }
