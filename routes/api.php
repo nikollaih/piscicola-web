@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\SowingNewsController;
 use App\Http\Controllers\Api\MqttController;
 use App\Http\Controllers\Api\ReportsController;
+use App\Http\Controllers\Api\ProfileController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -325,13 +326,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-/*
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit']);
+    Route::post('/profile', [ProfileController::class, 'update']);
+    Route::delete('/profile', [ProfileController::class, 'destroy']);
 });
 
+/*
 Route::prefix('states')->group(function() {
     Route::get('{state}/cities', [CitiesController::class, 'getCities'])->name('get.cities');
 });
