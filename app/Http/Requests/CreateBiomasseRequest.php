@@ -17,6 +17,7 @@ class CreateBiomasseRequest extends FormRequest
         return [
             'sowing_id' => ['required', 'numeric'],
             'approximate_weight' => ['required'],
+            'approximate_height' => ['required'],
             'quantity_of_fish' => ['required'],
             'manual_created_at' => ['required']
         ];

@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, Link, router } from '@inertiajs/react';
-import {useEffect, useState} from "react";
 import SowingInformation from "@/Pages/Sowings/Partials/SowingInformation.jsx";
 import Swal from "sweetalert2";
 import {deleteService} from "@/Services/Services.ts";
@@ -114,7 +113,8 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
                             <table id="table-biomasses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                    <td className="pl-5">Peso en gramos</td>
+                                    <td className="pl-5">Peso (gr)</td>
+                                    <td className="pl-5">Tamaño (cm)</td>
                                     <td>Cantidad de muestra</td>
                                     <td>Fecha</td>
                                     <td></td>
@@ -124,14 +124,17 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                                     <tr key={biomasse.id} id={biomasse.id}
                                         className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
                                         <td className="font-bold pl-5">{biomasse.approximate_weight}gr</td>
+                                        <td className="font-bold pl-5">{biomasse.approximate_height}cm</td>
                                         <td className=" pr-2">{biomasse.quantity_of_fish}</td>
                                         <td className="pr-2">{moment(biomasse.manual_created_at).format(Constants.DATEFORMAT)}</td>
                                         <td className="flex gap-2 py-4">
                                             {
                                                 (biomasses.data.length > 1) ?
                                                     <div className="flex gap-2">
-                                                        <Link href={usePages.props.baseUrl + '/biomasses/' + biomasse.id + '/edit'}>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        <Link
+                                                            href={usePages.props.baseUrl + '/biomasses/' + biomasse.id + '/edit'}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
                                                                  strokeWidth={1} stroke="currentColor"
                                                                  className="w-5 h-5 text-indigo-600 cursor-pointer">
                                                                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -140,7 +143,8 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                                                         </Link>
                                                         <svg onClick={() => {
                                                             confirmDeleteBiomasse(biomasse.id)
-                                                        }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        }} xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24"
                                                              stroke-width="1" stroke="currentColor"
                                                              className="w-5 h-5 text-red-600">
                                                             <path stroke-linecap="round" stroke-linejoin="round"

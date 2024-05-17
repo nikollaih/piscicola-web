@@ -22,6 +22,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
         sowing_id: sowingId,
         quantity_of_fish: null,
         approximate_weight: null,
+        approximate_height: null,
         manual_created_at: moment().format(Constants.DATEFORMAT)
     });
     const [successMessage, setSuccessMessage] = useState('');
@@ -37,6 +38,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
             sowing_id: biomasse.sowing_id,
             quantity_of_fish: biomasse.quantity_of_fish,
             approximate_weight: biomasse.approximate_weight,
+            approximate_height: biomasse.approximate_height,
             manual_created_at: moment(biomasse.manual_created_at).format(Constants.DATEFORMAT)
         });
 
@@ -89,9 +91,9 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                         />
 
                         <div class="bg-white shadow-sm sm:rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-4">
-                                    <InputLabel value="Peso aproximado"/>
+                                    <InputLabel value="Peso aproximado (gr)"/>
                                     <TextInput
                                         type="number"
                                         className="w-full"
@@ -101,6 +103,19 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                                         required
                                         onChange={(e) => setData(e.target.name, e.target.value)}/>
                                     {(hasErrors?.approximate_weight) ?
+                                        <InputError message={hasErrors.approximate_weight}/> : ""}
+                                </div>
+                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                    <InputLabel value="Tamaño aproximado (cm)"/>
+                                    <TextInput
+                                        type="number"
+                                        className="w-full"
+                                        placeholder=""
+                                        name="approximate_height"
+                                        value={data.approximate_height}
+                                        required
+                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                    {(hasErrors?.approximate_height) ?
                                         <InputError message={hasErrors.approximate_weight}/> : ""}
                                 </div>
                                 <div className="w-full md:col-span-1 sm:col-span-4">

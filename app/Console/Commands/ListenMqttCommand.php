@@ -31,6 +31,7 @@ class ListenMqttCommand extends Command
             // If there is an existing MQTT connection, close it
             $previousConnectionId = json_decode(File::get($mqttConnectionFile), true);
             MQTT::disconnect($previousConnectionId);
+            AuditorMqttConnection::create(["register_time" => date('Y-m-d H:i:s'), "status" => 0, "failed" => "Disconnected by json file"]);
         }
 
         try {

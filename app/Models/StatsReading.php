@@ -81,6 +81,8 @@ class StatsReading extends Model
         return StatsReading::where('biomasse_id', $biomasseId)
             ->where('step_stat_id', $stepStatId)
             ->with('stepStat')
+            ->orderBy('topic_time', 'desc')
+            ->take(100)
             ->get();
     }
 }
