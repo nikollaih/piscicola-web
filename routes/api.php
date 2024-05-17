@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\ProductiveUnitsController;
 use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\SowingNewsController;
 use App\Http\Controllers\Api\MqttController;
+use App\Http\Controllers\Api\ReportsController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -309,21 +310,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // MQTT routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('mqtt')->group(function() {
+        //TODO falta testear
         Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator']);
     });
 });
 
-/*
 // Reports routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('reports')->group(function() {
-        Route::get('/', [ReportsController::class, 'index'])->name('reports');
-        Route::get('biomasses/{sowingId}', [ReportsController::class, 'biomasses'])->name('biomasses.report.exports');
-        Route::get('readings/biomasse/{biomasseId}', [ReportsController::class, 'readingsBiomasse'])->name('readings.biomasse.report.exports');
-        Route::get('supplies/sowing/{sowingId}/{useType}', [ReportsController::class, 'sowingSupplies'])->name('supplies.sowing.report.exports');
+        Route::get('/', [ReportsController::class, 'index']);
+        Route::get('biomasses/{sowingId}', [ReportsController::class, 'biomasses']);
+        Route::get('readings/biomasse/{biomasseId}', [ReportsController::class, 'readingsBiomasse']);
+        Route::get('supplies/sowing/{sowingId}/{useType}', [ReportsController::class, 'sowingSupplies']);
     });
 });
 
+/*
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
