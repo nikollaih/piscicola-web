@@ -54,7 +54,8 @@ class Biomasse extends Model
         $biomasse = [
             'sowing_id' => $sowing->id,
             'step_id' => $sowing->step_id,
-            'approximate_weight' => 25,
+            'approximate_weight' => 20,
+            'approximate_height' => 3,
             'quantity_of_fish' => 1
         ];
         Biomasse::create($biomasse);
