@@ -27,10 +27,10 @@ class AuthService {
     public function loginApi(LoginRequest $loginRequest){
 
         $loginRequest->authenticate();
-        $authUser = Auth::user(); 
+        $authUser = Auth::user();
         //if($authUser->email_verified_at){
-            $success['token'] =  $authUser->createToken(env('APP_KEY'))->plainTextToken; 
-            $success['userInfo'] = $authUser;
+            $success['token'] =  $authUser->createToken(env('APP_KEY'))->plainTextToken;
+            $success['profile'] = $authUser;
             return $success;
         //}
         //return null;
@@ -84,12 +84,12 @@ class AuthService {
     public function verifyEmail(){
         $user = Auth::user();
         if(!$user->hasVerifiedEmail()){
-            if ($user->markEmailAsVerified()) 
+            if ($user->markEmailAsVerified())
                 event(new Verified($user));
         }
     }
 
-    //in case the user has not verified the emaio, send the sendEmailVerificationNotification 
+    //in case the user has not verified the emaio, send the sendEmailVerificationNotification
     public function sendVerificationEmailNotification(Request $request){
         if ($request->user()->hasVerifiedEmail()) {
             return false;
