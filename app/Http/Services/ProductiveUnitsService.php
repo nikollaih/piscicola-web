@@ -6,6 +6,7 @@ use App\Http\Requests\StepStatCreateRequest;
 use App\Http\Requests\ProductiveUnitCreateRequest;
 use App\Models\Association;
 use App\Models\ProductiveUnit;
+use Illuminate\Support\Facades\Auth;
 
 class ProductiveUnitsService {
 
@@ -16,7 +17,16 @@ class ProductiveUnitsService {
         return [
             'associations' => $associations,
         ];
-   }
+    }
+
+    //metodo que permite obtener todas las unidades productivas
+    public function getAllProductiveUnits(){
+        return ProductiveUnit::get();
+    }
+    public function getProductiveUnitBySessionUser(){
+        return ProductiveUnit::find(Auth::user()->productive_unit_id);
+    }
+
     public function getAllAssociations(){
         $associations = Association::all();
         return [

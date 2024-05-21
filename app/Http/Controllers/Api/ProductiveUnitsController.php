@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Services\ProductiveUnitsService;
 use App\Http\Requests\ProductiveUnitCreateRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductiveUnitsController extends BaseController
 {
@@ -14,8 +15,15 @@ class ProductiveUnitsController extends BaseController
     public function index()
     {
         try {
-            $indexInfo = $this->productiveUnitsService->index();
-            return $this->sendResponse($indexInfo, 'Datos del index obtenidos con éxito');
+            $sessionUserRole = Auth::user()->role_id;
+            $productiveUnits = [];
+            if ($sessionUserRole == ADMINISTRADOR){
+                $productiveUnits = $this->productiveUnitsService->getAllProductiveUnits();
+            }
+            if($sessionUserRole == MANAGER || $sessionUserRole == ASISTENTE){
+                $productiveUnits[0] = $this->productiveUnitsService->getProductiveUnitBySessionUser();
+            }
+            return $this->sendResponse($productiveUnits, 'Datos de las unidades productivas obtenidos con éxito');
             
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage());

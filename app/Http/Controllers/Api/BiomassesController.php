@@ -74,7 +74,7 @@ class BiomassesController extends BaseController
         try {
             $biomasseInfo = $this->biomassesService->getBiomasseInfo($biomasseId);
 
-            return $this->sendResponse($biomasseInfo, 'Biomasa creada correctamente');
+            return $this->sendResponse($biomasseInfo, 'Biomasa obtenida correctamente');
         
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);

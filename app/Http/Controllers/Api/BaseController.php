@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
+//constantes que almacenan los identificadores de cada tipo de usuario
+define('ADMINISTRADOR', config('constants.ROLES_ID.ID_ADMINISTRADOR'));
+define('MANAGER', config('constants.ROLES_ID.ID_MANAGER'));
+define('ASISTENTE', config('constants.ROLES_ID.ID_ASISTENTE'));
+
 class BaseController extends Controller
 {
     /**
@@ -20,10 +25,6 @@ class BaseController extends Controller
         ];
         return response()->json($response, 200);
     }
-    public function getUser(){
-        return auth()->user();
-    }
-
     /**
      * return error response.
      *
@@ -39,11 +40,5 @@ class BaseController extends Controller
             $response['data'] = $errorMessages;
         }
         return response()->json($response, 200);
-    }
-    public function getUserId(){
-        return auth()->user()->id??-1;
-    }
-    public function getUserLevelAccess(){
-        return auth()->user()->userType->level_access??-1;
     }
 }
