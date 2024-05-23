@@ -4,21 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SowingNews;
 use App\Helpers\ActuatorHelper;
-use App\Http\Requests\SetActuatorMqttRequest;
 use App\Models\Actuator;
 use App\Models\Biomasse;
 use App\Models\Pond;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\StepStat;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
 
 class MqttController extends Controller
 {
-    private \PhpMqtt\Client\Contracts\MqttClient $MqttConnection;
 
     public function __construct()
     {
@@ -56,9 +53,8 @@ class MqttController extends Controller
                 $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
                 $mqtt["valor"] = $actuatorRequest["status"];
                 // Publish the MQTT topic
-                $this->MqttConnection = MQTT::connection("publish");
-                $this->MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
-
+                $MqttConnection = MQTT::connection("publish");
+                $MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
                 // Return a confirmation message
                 return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);
             }
