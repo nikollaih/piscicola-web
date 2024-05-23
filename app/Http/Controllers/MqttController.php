@@ -18,15 +18,16 @@ use PhpMqtt\Client\Facades\MQTT;
 
 class MqttController extends Controller
 {
+    private \PhpMqtt\Client\Contracts\MqttClient $MqttConnection;
+
     public function __construct()
     {
-        $this->MqttConnection = MQTT::connection();
+
     }
     public function getTurnActuator($topic, $message): void
     {
         try {
             $data = json_decode($message, true);
-            print_r($data);
             $mqttId = $data['vcontrol'];
             $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
             $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
@@ -35,6 +36,7 @@ class MqttController extends Controller
             if ($updated) {
                 $ActuatorHelper = new ActuatorHelper();
                 $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+                Log::log("", "Cambio de estado actuador: ID-".$actuator->id);
             }
 
         } catch (\Exception $e) {
@@ -54,6 +56,7 @@ class MqttController extends Controller
                 $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
                 $mqtt["valor"] = $actuatorRequest["status"];
                 // Publish the MQTT topic
+                $this->MqttConnection = MQTT::connection("publish");
                 $this->MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
 
                 // Return a confirmation message
