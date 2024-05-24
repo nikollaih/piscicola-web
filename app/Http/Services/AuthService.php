@@ -25,15 +25,17 @@ class AuthService {
 
     //metodo que permite hacer login de un usuario usando tokens de laravel sanctum
     public function loginApi(LoginRequest $loginRequest){
-
+        $loginBody = $loginRequest->all();
         $loginRequest->authenticate();
         $authUser = Auth::user();
-        //if($authUser->email_verified_at){
-            $success['token'] =  $authUser->createToken(env('APP_KEY'))->plainTextToken;
-            $success['profile'] = $authUser;
-            return $success;
-        //}
-        //return null;
+        $success['token'] =  $authUser->createToken(env('APP_KEY'))->plainTextToken;
+        $success['profile'] = $authUser;
+
+        if($loginBody["fcm_token"]) {
+            User::where("id", $authUser->id)->update(["fcm_token" => $loginBody["fcm_token"]]);
+        }
+
+        return $success;
     }
     public function register(Request $request){
         $user = User::create([

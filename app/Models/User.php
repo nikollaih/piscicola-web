@@ -56,4 +56,11 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
+
+    public function getFCMTokens($productiveUnitId) {
+        return User::where('productive_unit_id', $productiveUnitId)
+            ->whereNotNull('fcm_token')
+            ->where('active_push_notifications', 1)
+            ->get();
+    }
 }

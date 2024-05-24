@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SowingNews;
 use App\Helpers\ActuatorHelper;
+use App\Http\Services\PushNotificationsService;
 use App\Models\Actuator;
 use App\Models\Biomasse;
 use App\Models\Pond;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\StepStat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
@@ -17,9 +19,13 @@ use PhpMqtt\Client\Facades\MQTT;
 class MqttController extends Controller
 {
 
+    private PushNotificationsService $pushNotificationsService;
+    private User $User;
+
     public function __construct()
     {
-
+        $this->pushNotificationsService = new PushNotificationsService();
+        $this->User = new User();
     }
     public function getTurnActuator($topic, $message): void
     {
@@ -107,6 +113,8 @@ class MqttController extends Controller
                                 if($statReading && $newReading["triggered_alarm"] == 1){
                                     $SowingNews = new SowingNews();
                                     $SowingNews->newStatAlarm($statReading);
+                                    // Prepare the push notification sender to receivers
+                                    self::preparePushNotification($stepStat, $reading, $sowing);
                                 }
                             }
                         }
@@ -123,5 +131,18 @@ class MqttController extends Controller
     private function isTriggeredAlarm($value, $min, $max): int
     {
         return ($value < $min || $value > $max) ? 1 : 0;
+    }
+
+    // Send the push notifications for triggered alarms
+    private function preparePushNotification($stepStat, $reading, $sowing): void {
+        $users = $this->User->getFCMTokens($sowing->productive_unit_id);
+
+        if(!empty($users)){
+            $title = "Alarma";
+            $body = "El parámetro $stepStat->name ha registrado una lectura de $reading en la cosecha: $sowing->name";
+            foreach ($users as $user) {
+                $this->pushNotificationsService->sendNotification($user->fcm_token, $title, $body);
+            }
+        }
     }
 }

@@ -66,7 +66,7 @@ class BiomassesService {
 
     //create a new biomasse
     public function storeBiomasse(CreateBiomasseRequest $request){
-         $biomasseRequest = $request->all();
+        $biomasseRequest = $request->all();
         $sowing = Sowing::find($biomasseRequest["sowing_id"]);
         $biomasseRequest["step_id"] = $sowing->step_id;
         $biomasse = Biomasse::create($biomasseRequest);
