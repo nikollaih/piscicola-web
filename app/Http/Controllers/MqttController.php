@@ -4,29 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SowingNews;
 use App\Helpers\ActuatorHelper;
-use App\Http\Requests\SetActuatorMqttRequest;
 use App\Models\Actuator;
 use App\Models\Biomasse;
 use App\Models\Pond;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\StepStat;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
 
 class MqttController extends Controller
 {
+
     public function __construct()
     {
-        $this->MqttConnection = MQTT::connection();
+
     }
     public function getTurnActuator($topic, $message): void
     {
         try {
             $data = json_decode($message, true);
-            print_r($data);
             $mqttId = $data['vcontrol'];
             $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
             $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
@@ -35,6 +33,7 @@ class MqttController extends Controller
             if ($updated) {
                 $ActuatorHelper = new ActuatorHelper();
                 $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+                Log::log("", "Cambio de estado actuador: ID-".$actuator->id);
             }
 
         } catch (\Exception $e) {
@@ -54,8 +53,8 @@ class MqttController extends Controller
                 $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
                 $mqtt["valor"] = $actuatorRequest["status"];
                 // Publish the MQTT topic
-                $this->MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
-
+                $MqttConnection = MQTT::connection("publish");
+                $MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));
                 // Return a confirmation message
                 return response()->json(["msg" => "El estado del actuador ha sido cambiado con exito"], 200);
             }

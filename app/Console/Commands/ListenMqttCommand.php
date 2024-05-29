@@ -45,19 +45,25 @@ class ListenMqttCommand extends Command
             // Save the ID of the current MQTT connection
             File::put($mqttConnectionFile, json_encode($connectionId));
 
-            $mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message) {
-                print_r("Actuador");
-                $this->MqttController->getTurnActuator($topic, $message);
+            $mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Actuador");
+                    $this->MqttController->getTurnActuator($topic, $message);
+                }
             }, 1);
 
-            $mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message) {
-                print_r("Lectura");
-                $this->MqttController->setReadings($message);
+            $mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Lectura automatica");
+                    $this->MqttController->setReadings($message);
+                }
             }, 1);
 
-            $mqtt->subscribe(env('MQTT_GET_READINGS_MANUAL'), function (string $topic, string $message) {
-                print_r("Lectura");
-                $this->MqttController->setReadings($message);
+            $mqtt->subscribe(env('MQTT_GET_READINGS_MANUAL'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Lectura manual");
+                    $this->MqttController->setReadings($message);
+                }
             }, 1);
 
             $mqtt->loop(true);

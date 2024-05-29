@@ -28,10 +28,8 @@ class SowingsService {
 
     public function getSowingsList()
     {
-        $user = Auth::user();
         $Sowing = new Sowing();
-        $sowings = $Sowing->GetAll();
-        return ['user' => $user, 'sowings' => $sowings];
+        return $Sowing->GetAll();
     }
     public function getSowingResume($sowingId =-1 )
     {
@@ -64,7 +62,7 @@ class SowingsService {
             return [];
 
         $stats = $Stat->latest($sowing->id, $sowing->step_id);
-        
+
         return ['sowing' => $sowing, 'biomasses' => $biomasses, 'statsReadings' => $stats];
     }
     public function getCreateInfo()
