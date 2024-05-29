@@ -8,6 +8,7 @@ import ReportItem from "@/Pages/Reports/Partials/Item.jsx";
 import BiomassesReport from "@/Pages/Reports/Partials/Biomasses.jsx";
 import {getService} from "@/Services/Services.ts";
 import ReadingsBiomasseReport from "@/Pages/Reports/Partials/ReadingsBiomasse.jsx";
+import ReadingsByDate from "@/Pages/Reports/Partials/ReadingsByDate.jsx";
 import SuppliesSowing from "@/Pages/Reports/Partials/SuppliesSowing.jsx";
 
 const reports = [
@@ -26,6 +27,10 @@ const reports = [
     {
         id: 4,
         "name": "Lecturas por biomasa"
+    },
+    {
+        id: 5,
+        "name": "Lecturas por fechas"
     },
 ];
 
@@ -65,6 +70,9 @@ export default function Reports({ auth, sowings }) {
             case 4:
                 return <ReadingsBiomasseReport sowing={selectedSowing} biomasses={biomasses}/>
                 break;
+            case 5:
+                return <ReadingsByDate sowing={selectedSowing} />
+                  
 
             default: break;
         }
