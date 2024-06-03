@@ -47,6 +47,14 @@ class SowingsService {
         return ['sowing' => $sowing, 'feedingCost' => $feedingCost, 'medicineCost' => $medicineCost, 'actuatorsCost'=>$actuatorsCost,
                 'expensesCost'=>$expensesCost];
     }
+    //metodo 
+    public function getSowingBasicInfo($sowingId = -1){
+        return Sowing::getBasicInfoById($sowingId);
+    }
+    public function getSowingBasicInfoBySessionUser($sowingId = -1){
+        return Sowing::getBasicInfoByIdAndProductiveUnit($sowingId,Auth::user()->productive_unit_id);
+        //return Sowing::where("id",$sowingId)->where("productive_unit_id",Auth::user()->productive_unit_id)->first();
+    }
     public function getSowingView($sowingId =-1 )
     {
 

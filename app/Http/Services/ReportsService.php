@@ -54,5 +54,24 @@ class ReportsService {
             return null;
         }
     }
+    public function getReadingsBetweenDatesGroupedByStepStats($sowingId,$fromDate,$toDate){
+        $readings =  StatsReading::getReadingsBetweenDates($sowingId,$fromDate,$toDate);;
+        return $readingsGroupedByStepStat = $this->groupReadingsByStepStat($readings);
+    }
 
+    //metodo que agrupa las lecturas por medio de su unidad de medida
+    public function groupReadingsByStepStat($readings = []){
+        $groupedReadings = [];
+
+        foreach ($readings as $reading) {
+            $measurementUnit = $reading->measurementUnit;
+    
+            if (!array_key_exists($measurementUnit, $groupedReadings)) {
+                $groupedReadings[$measurementUnit] = [];
+            }
+    
+            $groupedReadings[$measurementUnit][] = $reading;
+        }
+        return $groupedReadings;
+    }
 }

@@ -78,4 +78,35 @@ class Sowing extends Model
             ->whereNull('sale_date')
             ->first();
     }
+
+    /**
+     * Permite obtener una cosecha basandose en el id de la cosecha  
+     * @param $sowingId , el id de la cosecha
+     */
+    public static function getBasicInfoById($sowingId = -1)
+    {
+        return Sowing::with('step')
+                ->with('fish')
+                ->with('pond')
+                ->with('Sale')
+                ->where('id', $sowingId)
+                ->whereNull('deleted_at')
+                ->first();
+    }
+    /**
+     * Permite obtener una cosecha basandose en su id y el id de la unidad productiva a la que pertenece 
+     * @param $sowingId , el id de la cosecha
+     * @param $productiveUnitId, el id de la unidad productiva
+     */
+    public static function getBasicInfoByIdAndProductiveUnit($sowingId = -1,$productiveUnitId = -1)
+    {
+        return Sowing::with('step')
+                ->with('fish')
+                ->with('pond')
+                ->with('Sale')
+                ->where('id', $sowingId)
+                ->where('productive_unit_id', $productiveUnitId)
+                ->whereNull('deleted_at')
+                ->first();
+    }
 }

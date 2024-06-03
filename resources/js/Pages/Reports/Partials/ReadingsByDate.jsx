@@ -1,21 +1,18 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import Dropdown from "@/Components/Dropdown.jsx";
-import DropDownToggle from "@/Components/DropDownToggle.jsx";
-import DropDownItem from "@/Components/DropDownItem.jsx";
 
 export default function ReadingsByDate({sowing}) {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
 
 
-    const generatePDFReport = () => {
-        let validateResoult = validateDates();
-        console.log(validateResoult);
-
-    }
     const generateReport = () => {
-        console.log("generando reporte")
+        let validateResoult = validateDates();
+        if(validateResoult.status){
+            window.open(route('readings.betweenDates.pdf', {sowingId:sowing.id,fromDate: fromDate,toDate: toDate}), '_blank');
+        }else{
+            console.log(validateResoult);
+        }
     }
     const validateDates = () => {
         if(fromDate == null)
@@ -32,25 +29,25 @@ export default function ReadingsByDate({sowing}) {
     return <div className="mt-4">
 
         <div class="flex flex-col space-y-4 p-4">
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 justify-start">
 
-                <label for="from-date" class="whitespace-nowrap">Desde</label>
+                <label for="from-date" class="whitespace-nowrap w-11">Desde</label>
                 <input 
                     type="date"
                     id="from-date"
-                    class="border border-gray-300 rounded p-2" 
+                    class="border border-orange-500 rounded p-2" 
                     onChange={(e) => setFromDate(e.target.value)}
                     max={toDate}
                 />
 
             </div>
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 justify-start ">
                 
-                <label for="to-datetime" class="whitespace-nowrap">Hasta</label>
+                <label for="to-datetime" class="whitespace-nowrap w-11">Hasta</label>
                 <input 
                     type="date"
                     id="to-datetime"
-                    class="border border-gray-300 rounded p-2" 
+                    class="border border-orange-500 rounded p-2" 
                     onChange={(e) => setToDate(e.target.value)}
                     min={fromDate}
                 />
@@ -59,6 +56,5 @@ export default function ReadingsByDate({sowing}) {
         </div>
 
         <PrimaryButton onClick={() => {generateReport()}} disabled={(sowing.name==null)} className="bg-orange-500 w-full mt-4 justify-center">Ver reporte</PrimaryButton>
-        <PrimaryButton onClick={() => {generatePDFReport()}} disabled={(sowing.name==null)} className="bg-orange-500 w-full mt-4 justify-center">Generar reporte en PDF </PrimaryButton>
     </div>
 }

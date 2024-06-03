@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class StatsReading extends Model
 {
@@ -84,5 +85,16 @@ class StatsReading extends Model
             ->orderBy('topic_time', 'desc')
             ->take(100)
             ->get();
+    }
+
+    public static function getReadingsBetweenDates($sowingId = -1,$fromDate = -1,$toDate = -1){
+        return DB::table('stats_readings', 'stats_reading')
+        ->where('stats_reading.sowing_id', $sowingId)
+        ->leftJoin('steps as step', 'step.id', '=', 'stats_reading.step_id')
+        ->where('step.deleted_at', null)
+        ->leftJoin('step_stats as step_stat','step_stat.id','=','stats_reading.step_stat_id')
+        ->where('step_stat.deleted_at', null)
+        ->select('stats_reading.*','step.name as stepName','step_stat.key as measurementUnit')
+        ->get();
     }
 }
