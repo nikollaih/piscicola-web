@@ -301,6 +301,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('biomasses/{sowingId}', [ReportsController::class, 'biomasses'])->name('biomasses.report.exports');
         Route::get('readings/biomasse/{biomasseId}', [ReportsController::class, 'readingsBiomasse'])->name('readings.biomasse.report.exports');
         Route::get('supplies/sowing/{sowingId}/{useType}', [ReportsController::class, 'sowingSupplies'])->name('supplies.sowing.report.exports');
+        Route::get('readings/betweenDates/pdf/{sowingId}/{fromDate}/{toDate}',[ReportsController::class, 'readingsBetweenDatesPdf'])->name('readings.betweenDates.pdf');
     });
 });
 
