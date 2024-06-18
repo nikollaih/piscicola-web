@@ -94,7 +94,7 @@ class StatsReading extends Model
         ->where('step.deleted_at', null)
         ->leftJoin('step_stats as step_stat','step_stat.id','=','stats_reading.step_stat_id')
         ->where('step_stat.deleted_at', null)
-        ->select('stats_reading.*','step.name as stepName','step_stat.key as measurementUnit')
+        ->select('stats_reading.*','step.name as stepName','step_stat.key as measurementUnit', 'step_stat.name as statName')
         ->get();
     }
 }

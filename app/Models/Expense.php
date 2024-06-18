@@ -51,16 +51,29 @@ class Expense extends Model
             ->paginate(20);
     }
 
-    public function AllBySowing($sowingId) {
+    public function getAllBetweenDates($startDate, $endDate) {
+        $user = Auth::user();
         return Expense::orderBy('manual_created_at', 'desc')
             ->with('Category')
-            ->whereHas('Sowings', function ($query) use ($sowingId) {
-                if($sowingId) {
-                    $query->where('sowing_id', $sowingId);
-                    $query->with('Sowings');
-                }
-            })
+            ->where('productive_unit_id', $user->productive_unit_id)
+            ->whereBetween('manual_created_at', [$startDate, $endDate])
             ->paginate(20);
+    }
+
+    public function AllBySowing($sowingId, $startDate = null, $endDate = null) {
+        $query = Expense::orderBy('manual_created_at', 'desc')
+            ->with('Category')
+            ->whereHas('Sowings', function ($query) use ($sowingId) {
+                if ($sowingId) {
+                    $query->where('sowing_id', $sowingId);
+                }
+            });
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('manual_created_at', [$startDate, $endDate]);
+        }
+
+        return $query->paginate(20);
     }
 
     public function latestBySowing($sowingId) {

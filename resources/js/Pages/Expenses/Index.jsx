@@ -12,7 +12,7 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function Expenses({ auth, sowing, expenses }) {
     let usePages = usePage();
-
+console.log(usePages.props.createExpenseUrl)
     /**
      * Prompt the expense to confirm deletion of a expense.
      *

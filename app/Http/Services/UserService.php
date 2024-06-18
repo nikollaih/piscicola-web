@@ -100,11 +100,10 @@ class UserService {
     /**
      * Delete the user's account.
      */
-    public function destroy($productiveUnitId, $userId,$loggedUserId)
+    public function destroy($userId, $loggedUserId)
     {
         // Get the user is supposed to be deleted
         $user = User::where('id', $userId)
-            ->where('productive_unit_id', $productiveUnitId)
             ->first();
 
         // If the user exists

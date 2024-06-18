@@ -1,13 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
-
-//constantes que almacenan los identificadores de cada tipo de usuario
-define('ADMINISTRADOR', config('constants.ROLES_ID.ID_ADMINISTRADOR'));
-define('MANAGER', config('constants.ROLES_ID.ID_MANAGER'));
-define('ASISTENTE', config('constants.ROLES_ID.ID_ASISTENTE'));
 
 class BaseController extends Controller
 {
@@ -20,7 +14,7 @@ class BaseController extends Controller
     {
     	$response = [
             'success' => true,
-            'data'    => $result,
+            'payload'    => $result,
             'message' => $message,
         ];
         return response()->json($response, 200);
@@ -37,8 +31,8 @@ class BaseController extends Controller
             'message' => $error,
         ];
         if(!empty($errorMessages)){
-            $response['data'] = $errorMessages;
+            $response['payload'] = $errorMessages;
         }
-        return response()->json($response, 200);
+        return response()->json($response, 500);
     }
 }
