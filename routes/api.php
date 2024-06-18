@@ -53,9 +53,9 @@ Route::prefix('auth')->group(function() {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     // Parties routes
     Route::middleware(['auth:sanctum'])->group(function () {
-        //allows user to logout removing token 
+        //allows user to logout removing token
         Route::post('logout', [AuthController::class, 'logout']);
-        //responses true if the email was verified, false if it doesnt 
+        //responses true if the email was verified, false if it doesnt
         Route::get('verify-email', [AuthController::class, 'getEmailVerificationStatus']);
         //allow to verify the email using id and hash TODO: check if there are some better throttle that returns api responses
         Route::get('verify-email/{id}/{hash}', [AuthController::class,'verifyEmail'])->middleware('throttle:6,1');
@@ -169,7 +169,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('{expenseId}/view', [ExpensesController::class, 'getExpenseInfo']);
             Route::post('{expenseId}/update', [ExpensesController::class, 'updateExpense']);
         });
-        Route::get('all/{sowingId?}', [ExpensesController::class, 'getAllExpenses']);
+        Route::get('all/{sowingId?}/{startDate?}/{endDate?}', [ExpensesController::class, 'getAllExpenses']);
         Route::delete('{expenseId}', [ExpensesController::class, 'destroyExpense']);
     });
 });
@@ -275,7 +275,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Productive units routes
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('productive_units')->group(function() {
-        Route::get('/', [ProductiveUnitsController::class, 'index']);
+        Route::get('/{associationId?}', [ProductiveUnitsController::class, 'index']);
         //route equivalent to web /create
         Route::get('allAssociations', [ProductiveUnitsController::class, 'allAssociations']);
         Route::post('store', [ProductiveUnitsController::class, 'store']);

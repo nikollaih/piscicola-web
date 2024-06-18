@@ -14,8 +14,7 @@ class SuppliesService {
 
     public function getAllSupplies(){
         $Supply = new Supply();
-        $supplies = $Supply->getAll();
-        return ['supplies' => $supplies];
+        return $Supply->getAll();
     }
     public function getMeasurements(){
         return MeasurementUnit::all();

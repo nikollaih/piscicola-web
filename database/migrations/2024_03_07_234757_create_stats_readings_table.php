@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('step_id')->constrained('steps');
             $table->foreignId('step_stat_id')->constrained('step_stats');
             $table->foreignId('biomasse_id')->constrained('biomasses');
-            //se agrega el value como un flotante de precision 2 ejm  222222222222222.22
             $table->double('value',20,2);
             $table->boolean('triggered_alarm');
             $table->dateTime('topic_time')->default(DB::raw('CURRENT_TIMESTAMP'));

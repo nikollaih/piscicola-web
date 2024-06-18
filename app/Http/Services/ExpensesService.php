@@ -39,15 +39,14 @@ class ExpensesService {
         $expenseRequest = $request->all();
         Expense::where('id', $expenseId)->update($expenseRequest);
     }
-    public function getAllExpenses( $sowingId = -1){
+    public function getAllExpenses( $sowingId = -1, $startDate = null, $endDate = null){
         $Sowing = new Sowing();
         $Sowing->setSowingId($sowingId);
         $Expense = new Expense();
 
         $sowing = $Sowing->Get();
-        $expenses = ($sowing) ? $Expense->AllBySowing($sowingId) : $Expense->getAll();
-        $latestExpenses = ($sowing) ? $Expense->latestBySowing($sowingId) : $Expense->Latest();
-        return ['sowing' => $sowing,'expenses' => $expenses,'latestExpenses' => $latestExpenses,];
+        return ($sowing) ? $Expense->AllBySowing($sowingId, $startDate, $endDate) : $Expense->getAllBetweenDates($startDate, $endDate);
+
     }
     public function destroyExpense( $expenseId = -1){
        // Get the biomasse the user is trying to delete

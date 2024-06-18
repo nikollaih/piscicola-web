@@ -6,19 +6,19 @@ import LinearChart from "@/Components/LinearChart.jsx";
 export default function ReadingsBetweenDatesTemplatePDF({ sowing,readings,fromDate,toDate }) {
 
 
-    const readingComponents = Object.keys(readings).map((key) => (
-        <div key={key}>
+    const readingComponents = Object.keys(readings).map((key) => {
+        return <div key={key}>
             <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6  mx-6">
                 <div
                     className="col-span-1 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 grid grid-cols-1 bg-white">
-                    <p className="px-4 pt-2 mb-4 font-bold text-lg">{key}</p>
-                    <LinearChart readings={readings[key]} value="value" date="created_at" chartId={key} />
+                    <p className="px-4 pt-2 mb-4 font-bold text-lg">{readings[key][0].statName}</p>
+                    <LinearChart readings={readings[key]} value="value" date="created_at" chartId={key}/>
                 </div>
             </div>
         </div>
-    ));
+    });
     return (
-     <div>       
+     <div>
         <div className='flex-col justify-center'>
                 <p className="text-center text-gray-500  font-semibold text-xl"> Lecturas entre   {fromDate} y {toDate} </p>
         </div>

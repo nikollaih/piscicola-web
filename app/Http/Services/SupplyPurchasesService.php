@@ -19,9 +19,7 @@ class SupplyPurchasesService {
         Supply::where('id', $supplyPurchaseRequest["supply_id"])->update($newSupply);
     }
     public function view($supplyPurchaseId){
-        $supplyPurchase = SupplyPurchase::find($supplyPurchaseId);
-        $supply = Supply::find($supplyPurchase->supply_id);
-        return ['supply' => $supply,'supplyPurchase' => $supplyPurchase];
+        return  SupplyPurchase::find($supplyPurchaseId);
     }
 
     public function update(SupplyPurchasesUpdateRequest $request, $supplyPurchaseId){

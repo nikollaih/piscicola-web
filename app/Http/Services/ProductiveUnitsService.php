@@ -20,8 +20,8 @@ class ProductiveUnitsService {
     }
 
     //metodo que permite obtener todas las unidades productivas
-    public function getAllProductiveUnits(){
-        return ProductiveUnit::get();
+    public function getAllProductiveUnits($associationId){
+        return ProductiveUnit::where("association_id", "=", $associationId)->get();
     }
     public function getProductiveUnitBySessionUser(){
         return ProductiveUnit::find(Auth::user()->productive_unit_id);

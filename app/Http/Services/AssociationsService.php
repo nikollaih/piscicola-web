@@ -10,8 +10,7 @@ class AssociationsService {
 
     public function index(){
         $Association = new Association();
-        $associations = $Association->getAll();
-        return ['associations' => $associations];
+        return $Association->getAll();
 
     }
     public function store(AssociationCreateRequest $request){

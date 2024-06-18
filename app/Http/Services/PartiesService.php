@@ -24,11 +24,7 @@ class PartiesService {
 
         $parties = new Party();
 
-        $info['parties'] = $parties->getAllByRole($partyRoleId); 
-        $info['partyRoles'] = PartyRole::all();
-        $info['createPartyUrl'] = route('party.create', ['partyRoleId' => $partyRoleId]); 
-
-        return $info;
+        return $parties->getAllByRole($partyRoleId);
     }
 
     public function  getPartieInfoById($partyId = -1){

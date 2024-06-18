@@ -19,8 +19,7 @@ class PondsService {
     public function getAllPonds()
     {
         $Pond = new Pond();
-        $ponds = $Pond->getAll();
-        return $ponds;
+        return $Pond->getAll();
     }
     public function storePond(PondCreateRequest $request){
         $user = Auth::user();
@@ -40,7 +39,7 @@ class PondsService {
         $user = Auth::user();
         return Pond::where('id',$pondId)->where('productive_unit_id',$user->productive_unit_id)->first();
     }
-    
+
     public function destroyPond($pondId){
         $Pond = new Pond();
         // Get the mortality the user is trying to delete

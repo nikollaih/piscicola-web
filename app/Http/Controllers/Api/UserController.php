@@ -1,5 +1,5 @@
 <?php
-   
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-  
+
 class UserController extends BaseController
 {
 
@@ -26,7 +26,7 @@ class UserController extends BaseController
 
             $info = $this->userService->getUserList($request, $productiveUnitId);
             return $this->sendResponse($info, 'Información obtenida con éxito');
-            
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
@@ -36,7 +36,7 @@ class UserController extends BaseController
 
             $info = $this->userService->getUserInformation($userId);
             return $this->sendResponse($info, 'Información obtenida con éxito');
-            
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
@@ -47,7 +47,7 @@ class UserController extends BaseController
 
             $info = $this->userService->addNewUser($request,$productiveUnitId);
             return $this->sendResponse($info, 'Usuario creado con éxito');
-            
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
@@ -61,7 +61,7 @@ class UserController extends BaseController
 
             $info = $this->userService->updateUser($request,$userId);
             return $this->sendResponse($info, 'Usuario actualizado con éxito');
-            
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
@@ -75,7 +75,7 @@ class UserController extends BaseController
                 return $this->sendResponse(true, $info['msg']);
             }
             return $this->sendError('Error.', $info['msg']);
-            
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
@@ -89,17 +89,17 @@ class UserController extends BaseController
     {
         try {
 
-        $info = $this->userService->destroy(Auth::user()->productive_unit_id,$userId,Auth::user()->id);
+        $info = $this->userService->destroy($userId,Auth::user()->id);
 
         if($info['status']){
             return $this->sendResponse(true, $info['msg']);
         }
         return $this->sendError('Error.', $info['msg']);
-        
+
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
 
 }
