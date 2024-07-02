@@ -93,7 +93,7 @@ export default function Dashboard({ auth, parties, partyRoles, createPartyUrl, p
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{getTitle()}</h2>}
         >
             <Head title={getTitle()} />
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-between">
                         <div />
@@ -103,29 +103,25 @@ export default function Dashboard({ auth, parties, partyRoles, createPartyUrl, p
                             </PrimaryButton>
                         </Link>
                     </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                    <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                         <table id="table-parties" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
-                                <td className="pl-5">Nombre</td>
-                                <td>Documento</td>
-                                <td>Celular</td>
-                                <td>Telefono oficina</td>
-                                <td>Email</td>
+                                <td className="pl-5 pr-20">Nombre</td>
+                                <td className="pr-20">Documento</td>
+                                <td className="pr-20">Celular</td>
+                                <td className="pr-20">Teléfono oficina</td>
+                                <td className="pr-20">Email</td>
                                 <td></td>
                             </thead>
                             <tbody>
                             { partiesList.map( (party) => (
                                 <tr key={party.id} id={party.id} className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
-                                    <td className="font-bold pl-5">
-                                        <Link href={usePages.props.baseUrl + '/parties/' + party.id + '/view'} className="text-indigo-600">
-                                            {party.name.toUpperCase()}
-                                        </Link>
-                                    </td>
-                                    <td className=" pr-2">{party.document}</td>
-                                    <td className="pr-2">{party.mobile_phone}</td>
-                                    <td className="pr-2">{party.office_phone}</td>
+                                    <td className="font-bold pl-5 min-w-[200px]">{party.name.toUpperCase()}</td>
+                                    <td>{party.document}</td>
+                                    <td>{party.mobile_phone}</td>
+                                    <td>{party.office_phone}</td>
                                     <td>{party.email}</td>
-                                    <td className="flex gap-2 py-4">
+                                    <td className="flex gap-2 py-4 pr-4">
                                         <Link href={route('party.edit', {partyId: party.id})}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  strokeWidth={1} stroke="currentColor"

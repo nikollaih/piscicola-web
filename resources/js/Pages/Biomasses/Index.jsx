@@ -88,10 +88,10 @@ export default function Biomasses({ auth, sowing, biomasses }) {
             }
         >
             <Head title="Biomasa"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
-                        <Link href={route('biomasse.readings', {sowingId: sowing.id})}>
+                        <Link className="hidden md:grid" href={route('biomasse.readings', {sowingId: sowing.id})}>
                             <PrimaryButton className="bg-gray-800">Histórico de lecturas</PrimaryButton>
                         </Link>
                         <Link href={usePages.props.createBiomasseUrl}>
@@ -99,24 +99,24 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                         </Link>
                     </div>
 
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="md:grid-cols-3 grid-cols-1 grid sm:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
-                            className="col-span-2 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
+                            className="col-span-2 rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
                             <BiomassesChartHistory biomasses={usePages.props.latestBiomasses} />
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white overflow-x-auto shadow-sm sm:rounded-lg py-5">
                             <table id="table-biomasses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                    <td className="pl-5">Peso (gr)</td>
-                                    <td className="pl-5">Tamaño (cm)</td>
-                                    <td>Cantidad de muestra</td>
-                                    <td>Fecha</td>
+                                    <td className="pl-5 pr-20">Peso (gr)</td>
+                                    <td className="pl-5 pr-20">Tamaño (cm)</td>
+                                    <td className="pr-20 min-w-[180px]">Cantidad de muestra</td>
+                                    <td className="pr-20">Fecha</td>
                                     <td></td>
                                 </thead>
                                 <tbody>

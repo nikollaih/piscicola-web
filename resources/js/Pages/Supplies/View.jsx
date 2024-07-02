@@ -85,16 +85,16 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
             }
         >
             <Head title={supply.name}/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4 justify-end mb-4">
-                        <Link href={route('supply_purchase.create', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-orange-600">Nueva compra</PrimaryButton>
+                    <div className="flex gap-4 justify-between sm:justify-end mb-4">
+                        <Link className="flex-1 sm:flex-none" href={route('supply_purchase.create', {supplyId: supply.id})}>
+                            <PrimaryButton className="bg-blue-600 w-full">Nueva compra</PrimaryButton>
                         </Link>
-                        <Link href={route('supply.edit', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-blue-600">Modificar suministro</PrimaryButton>
+                        <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
+                            <PrimaryButton className="bg-orange-600 w-full">Modificar </PrimaryButton>
                         </Link>
-                        <PrimaryButton onClick={() => {confirmDeleteSupplyPurchase(supply.id)}} className="bg-red-600">Eliminar suministro</PrimaryButton>
+                        <PrimaryButton onClick={() => {confirmDeleteSupplyPurchase(supply.id)}} className="bg-red-600 flex-1 sm:flex-none">Eliminar</PrimaryButton>
                     </div>
 
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">

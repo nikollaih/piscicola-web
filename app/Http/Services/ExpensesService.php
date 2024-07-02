@@ -11,8 +11,7 @@ use App\Http\Requests\ExpenseCreateRequest;
 class ExpensesService {
 
     public function getExpensesCategories(){
-        $expenseCategories = ExpenseCategory::orderBy('name', 'asc')->get();
-        return   ['expenseCategories' => $expenseCategories];
+        return ExpenseCategory::orderBy('name', 'asc')->get();
     }
 
     public function storeExpense(ExpenseCreateRequest $request, $sowingId = -1){

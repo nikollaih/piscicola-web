@@ -148,9 +148,9 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
             }
         >
             <Head title="Actuador"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4 justify-end mb-4 justify-between">
+                    <div className="flex gap-4 mb-4 justify-between">
                         <div className="flex gap-4">
                             {
                                 (actuator.is_turned_on === 1)
@@ -168,13 +168,13 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                         </div>
                     </div>
 
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="lg:grid-cols-3 grid-cols-1 grid lg:gap-4 mb-6">
                         <div
-                            className="bg-white p-2 sm:rounded-lg w-full shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white p-2 rounded-lg w-full shadow-md sm:col-span-1 md:col-span-1 mb-4">
                             <ActuatorInformation actuator={actuator}/>
                         </div>
                         <div
-                            className="col-span-2 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
+                            className="col-span-2 rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
                             <div className="md:col-span-1 sm:col-span-4 px-5 pt-2 mb-2">
                                 <InputLabel value="Tipo de grafica"/>
                                 <Dropdown>
@@ -200,7 +200,7 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white overflow-hidden shadow-sm rounded-lg py-5">
                             <table id="table-actuatorUses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
                                 <td className="pl-5">Duración</td>

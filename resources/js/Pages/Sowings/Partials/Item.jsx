@@ -4,7 +4,7 @@ import moment from "moment/moment.js";
 export default function SowingItem ({sowing, baseUrl}) {
     return (
         <Link href={`${baseUrl}/sowings/${sowing.id}/view`}
-              className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 cursor-pointer hover:bg-gray-50 w-full">
+              className="bg-white overflow-hidden shadow-sm rounded-lg p-5 cursor-pointer hover:bg-gray-50 w-full ">
             <p className="text-lg font-bold mb-2">{sowing.name}</p>
             <p className="text-gray-500">Producto</p>
             <p className="font-bold">{sowing.fish.name}</p>

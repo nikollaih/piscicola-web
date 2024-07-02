@@ -88,16 +88,16 @@ export default function Sales({ auth, sales }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Ventas</h2>}
         >
             <Head title="Ventas" />
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                    <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                         <table id="table-sales" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
-                            <td className="pl-5">Cliente</td>
-                            <td>Precio unitario</td>
-                            <td>Peso total</td>
-                            <td>Precio de venta</td>
-                            <td>Fecha</td>
+                            <td className="pl-5 pr-20">Cliente</td>
+                            <td className="pr-20">Precio unitario</td>
+                            <td className="pr-20">Peso total</td>
+                            <td className="pr-20 min-w-[200px]">Precio de venta</td>
+                            <td className="pr-20">Fecha</td>
                             <td></td>
                             </thead>
                             <tbody>

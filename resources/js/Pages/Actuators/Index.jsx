@@ -90,7 +90,7 @@ export default function Actuators({ auth, actuators }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Actuadores</h2>}
         >
             <Head title="Actuadores" />
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-end">
                         <Link href={route('actuator.create')}>
@@ -99,7 +99,7 @@ export default function Actuators({ auth, actuators }) {
                             </PrimaryButton>
                         </Link>
                     </div>
-                    <div className="grid grid-cols-4 border border-dashed border-gray-200 rounded-lg gap-4 p-1">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 rounded-lg gap-4 p-1">
                         {getActuatorsDom()}
                     </div>
                     <Pagination class="mt-6" links={actuators.links}/>

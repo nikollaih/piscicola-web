@@ -89,43 +89,43 @@ console.log(usePages.props.createExpenseUrl)
             }
         >
             <Head title="Gastos"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={usePages.props.createExpenseUrl}>
-                            <PrimaryButton className="bg-orange-600">Agregar</PrimaryButton>
+                            <PrimaryButton className="bg-orange-600">Agregar Gasto</PrimaryButton>
                         </Link>
                     </div>
 
-                    <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="grid-cols-1 grid gap-4 mb-6">
                         <div
-                            className="col-span-1 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 grid grid-cols-1 bg-white">
+                            className="col-span-1 rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 grid grid-cols-1 bg-white">
                             <p className="px-4 pt-2 mb-4 font-bold text-lg">Gastos del último mes</p>
                             <LinearChart readings={usePages.props.latestExpenses}  value="cost" date="manual_created_at" chartId="expenses"/>
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white md:overflow-hidden shadow-sm rounded-lg py-5 overflow-x-auto">
                             <table id="table-expenses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                <td className="pl-5">Costo</td>
-                                <td>Categoria</td>
-                                <td>Concepto</td>
-                                <td>Notas</td>
-                                <td>Fecha</td>
-                                <td></td>
+                                    <td className="pl-5 pr-20">Costo</td>
+                                    <td className="pr-20">Categoria</td>
+                                    <td className="pr-20">Concepto</td>
+                                    <td className="pr-20">Notas</td>
+                                    <td className="pr-20">Fecha</td>
+                                    <td></td>
                                 </thead>
                                 <tbody>
                                 {expenses.data.map((expense) => (
                                     <tr key={expense.id} id={expense.id}
-                                        className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
-                                        <td className="font-bold pl-5">${expense.cost.toLocaleString('es-CO')}</td>
-                                        <td className=" pr-2">{expense.category.name}</td>
-                                        <td className=" pr-2">{expense.concept}</td>
-                                        <td className=" pr-2">{expense.notes}</td>
-                                        <td className="pr-2">{moment(expense.manual_created_at).format(Constants.DATEFORMAT)}</td>
+                                        className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden w-full">
+                                        <td className="font-bold pl-5 pr-4">${expense.cost.toLocaleString('es-CO')}</td>
+                                        <td>{expense.category.name}</td>
+                                        <td>{expense.concept}</td>
+                                        <td>{expense.notes}</td>
+                                        <td>{moment(expense.manual_created_at).format(Constants.DATEFORMAT)}</td>
                                         <td className="flex gap-2 py-4">
-                                            <div className="flex gap-2">
+                                            <div className="flex gap-2 pr-4">
                                                 <Link
                                                     href={route('expense.edit', {expenseId: expense.id, sowingId: sowing?.id})}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"

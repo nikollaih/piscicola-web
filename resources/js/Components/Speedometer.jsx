@@ -78,7 +78,7 @@ export default function Speedometer ({stat}) {
         axis.createAxisRange(handDataItem);
     }
 
-    return <div className="bg-white col-span-1 sm:rounded-lg shadow-md mb-4 p-2 relative" >
+    return <div className="bg-white col-span-1 rounded-lg shadow-md mb-4 p-2 relative" >
         {
             (stat.triggered_alarm) ?
                 <img src={Alarm} className="absolute left-3 top-3" style={{width: 40, height: 40}}/>

@@ -96,22 +96,22 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
             }
         >
             <Head title="Cosecha"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing}/>
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="grid-cols-1 md:grid-cols-3 sm:grid-cols-1 grid sm:gap-4 mb-6">
                         <div
-                            className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
-                            className="col-span-2 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
+                            className="hidden rounded-lg p-2 shadow-md col-span-1 md:col-span-2 sm:grid grid-cols-1 bg-white">
                                 <BiomassesChartHistory biomasses={biomasses.data} />
                         </div>
                     </div>
                     <p className="font-bold text-xl text-center">Lectura de parámetros <span onClick={() => {location.reload()}} className="text-orange-600 cursor-pointer">(Actualizar)</span></p>
                     <p className="mb-4 text-center">Ultima actualización: {moment().format('YYYY-MM-DD - hh:mm a')}</p>
-                    <div className="col-span-2  sm:col-span-1 md:col-span-2 grid grid-cols-2 gap-4">
+                    <div className="col-span-1 md:col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
                     </div>
                 </div>

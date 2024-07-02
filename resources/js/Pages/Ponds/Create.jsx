@@ -83,7 +83,7 @@ export default function CreatePond({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.pond?.id) ? "Modificar" : "Agregar"} estanque</h2>}
         >
             <Head title="Estanque" />
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -187,11 +187,11 @@ export default function CreatePond({ auth }) {
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={route('ponds')}>
-                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <Link className="w-full sm:w-auto" href={route('ponds')}>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600"
+                                className="bg-orange-600 w-full sm:w-auto"
                                 disabled={processing}
                             >
                                 Guardar

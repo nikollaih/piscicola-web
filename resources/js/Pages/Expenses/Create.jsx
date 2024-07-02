@@ -94,7 +94,7 @@ export default function CreateExpense({ auth, expensesUrl, expenseCategories }) 
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.expense?.id) ? "Modificar" : "Agregar"} gasto</h2>}
         >
             <Head title="Gasto" />
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -102,7 +102,7 @@ export default function CreateExpense({ auth, expensesUrl, expenseCategories }) 
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm sm:rounded-lg p-5">
+                        <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="md:col-span-2 sm:col-span-4">
                                     <InputLabel value="Categoria"/>
@@ -171,11 +171,11 @@ export default function CreateExpense({ auth, expensesUrl, expenseCategories }) 
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={expensesUrl}>
-                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <Link className="w-full sm:w-auto" href={expensesUrl}>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600"
+                                className="bg-orange-600 w-full sm:w-auto"
                                 disabled={processing}
                             >
                                 Guardar

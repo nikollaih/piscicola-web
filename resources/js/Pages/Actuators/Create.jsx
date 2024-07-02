@@ -110,7 +110,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.actuator?.id) ? "Modificar" : "Agregar"} actuador</h2>}
         >
             <Head title="Actuador" />
-            <div className="py-12">
+            <div className="lg:py-12 py-4">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -120,7 +120,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
 
                         <div class="bg-white shadow-sm sm:rounded-lg p-5">
                             <div className="grid grid-cols-1">
-                                <div className="grid grid-cols-2 col-span-1 gap-4 mb-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 col-span-1 gap-4 mb-4">
                                     <div className="md:col-span-1 sm:col-span-4">
                                         <InputLabel value="Nombre"/>
                                         <TextInput
@@ -148,7 +148,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                                             <InputError message={hasErrors.cost_by_minute}/> : ""}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-3 gap-4 col-span-1 mb-4">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-1 mb-4">
                                     <div className="md:col-span-1 sm:col-span-3">
                                         <InputLabel value="Estanque"/>
                                         <Dropdown>
@@ -208,11 +208,11 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={goBackRoute}>
-                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <Link className="w-full sm:w-auto" href={goBackRoute}>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600"
+                                className="bg-orange-600 w-full sm:w-auto"
                                 disabled={processing}
                             >
                                 Guardar

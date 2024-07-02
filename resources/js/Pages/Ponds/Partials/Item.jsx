@@ -1,7 +1,7 @@
 import {Link} from "@inertiajs/react";
 export default function PondItem ({pond, onDelete = () => {}}) {
     return (
-        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 w-full">
+        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-5 w-full">
             <p className="text-lg font-bold mb-2">{pond.name}</p>
             <p className="text-gray-500">Área</p>
             <p className="font-bold mb-1">{pond.area}mts2</p>

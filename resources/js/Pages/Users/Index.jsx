@@ -141,7 +141,7 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}
         >
             <Head title="Useres" />
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-between">
                         <div/>
@@ -177,18 +177,18 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                         </div>*/}
                         <Link href={createUserUrl}>
                             <PrimaryButton className="bg-orange-500 h-10">
-                                Agregar
+                                Agregar Usuario
                             </PrimaryButton>
                         </Link>
                     </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                    <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                         <table id="table-users" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
-                            <td className="pl-5">Nombre</td>
-                            <td>Rol</td>
-                            <td>Documento</td>
-                            <td>Celular</td>
-                            <td>Email</td>
+                            <td className="pl-5 pr-20 min-w-[200px]">Nombre</td>
+                            <td className="pr-20">Rol</td>
+                            <td className="pr-20">Documento</td>
+                            <td className="pr-20">Celular</td>
+                            <td className="pr-20">Email</td>
                             <td></td>
                             </thead>
                             <tbody>
@@ -198,11 +198,11 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                                     <td className="font-bold pl-5">
                                         {user.name.toUpperCase()}
                                     </td>
-                                    <td className=" pr-2">{user.role.name}</td>
-                                    <td className=" pr-2">{user.document}</td>
-                                    <td className="pr-2">{user.mobile_phone}</td>
+                                    <td>{user.role.name}</td>
+                                    <td>{user.document}</td>
+                                    <td>{user.mobile_phone}</td>
                                     <td>{user.email}</td>
-                                    <td className="flex gap-2 py-4">
+                                    <td className="flex gap-2 py-4 pr-6">
                                         <Link href={usePages.props.baseUrl + '/users/' + user.id + '/edit'}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  strokeWidth={1} stroke="currentColor"

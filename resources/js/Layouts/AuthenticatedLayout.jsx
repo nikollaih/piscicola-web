@@ -191,13 +191,37 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden bg-white w-full h-full z-10'}>
+                    <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Inicio
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('sowings')} active={route().current('sowings')}>
+                            Cosechas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('actuators')} active={route().current('actuators')}>
+                            Actuadores
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('ponds')} active={route().current('ponds')}>
+                            Estanques
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('expenses')} active={route().current('expenses')}>
+                            Gastos
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('sales')} active={route().current('sales')}>
+                            Ventas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('supplies')} active={route().current('supplies')}>
+                            Suministros
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('users')} active={route().current('users')}>
                             Usuarios
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('parties', {partyRoleId: 1})} active={(route().current('parties') || route().current('party.create')) && partyRoleId === "1"}>
+                            Clientes
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('parties', {partyRoleId: 2})} active={(route().current('parties') || route().current('party.create')) && partyRoleId === "2"}>
+                            Empleados
                         </ResponsiveNavLink>
                     </div>
 
@@ -208,9 +232,9 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
+                                Cerrar Sesión
                             </ResponsiveNavLink>
                         </div>
                     </div>
@@ -223,7 +247,7 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main className="flex-1 pb-36">{children}</main>
+            <main className="flex-1 p-2 pb-36 sm:p-2 md:p-0">{children}</main>
             <footer
                 className="fixed bottom-0 right-0 left-0 bg-white p-4 items-center justify-center align-middle flex gap-6 shadow-md">
                 <img src={UQ} alt="" width={50} className="mx-6"/>

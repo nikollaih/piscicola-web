@@ -123,7 +123,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.sowing?.id) ? "Modificar" : "Agregar"} cosecha</h2>}
         >
             <Head title="Cosecha" />
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -131,7 +131,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm sm:rounded-lg p-5">
+                        <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Nombre"/>
@@ -213,11 +213,11 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={goBackRoute}>
-                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <Link className="w-full sm:w-auto" href={goBackRoute}>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600"
+                                className="bg-orange-600 w-full sm:w-auto"
                                 disabled={processing}
                             >
                                 Guardar

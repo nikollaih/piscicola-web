@@ -3,7 +3,7 @@ export default function PondItem ({actuator}) {
     let iconTurnedOnColor = (actuator.is_turned_on === 1) ? "text-green-500" : "text-red-500";
     return (
         <Link href={route('actuator.view', {actuatorId: actuator.id})}
-              className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 w-full cursor-pointer hover:bg-gray-50">
+              className="bg-white overflow-hidden shadow-sm rounded-lg p-5 w-full cursor-pointer hover:bg-gray-50">
             <p className="text-lg font-bold mb-2">{actuator.name}</p>
             <p className="text-gray-500">Estanque</p>
             <p className="font-bold mb-1">{actuator.pond.name}</p>
