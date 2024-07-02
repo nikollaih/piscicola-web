@@ -24,7 +24,7 @@ export default function Authenticated({ user, header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800"/>
                                 </Link>
                             </div>
-                            <div className="hidden space-x-2 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-2 sm:-my-px sm:ms-10 md:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Inicio
                                 </NavLink>
@@ -32,19 +32,19 @@ export default function Authenticated({ user, header, children }) {
                             {
                                 (user.role_id === 1) ?
                                     <div className="flex">
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('associations')}
                                                      active={route().current('associations')}>
                                                 Asociaciones
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('productive_units')}
                                                      active={route().current('productive_units')}>
                                                 Unidades productivas
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('steps')}
                                                      active={route().current('steps')}>
                                                 Etapas
@@ -53,37 +53,37 @@ export default function Authenticated({ user, header, children }) {
                                     </div>
                                     :
                                     <div className="flex">
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('sowings')} active={route().current('sowings')}>
                                                 Cosechas
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('actuators')} active={route().current('actuators')}>
                                                 Actuadores
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('ponds')} active={route().current('ponds')}>
                                                 Estanques
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('expenses')} active={route().current('expenses')}>
                                                 Gastos
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('sales')} active={route().current('sales')}>
                                                 Ventas
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('supplies')} active={route().current('supplies')}>
                                                 Suministros
                                             </NavLink>
                                         </div>
-                                        <div className="hidden sm:flex sm:items-center">
+                                        <div className="hidden md:flex sm:items-center">
                                             <div className="relative">
                                                 <Dropdown>
                                                     <Dropdown.Trigger>
@@ -119,7 +119,7 @@ export default function Authenticated({ user, header, children }) {
                                                 </Dropdown>
                                             </div>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 sm:flex">
+                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 md:flex">
                                             <NavLink href={route('reports')} active={route().current('reports')}>
                                                 Reportes
                                             </NavLink>
@@ -128,7 +128,7 @@ export default function Authenticated({ user, header, children }) {
                             }
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
+                        <div className="hidden md:flex sm:items-center sm:ms-6">
                             <div className="ms-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -165,7 +165,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                         </div>
 
-                        <div className="-me-2 flex items-center sm:hidden">
+                        <div className="-me-2 flex items-center md:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
@@ -191,7 +191,7 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden bg-white w-full h-full z-10'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' md:hidden bg-white w-full h-full z-10'}>
                     <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Inicio
@@ -249,7 +249,7 @@ export default function Authenticated({ user, header, children }) {
 
             <main className="flex-1 p-2 pb-36 sm:p-2 md:p-0">{children}</main>
             <footer
-                className="fixed bottom-0 right-0 left-0 bg-white p-4 items-center justify-center align-middle flex gap-6 shadow-md">
+                className="hidden md:fixed bottom-0 right-0 left-0 bg-white p-4 items-center justify-center align-middle md:flex gap-6 shadow-md">
                 <img src={UQ} alt="" width={50} className="mx-6"/>
                 <img src={GQ} alt="" width={100} style={{marginTop: -15}} className="mx-6"/>
                 <img src={SR} alt="" width={160} className="mx-6"/>
