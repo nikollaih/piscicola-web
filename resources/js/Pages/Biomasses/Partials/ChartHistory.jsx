@@ -83,6 +83,6 @@ export default function BiomassesChartHistory({biomasses}) {
     }
 
     return (
-        <div id="chart" className="w-full h-full" />
+        <div id="chart" className="w-full h-full min-h-[300px]" />
     )
 }

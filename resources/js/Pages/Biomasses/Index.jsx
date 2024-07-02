@@ -110,7 +110,7 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-x-auto shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                             <table id="table-biomasses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
                                     <td className="pl-5 pr-20">Peso (gr)</td>
@@ -130,7 +130,7 @@ export default function Biomasses({ auth, sowing, biomasses }) {
                                         <td className="flex gap-2 py-4">
                                             {
                                                 (biomasses.data.length > 1) ?
-                                                    <div className="flex gap-2">
+                                                    <div className="flex gap-2 pr-4">
                                                         <Link
                                                             href={usePages.props.baseUrl + '/biomasses/' + biomasse.id + '/edit'}>
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"

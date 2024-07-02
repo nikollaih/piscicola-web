@@ -89,7 +89,7 @@ export default function Mortalities({ auth, sowing, mortalities }) {
             }
         >
             <Head title="Mortalidad"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={usePages.props.createMortalityUrl}>
@@ -97,23 +97,23 @@ export default function Mortalities({ auth, sowing, mortalities }) {
                         </Link>
                     </div>
 
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="md:grid-cols-3 grid-cols-1 grid md:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md mb-4 sm:col-span-1 md:col-span-1 w-full">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
-                            className="col-span-2 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
+                            className="col-span-2 rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-1 bg-white">
                             <LinearChart readings={usePages.props.latestMortalities} date="manual_created_at" value="dead" chartId="mortalities"/>
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white overflow-x-auto shadow-md rounded-lg py-5">
                             <table id="table-mortalities" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                <td className="pl-5">Cantidad de muestra</td>
-                                <td>Mortalidad</td>
-                                <td>Fecha</td>
+                                <td className="pl-5 pr-20 min-w-[200px]">Cantidad de muestra</td>
+                                <td className="pr-20">Mortalidad</td>
+                                <td className="pr-20">Fecha</td>
                                 <td></td>
                                 </thead>
                                 <tbody>
@@ -121,9 +121,9 @@ export default function Mortalities({ auth, sowing, mortalities }) {
                                     <tr key={mortality.id} id={mortality.id}
                                         className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
                                         <td className="font-bold pl-5">{mortality.sample_quantity}</td>
-                                        <td className=" pr-2">{mortality.dead}</td>
-                                        <td className="pr-2">{moment(mortality.manual_created_at).format(Constants.DATEFORMAT)}</td>
-                                        <td className="flex gap-2 py-4">
+                                        <td>{mortality.dead}</td>
+                                        <td>{moment(mortality.manual_created_at).format(Constants.DATEFORMAT)}</td>
+                                        <td className="flex gap-2 py-4 pr-4">
                                             <div className="flex gap-2">
                                                 <Link href={usePages.props.baseUrl + '/mortalities/' + mortality.id + '/edit'}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

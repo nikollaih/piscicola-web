@@ -110,7 +110,7 @@ console.log(usePages.props.createExpenseUrl)
                                 <thead className="text-gray-900 font-bold">
                                     <td className="pl-5 pr-20">Costo</td>
                                     <td className="pr-20">Categoria</td>
-                                    <td className="pr-20">Concepto</td>
+                                    <td className="pr-20 min-w-[250px]">Concepto</td>
                                     <td className="pr-20">Notas</td>
                                     <td className="pr-20">Fecha</td>
                                     <td></td>

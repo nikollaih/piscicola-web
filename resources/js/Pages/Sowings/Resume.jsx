@@ -52,14 +52,14 @@ export default function SowingResume({ auth, sowing }) {
             user={auth.user}
             header={
                 <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    <h2 className="text-lg md:text-xl font-semibold text-gray-800 leading-tight">
                         Resumen financiero de la cosecha
                     </h2>
                 </div>
             }
         >
             <Head title="Biomasa"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4  mb-4">
                         <Link href={route('sowing.view', {sowingId: sowing.id})}>
@@ -67,13 +67,13 @@ export default function SowingResume({ auth, sowing }) {
                         </Link>
                     </div>
 
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="md:grid-cols-3 grid-cols-1 grid md:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
-                            className="col-span-2 sm:rounded-lg p-6 shadow-md bg-white">
+                            className="col-span-2 rounded-lg p-6 shadow-md bg-white">
                             <p className="text-lg font-bold mb-4">Resumen de costos</p>
 
                             <p className="mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet

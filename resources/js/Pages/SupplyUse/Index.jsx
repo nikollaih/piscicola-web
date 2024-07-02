@@ -153,7 +153,7 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-x-auto shadow-sm sm:rounded-lg py-5">
+                        <div className="bg-white overflow-x-auto shadow-md rounded-lg py-5">
                             <table id="table-feeds" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
                                 <td className="pl-5 pr-20">Producto</td>
