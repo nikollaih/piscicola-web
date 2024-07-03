@@ -96,82 +96,84 @@ console.log(pageProps)
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.sale?.id) ? "Modificar venta" : "Vender " + sowing.name}</h2>}
         >
             <Head title="Asociación" />
-            <div className="py-12">
-                <form onSubmit={handleSubmit}>
+            <div className="py-4 lg:py-12">
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
                             title={successMessage}
                             onClose={() => setSuccessMessage('')}
                         />
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="bg-white shadow-sm rounded-lg p-2 mb-6">
-                                <SowingInformation sowing={sowing} />
+                        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 ">
+                            <div className="bg-white shadow-sm rounded-lg p-2 mb-4 md:mb-0">
+                                <SowingInformation sowing={sowing}/>
                             </div>
-                            <div className="bg-white shadow-sm rounded-lg p-5 mb-6 col-span-2">
-                                <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
-                                    <div className="md:col-span-1 sm:col-span-2">
-                                        <InputLabel value="Cliente"/>
-                                        <Dropdown>
-                                            <Dropdown.Trigger>
-                                                <DropDownToggle
-                                                    className="items-center cursor-pointer">{clientsTitle}</DropDownToggle>
-                                            </Dropdown.Trigger>
-                                            <Dropdown.Content align="left" className="px-2" width={100}>
-                                                {getClientsDropdown()}
-                                            </Dropdown.Content>
-                                        </Dropdown>
-                                        {(hasErrors?.measurement_unit_id) ?
-                                            <InputError message={hasErrors.measurement_unit_id}/> : ""}
+                            <form onSubmit={handleSubmit}>
+                                <div className="bg-white shadow-sm rounded-lg p-5 mb-6 col-span-2">
+                                    <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                                        <div className="md:col-span-1 sm:col-span-2">
+                                            <InputLabel value="Cliente"/>
+                                            <Dropdown>
+                                                <Dropdown.Trigger>
+                                                    <DropDownToggle
+                                                        className="items-center cursor-pointer">{clientsTitle}</DropDownToggle>
+                                                </Dropdown.Trigger>
+                                                <Dropdown.Content align="left" className="px-2" width={100}>
+                                                    {getClientsDropdown()}
+                                                </Dropdown.Content>
+                                            </Dropdown>
+                                            {(hasErrors?.measurement_unit_id) ?
+                                                <InputError message={hasErrors.measurement_unit_id}/> : ""}
+                                        </div>
+                                        <div className="w-full md:col-span-1 sm:col-span-2">
+                                            <InputLabel value="Fecha de venta"/>
+                                            <TextInput
+                                                type="date"
+                                                className="w-full"
+                                                placeholder=""
+                                                name="manual_created_at"
+                                                value={data.manual_created_at}
+                                                required
+                                                onChange={(e) => setData(e.target.name, e.target.value)}/>
+                                            {(hasErrors?.manual_created_at) ?
+                                                <InputError message={hasErrors.manual_created_at}/> : ""}
+                                        </div>
+                                        <div className="w-full md:col-span-1 sm:col-span-2">
+                                            <InputLabel value="Precio unitario"/>
+                                            <TextInput
+                                                type="number"
+                                                className="w-full"
+                                                placeholder=""
+                                                name="unit_cost"
+                                                value={data.unit_cost}
+                                                required
+                                                onChange={(e) => {
+                                                    setData(e.target.name, e.target.value)
+                                                    setTotalPrice(parseFloat(data.total_weight) * parseFloat(e.target.value))
+                                                }}/>
+                                            {(hasErrors?.unit_cost) ?
+                                                <InputError message={hasErrors.unit_cost}/> : ""}
+                                        </div>
+                                        <div className="w-full md:col-span-1 sm:col-span-3">
+                                            <InputLabel value="Peso total"/>
+                                            <TextInput
+                                                type="number"
+                                                className="w-full"
+                                                placeholder=""
+                                                name="total_weight"
+                                                value={data.total_weight}
+                                                onChange={(e) => {
+                                                    setData(e.target.name, e.target.value)
+                                                    setTotalPrice(parseFloat(data.unit_cost) * parseFloat(e.target.value))
+                                                }}/>
+                                            {(hasErrors?.total_weight) ?
+                                                <InputError message={hasErrors.total_weight}/> : ""}
+                                        </div>
                                     </div>
-                                    <div className="w-full md:col-span-1 sm:col-span-2">
-                                        <InputLabel value="Fecha de venta"/>
-                                        <TextInput
-                                            type="date"
-                                            className="w-full"
-                                            placeholder=""
-                                            name="manual_created_at"
-                                            value={data.manual_created_at}
-                                            required
-                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                        {(hasErrors?.manual_created_at) ?
-                                            <InputError message={hasErrors.manual_created_at}/> : ""}
-                                    </div>
-                                    <div className="w-full md:col-span-1 sm:col-span-2">
-                                        <InputLabel value="Precio unitario"/>
-                                        <TextInput
-                                            type="number"
-                                            className="w-full"
-                                            placeholder=""
-                                            name="unit_cost"
-                                            value={data.unit_cost}
-                                            required
-                                            onChange={(e) => {
-                                                setData(e.target.name, e.target.value)
-                                                setTotalPrice(parseFloat(data.total_weight) * parseFloat(e.target.value))
-                                            }}/>
-                                        {(hasErrors?.unit_cost) ?
-                                            <InputError message={hasErrors.unit_cost}/> : ""}
-                                    </div>
-                                    <div className="w-full md:col-span-1 sm:col-span-3">
-                                        <InputLabel value="Peso total"/>
-                                        <TextInput
-                                            type="number"
-                                            className="w-full"
-                                            placeholder=""
-                                            name="total_weight"
-                                            value={data.total_weight}
-                                            onChange={(e) => {
-                                                setData(e.target.name, e.target.value)
-                                                setTotalPrice(parseFloat(data.unit_cost) * parseFloat(e.target.value))
-                                            }}/>
-                                        {(hasErrors?.total_weight) ?
-                                            <InputError message={hasErrors.total_weight}/> : ""}
-                                    </div>
+                                    <p className="text-right text-lg">La
+                                        cosecha {(pageProps?.sale?.id) ? "fue vendida " : "será vendida "} por <span
+                                            className="font-bold text-green-700">${totalPrice.toLocaleString('es-CO')}</span>
+                                    </p>
                                 </div>
-                                <p className="text-right text-lg">La cosecha {(pageProps?.sale?.id) ? "fue vendida " : "será vendida "} por <span
-                                    className="font-bold text-green-700">${totalPrice.toLocaleString('es-CO')}</span>
-                                </p>
-                            </div>
+                            </form>
                         </div>
 
 
@@ -188,7 +190,6 @@ console.log(pageProps)
                             <button type="reset" className="hidden" ref={buttonResetRef}>reset</button>
                         </div>
                     </div>
-                </form>
             </div>
         </AuthenticatedLayout>
     );
