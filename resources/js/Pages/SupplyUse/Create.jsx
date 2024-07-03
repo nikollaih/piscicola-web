@@ -143,11 +143,11 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link href={indexRoute}>
-                                <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <Link className="w-full sm:w-auto" href={indexRoute}>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600"
+                                className="bg-orange-600 w-full sm:w-auto"
                                 disabled={processing}
                             >
                                 Guardar
