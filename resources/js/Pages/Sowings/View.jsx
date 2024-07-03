@@ -99,13 +99,13 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing}/>
-                    <div className="grid-cols-1 md:grid-cols-3 sm:grid-cols-1 grid sm:gap-4 mb-6">
+                    <div className="grid-cols-1 md:grid-cols-3 sm:grid-cols-1 grid sm:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4 sm:mb-0">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
-                            className="hidden rounded-lg p-2 shadow-md col-span-1 md:col-span-2 sm:grid grid-cols-1 bg-white">
+                            className="rounded-lg p-2 shadow-md col-span-1 md:col-span-2 sm:grid grid-cols-1 bg-white">
                                 <BiomassesChartHistory biomasses={biomasses.data} />
                         </div>
                     </div>

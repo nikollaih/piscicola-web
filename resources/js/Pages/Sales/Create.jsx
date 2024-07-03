@@ -106,8 +106,9 @@ console.log(pageProps)
                             <div className="bg-white shadow-sm rounded-lg p-2 mb-4 md:mb-0">
                                 <SowingInformation sowing={sowing}/>
                             </div>
-                            <form onSubmit={handleSubmit}>
-                                <div className="bg-white shadow-sm rounded-lg p-5 mb-6 col-span-2">
+
+                            <div className="bg-white shadow-sm rounded-lg p-5 mb-6 col-span-2 mb-4 md:mb-0">
+                                <form onSubmit={handleSubmit}>
                                     <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                         <div className="md:col-span-1 sm:col-span-2">
                                             <InputLabel value="Cliente"/>
@@ -172,8 +173,8 @@ console.log(pageProps)
                                         cosecha {(pageProps?.sale?.id) ? "fue vendida " : "será vendida "} por <span
                                             className="font-bold text-green-700">${totalPrice.toLocaleString('es-CO')}</span>
                                     </p>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
 
 

@@ -101,7 +101,7 @@ export default function Biomasses({ auth, sowing, biomasses }) {
 
                     <div className="md:grid-cols-3 grid-cols-1 grid sm:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4 sm:mb-0">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div

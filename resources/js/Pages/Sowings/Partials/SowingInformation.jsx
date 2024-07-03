@@ -6,7 +6,7 @@ export default function SowingInformation ({sowing}) {
     const [showSowing, setShowSowing] = useState((initialShowSowing >= 768));
     let usePages = usePage();
 
-    return <div >
+    return <div>
         {((initialShowSowing < 768) &&
             <div className="flex justify-between items-center">
                 <h2 className="ml-3 font-semibold">Cosecha</h2>

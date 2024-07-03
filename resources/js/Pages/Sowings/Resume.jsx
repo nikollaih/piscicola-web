@@ -61,15 +61,9 @@ export default function SowingResume({ auth, sowing }) {
             <Head title="Biomasa"/>
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4  mb-4">
-                        <Link href={route('sowing.view', {sowingId: sowing.id})}>
-                            <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
-                        </Link>
-                    </div>
-
                     <div className="md:grid-cols-3 grid-cols-1 grid md:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4 sm:mb-0">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div

@@ -97,9 +97,9 @@ export default function Mortalities({ auth, sowing, mortalities }) {
                         </Link>
                     </div>
 
-                    <div className="md:grid-cols-3 grid-cols-1 grid md:gap-4 mb-4">
+                    <div className="md:grid-cols-3 grid-cols-1 grid sm:gap-4 mb-4">
                         <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md mb-4 sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md mb-4 sm:col-span-1 md:col-span-1 w-full sm:mb-0">
                             <SowingInformation sowing={sowing}/>
                         </div>
                         <div
