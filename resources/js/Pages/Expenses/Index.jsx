@@ -105,7 +105,7 @@ console.log(usePages.props.createExpenseUrl)
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white md:overflow-hidden shadow-sm rounded-lg py-5 overflow-x-auto">
+                        <div className="bg-white shadow-sm rounded-lg py-5 overflow-x-auto">
                             <table id="table-expenses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
                                     <td className="pl-5 pr-20">Costo</td>

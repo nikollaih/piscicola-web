@@ -91,8 +91,8 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                         />
 
                         <div class="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
-                                <div className="w-full md:col-span-1 sm:col-span-4">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 grid-cols-1 mb-4">
+                                <div className="w-full md:col-span-1 sm:col-span-2">
                                     <InputLabel value="Peso aproximado (gr)"/>
                                     <TextInput
                                         type="number"
@@ -105,7 +105,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                                     {(hasErrors?.approximate_weight) ?
                                         <InputError message={hasErrors.approximate_weight}/> : ""}
                                 </div>
-                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                <div className="w-full md:col-span-1 sm:col-span-2">
                                     <InputLabel value="Tamaño aproximado (cm)"/>
                                     <TextInput
                                         type="number"
@@ -118,7 +118,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                                     {(hasErrors?.approximate_height) ?
                                         <InputError message={hasErrors.approximate_weight}/> : ""}
                                 </div>
-                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                <div className="w-full md:col-span-1 sm:col-span-2">
                                     <InputLabel value="Cantidad de peces para la muestra"/>
                                     <TextInput
                                         type="number"
@@ -131,7 +131,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                                     {(hasErrors?.quantity_of_fish) ?
                                         <InputError message={hasErrors.quantity_of_fish}/> : ""}
                                 </div>
-                                <div className="w-full md:col-span-1 sm:col-span-4">
+                                <div className="w-full md:col-span-1 sm:col-span-2">
                                     <InputLabel value="Fecha de la muestra"/>
                                     <TextInput
                                         type="date"
