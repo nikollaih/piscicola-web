@@ -193,10 +193,7 @@ export default function Authenticated({ user, header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' lg:hidden bg-white w-full h-full z-10'}>
                     <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Inicio
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('sowings')} active={route().current('sowings')}>
+                        <ResponsiveNavLink href={route('sowings')} active={(route().current('sowings') || route().current('first'))}>
                             Cosechas
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('actuators')} active={route().current('actuators')}>
