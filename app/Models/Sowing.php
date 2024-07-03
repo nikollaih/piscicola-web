@@ -80,7 +80,7 @@ class Sowing extends Model
     }
 
     /**
-     * Permite obtener una cosecha basandose en el id de la cosecha  
+     * Permite obtener una cosecha basandose en el id de la cosecha
      * @param $sowingId , el id de la cosecha
      */
     public static function getBasicInfoById($sowingId = -1)
@@ -94,7 +94,7 @@ class Sowing extends Model
                 ->first();
     }
     /**
-     * Permite obtener una cosecha basandose en su id y el id de la unidad productiva a la que pertenece 
+     * Permite obtener una cosecha basandose en su id y el id de la unidad productiva a la que pertenece
      * @param $sowingId , el id de la cosecha
      * @param $productiveUnitId, el id de la unidad productiva
      */

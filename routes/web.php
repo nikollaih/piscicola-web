@@ -39,7 +39,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [SowingsController::class, 'index'])->name('first');
+Route::get('/', [SowingsController::class, 'index'])->middleware(['auth', 'verified'])->name('first');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('manual_cronjobs', [CronJobs::class, 'index'])->name('manual_cronjobs');

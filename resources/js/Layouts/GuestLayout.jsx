@@ -9,7 +9,7 @@ export default function Guest({ children }) {
             <div className="wave right-0 sm:hidden"></div>
             <div>
                 <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500"/>
+                    <ApplicationLogo width={60} className="w-30 h-30 fill-current text-gray-500"/>
                 </Link>
             </div>
 
