@@ -244,13 +244,14 @@ export default function Authenticated({ user, header, children }) {
             {header && (
                 <header className="bg-white shadow">
                     <div className="max-w-7xl mx-auto py-4 md:py-6 px-4 sm:px-6 lg:px-4 flex">
-                        {(!route().current('dashboard')) ?
-                            <button className="mr-4 md:hidden" onClick={() => history.back()}>
+                        {(!route().current('dashboard') && !route().current('sowings') && !route().current('first')) ?
+                            <button className="mr-3 md:hidden" onClick={() => history.back()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" className="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M15.75 19.5 8.25 12l7.5-7.5"/>
                                 </svg>
                             </button> : null}
 

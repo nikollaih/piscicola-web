@@ -39,14 +39,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [SowingsController::class, 'index'])->name('first');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('manual_cronjobs', [CronJobs::class, 'index'])->name('manual_cronjobs');
 });
