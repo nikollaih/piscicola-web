@@ -245,7 +245,7 @@ export default function Authenticated({ user, header, children }) {
                 <header className="bg-white shadow">
                     <div className="max-w-7xl mx-auto py-4 md:py-6 px-4 sm:px-6 lg:px-4 flex">
                         {(!route().current('dashboard') && !route().current('sowings') && !route().current('first')) ?
-                            <button className="mr-3 md:hidden" onClick={() => history.back()}>
+                            <button className="mr-3 lg:hidden" onClick={() => history.back()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" className="size-6">
