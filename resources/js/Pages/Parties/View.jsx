@@ -113,11 +113,11 @@ export default function ViewClient({ auth, client, loggedUser, envRoles }) {
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="grid-cols-2 grid gap-4">
 
-                        <div className="bg-white overflow-hidden sm:rounded-lg p-5 shadow-md">
+                        <div className="bg-white overflow-hidden rounded-lg p-5 shadow-md">
                             <Information client={client}/>
                         </div>
 
-                        <div className="bg-white overflow-hidden sm:rounded-lg p-5 shadow-md">
+                        <div className="bg-white overflow-hidden rounded-lg p-5 shadow-md">
                         <Cases cases={cases} />
                         </div>
 
@@ -125,7 +125,7 @@ export default function ViewClient({ auth, client, loggedUser, envRoles }) {
 
                     {
                         (loggedUser.role.rol === ROLE_ADMIN_LAYER) ?
-                            <div className="bg-white overflow-hidden sm:rounded-lg p-5 shadow-md mt-5">
+                            <div className="bg-white overflow-hidden rounded-lg p-5 shadow-md mt-5">
                                 <header>
                                     <h2 className="text-lg font-medium text-gray-900">Eliminar cliente</h2>
                                     <p className="mt-1 text-gray-600 mb-4">

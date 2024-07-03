@@ -53,7 +53,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
 
                     <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6">
                         <div
-                            className="sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-2 bg-white p-6">
+                            className="rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-2 bg-white p-6">
                             <div className="md:col-span-1 sm:col-span-2">
                                 <p className="font-bold text-lg mb-1">Biomasas</p>
                                 <InputLabel className="mb-4"

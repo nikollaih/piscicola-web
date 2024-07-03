@@ -112,7 +112,7 @@ export default function StepStatCreate({ auth, steps, stepId, step_stat}) {
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm sm:rounded-lg p-5">
+                        <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="md:col-span-1 sm:col-span-3">
                                     <InputLabel value="Etapa"/>

@@ -64,7 +64,7 @@ export default function CreateStep({ auth, step, onClose=() => {} }) {
                 <p className="font-bold text-lg">{(step?.id) ? "Modificar" : "Agregar"} etapa</p>
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto">
-                        <div class="bg-white shadow-sm sm:rounded-lg">
+                        <div class="bg-white shadow-sm rounded-lg">
                             <div className="grid gap-4 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-3 my-4">
                                     <InputLabel value="Nombre de la etapa"/>

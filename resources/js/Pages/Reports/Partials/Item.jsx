@@ -3,7 +3,7 @@ export default function ReportItem ({selectedReport, report, onSelect = (report)
 
     let bgColor = (selectedReport === report.id) ? "bg-orange-100" : "bg-white";
 
-    return <div onClick={() => {onSelect(report)}} className={`p-4 sm:rounded-lg w-full shadow-md w-full hover:bg-orange-100 mb-4 cursor-pointer flex gap-2 ` + bgColor}>
+    return <div onClick={() => {onSelect(report)}} className={`p-4 rounded-lg w-full shadow-md w-full hover:bg-orange-100 mb-4 cursor-pointer flex gap-2 ` + bgColor}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
              className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round"

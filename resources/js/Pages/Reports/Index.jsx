@@ -72,7 +72,7 @@ export default function Reports({ auth, sowings }) {
                 break;
             case 5:
                 return <ReadingsByDate sowing={selectedSowing} />
-                  
+
 
             default: break;
         }
@@ -98,7 +98,7 @@ export default function Reports({ auth, sowings }) {
                         </div>
                         <div className="col-span-1 w-full grid">
                             <div
-                                className="col-span-2 sm:rounded-lg p-4 shadow-md grid grid-cols-1 bg-white mb-4">
+                                className="col-span-2 rounded-lg p-4 shadow-md grid grid-cols-1 bg-white mb-4">
                                 <p>Cosecha</p>
                                 <Dropdown className="mb-4">
                                     <Dropdown.Trigger>

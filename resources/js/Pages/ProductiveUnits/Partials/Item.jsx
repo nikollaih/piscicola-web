@@ -1,7 +1,7 @@
 import {Link} from "@inertiajs/react";
 export default function AssociationItem ({productiveUnit, onDelete = () => {}}) {
     return (
-        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 w-full flex flex-col justify-between">
+        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-5 w-full flex flex-col justify-between">
             <div>
                 <p className="text-lg font-bold mb-2">{productiveUnit.name}</p>
                 <p className="text-gray-500">Email</p>

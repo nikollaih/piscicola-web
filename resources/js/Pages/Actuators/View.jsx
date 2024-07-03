@@ -200,13 +200,13 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white overflow-hidden shadow-sm rounded-lg py-5">
+                        <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                             <table id="table-actuatorUses" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
-                                <td className="pl-5">Duración</td>
-                                <td>Costo</td>
-                                <td>Encendido</td>
-                                <td>Apagado</td>
+                                <td className="pl-5 pr-20">Duración</td>
+                                <td className="pr-20">Costo</td>
+                                <td className="pr-32">Encendido</td>
+                                <td className="pr-32">Apagado</td>
                                 <td></td>
                                 </thead>
                                 <tbody>

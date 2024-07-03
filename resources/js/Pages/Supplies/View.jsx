@@ -99,7 +99,7 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
 
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
                         <div
-                            className="bg-white overflow-hidden sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
                             <div className="p-3 rounded-md">
                                 <div className="mb-3">
                                     <p className="text-gray-600">Producto</p>
@@ -120,7 +120,7 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
                             </div>
                         </div>
                         <div
-                            className=" sm:rounded-lg p-4 shadow-md sm:col-span-1 md:col-span-2 bg-white">
+                            className=" rounded-lg p-4 shadow-md sm:col-span-1 md:col-span-2 bg-white">
                             <p className="font-bold text-lg">Compras</p>
                             <p className="mb-4">Historial de compras del suministro.</p>
                             <table id="table-supplyPurchases" className="w-full table table-auto bg-gray-50 rounded-md">

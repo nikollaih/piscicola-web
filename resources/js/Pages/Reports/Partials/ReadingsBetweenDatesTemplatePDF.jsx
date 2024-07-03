@@ -10,7 +10,7 @@ export default function ReadingsBetweenDatesTemplatePDF({ sowing,readings,fromDa
         return <div key={key}>
             <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6  mx-6">
                 <div
-                    className="col-span-1 sm:rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 grid grid-cols-1 bg-white">
+                    className="col-span-1 rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 grid grid-cols-1 bg-white">
                     <p className="px-4 pt-2 mb-4 font-bold text-lg">{readings[key][0].statName}</p>
                     <LinearChart readings={readings[key]} value="value" date="created_at" chartId={key}/>
                 </div>

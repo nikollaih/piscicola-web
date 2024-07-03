@@ -80,7 +80,7 @@ export default function PartyForm({ partyRoleId, party }) {
                         title={successMessage}
                         onClose={() => setSuccessMessage('')}
                     />
-                    <div class="bg-white shadow-sm sm:rounded-lg p-5">
+                    <div class="bg-white shadow-sm rounded-lg p-5">
                         <div className="grid grid-cols-3 gap-4 xs:grid-cols-1 mb-4">
                             <div className="w-full">
                                 <InputLabel value="Documento"/>

@@ -118,7 +118,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm sm:rounded-lg p-5">
+                        <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid grid-cols-1">
                                 <div className="grid grid-cols-1 md:grid-cols-2 col-span-1 gap-4 mb-4">
                                     <div className="md:col-span-1 sm:col-span-4">

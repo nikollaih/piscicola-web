@@ -12,7 +12,7 @@ export default function ActionsButton({sowing}) {
         <Menu as="div" className="relative inline-block text-left">
             <div>
                 <Menu.Button
-                    className="h-10 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-800 focus:ring-offset-2 transition ease-in-out duration-150 ${">
+                    className="h-11 sm:h-10 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-800 focus:ring-offset-2 transition ease-in-out duration-150 ${">
                     Acciones
                     <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                          aria-hidden="true">

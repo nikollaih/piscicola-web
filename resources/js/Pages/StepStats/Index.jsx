@@ -99,7 +99,7 @@ export default function Dashboard({ auth, step_stats, stepId }) {
                             </PrimaryButton>
                         </Link>
                     </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5">
+                    <div className="bg-white overflow-hidden shadow-sm rounded-lg py-5">
                         <table id="table-step_stats" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
                                 <td className="pl-5 pb-4">Nombre</td>

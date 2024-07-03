@@ -3,7 +3,7 @@ import {Link} from "@inertiajs/react";
 export default function StepItem ({step, onEdit= step => {}, onDelete= step => {}}) {
     return (
         <div
-              className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5 w-full flex flex-col justify-between">
+              className="bg-white overflow-hidden shadow-sm rounded-lg p-5 w-full flex flex-col justify-between">
             <p className="text-lg font-bold text-center">{step.name}</p>
             <div>
                 <hr className="my-2"/>
