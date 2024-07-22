@@ -257,12 +257,18 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main className="flex-1 p-2 pb-0 lg:pb-36">{children}</main>
+            <main className="flex-1 p-2 pb-0 md:pb-40">{children}</main>
             <footer
-                className="hidden md:fixed bottom-0 right-0 left-0 bg-white p-4 items-center justify-center align-middle lg:flex gap-6 shadow-md">
-                <img src={UQ} alt="" width={50} className="mx-6"/>
-                <img src={GQ} alt="" width={100} style={{marginTop: -15}} className="mx-6"/>
-                <img src={SR} alt="" width={160} className="mx-6"/>
+                className="hidden md:fixed md:block bottom-0 right-0 left-0 bg-white p-4 shadow-md">
+                <p className="mb-2 text-sm"><b>PROYECTO:</b> "FORTALECIMIENTO DE LA ACUICULTURA A TRAVÉS DE LA IMPLEMENTACIÓN DE NUEVAS TECNOLOGÍAS PARA
+                    EL CONTROL SISTEMATIZADO Y MAXIMIZANDO LA PRODUCTIVIDAD CON ENFOQUE DE BIOECONOMÍA Y SOSTENIBILIDAD
+                    EN EL DEPARTAMENTO DEL QUINDÍO”. BPIN: <span className="text-indigo-600">2021000100495</span></p>
+                <hr/>
+                <div className="items-center flex justify-center align-middle mt-2 gap-6 ">
+                    <img src={UQ} alt="" width={40} className="mx-6"/>
+                    <img src={GQ} alt="" width={80} style={{marginTop: -15}} className="mx-6"/>
+                    <img src={SR} alt="" width={120} className="mx-6"/>
+                </div>
             </footer>
         </div>
     );

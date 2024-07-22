@@ -5,3 +5,30 @@
     margin-bottom: 80px;
 }
 
+@media (min-width: 640px) { /* Tailwind's md breakpoint starts at 768px */
+    .background-image-custom {
+        background-image: url("images/granja.webp");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .background-image-custom::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad aquí */
+        z-index: 2;
+        pointer-events: none; /* Esto asegura que los elementos debajo son interactivos */
+    }
+
+    .avoid-background {
+        position: relative;
+        z-index: 3;
+        padding: 20px;
+    }
+}
+
+
