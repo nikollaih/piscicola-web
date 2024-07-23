@@ -1,6 +1,9 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 import '../../css/login.css';
+import UQ from "../../images/uq.png";
+import GQ from "../../images/gq.png";
+import SR from "../../images/SR.png";
 
 export default function Guest({ children }) {
     return (
@@ -14,9 +17,22 @@ export default function Guest({ children }) {
             </div>
 
             <div
-                className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white md:shadow-md overflow-hidden rounded-lg avoid-background">
+                className="w-full sm:max-w-md bg-white md:shadow-md overflow-hidden rounded-lg avoid-background">
                 {children}
             </div>
+            <footer
+                className="hidden md:fixed md:block bottom-0 right-0 left-0 bg-white p-4 shadow-md avoid-background">
+                <p className="mb-2 text-sm"><b>PROYECTO:</b> "FORTALECIMIENTO DE LA ACUICULTURA A TRAVÉS DE LA
+                    IMPLEMENTACIÓN DE NUEVAS TECNOLOGÍAS PARA
+                    EL CONTROL SISTEMATIZADO Y MAXIMIZANDO LA PRODUCTIVIDAD CON ENFOQUE DE BIOECONOMÍA Y SOSTENIBILIDAD
+                    EN EL DEPARTAMENTO DEL QUINDÍO”. BPIN: <span className="text-indigo-600">2021000100495</span></p>
+                <hr/>
+                <div className="items-center flex justify-center align-middle mt-2 gap-6 ">
+                    <img src={UQ} alt="" width={40} className="mx-6"/>
+                    <img src={GQ} alt="" width={80} style={{marginTop: -15}} className="mx-6"/>
+                    <img src={SR} alt="" width={120} className="mx-6"/>
+                </div>
+            </footer>
         </div>
     );
 }

@@ -25,7 +25,6 @@
     }
 
     .avoid-background {
-        position: relative;
         z-index: 3;
         padding: 20px;
     }
