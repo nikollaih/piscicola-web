@@ -8,7 +8,7 @@ import SR from "../../images/SR.png";
 export default function Guest({ children }) {
     return (
         <div
-            className="min-h-screen flex flex-col sm:justify-center items-center pt-0 md:pt-6 sm:pt-0 md:bg-gray-100 bg-white p-0 background-image-custom">
+            className={`min-h-screen flex flex-col items-center pt-0 md:pt-6 sm:pt-0 md:bg-gray-100 bg-white p-0 background-image-custom`}>
             <div className="wave right-0 sm:hidden avoid-background"></div>
             <div className="avoid-background">
                 <Link href="/">
