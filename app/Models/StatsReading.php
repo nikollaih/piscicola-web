@@ -48,12 +48,14 @@ class StatsReading extends Model
             ->with('stepStat')
             ->with('stepStat.Step')
             ->whereHas('stepStat', function ($query) use ($stepId) {
-                if($stepId)
+                if ($stepId) {
                     $query->where('step_id', $stepId);
+                }
             })
-            ->whereIn('id', function($query) {
+            ->whereIn('id', function($query) use ($sowingId) {
                 $query->selectRaw('MAX(id)')
                     ->from('stats_readings')
+                    ->where('sowing_id', $sowingId) // 👈 FILTRAR AQUÍ
                     ->groupBy('step_stat_id');
             })
             ->get();

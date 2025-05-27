@@ -9,7 +9,6 @@ import GQ from '@/../images/gq.png'
 import SR from '@/../images/SR.png'
 
 export default function Authenticated({ user, header, children }) {
-    console.log(user)
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const partyRoleId = route().params.partyRoleId;
 
@@ -244,10 +243,10 @@ export default function Authenticated({ user, header, children }) {
                         {(!route().current('dashboard') && !route().current('sowings') && !route().current('first')) ?
                             <button className="mr-3 lg:hidden" onClick={() => history.back()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
+                                     strokeWidth="1.5"
                                      stroke="currentColor" className="size-6">
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
+                                    <path strokeLinecap="round"
+                                          strokeLinejoin="round"
                                           d="M15.75 19.5 8.25 12l7.5-7.5"/>
                                 </svg>
                             </button> : null}

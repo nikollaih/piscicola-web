@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Services\ActuatorsService;
-use App\Http\Requests\ActuatorCreateRequest;
+use App\Http\Requests\ActuatorAutomationTimeCreateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
 
-class ActuatorsController extends BaseController 
+class ActuatorsController extends BaseController
 {
 
     public function __construct(private ActuatorsService $actuatorsService  ){}
 
     /**
-     * returns all actuators 
+     * returns all actuators
      */
     public function getAllActuators()
     {
@@ -26,10 +26,10 @@ class ActuatorsController extends BaseController
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
     /**
-     * returns the required information to create a new actuator 
+     * returns the required information to create a new actuator
      */
     public function getInfoToCreateActuator()
     {
@@ -39,12 +39,12 @@ class ActuatorsController extends BaseController
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
     /**
      *  allows to store a new actuator
      */
-    public function storeActuator(ActuatorCreateRequest $request)
+    public function storeActuator(ActuatorAutomationTimeCreateRequest $request)
     {
         try {
             $infoToCreateActuator = $this->actuatorsService->storeActuator($request);
@@ -52,10 +52,10 @@ class ActuatorsController extends BaseController
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
     /**
-     *  allows to get details of a actuator using it id 
+     *  allows to get details of a actuator using it id
      */
     public function getActuatorDetails($actuatorId)
     {
@@ -65,12 +65,12 @@ class ActuatorsController extends BaseController
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
     /**
-     *  allows to update an actuator 
+     *  allows to update an actuator
      */
-    public function updateActuator(ActuatorCreateRequest $request,$actuatorId)
+    public function updateActuator(ActuatorAutomationTimeCreateRequest $request, $actuatorId)
     {
         try {
             $this->actuatorsService->updateActuator($request,$actuatorId);
@@ -78,10 +78,10 @@ class ActuatorsController extends BaseController
         } catch (\Throwable $th) {
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
-    
+
     }
     /**
-     *  allows to destroy an actuator 
+     *  allows to destroy an actuator
      */
     public function destroyActuator($actuatorId)
     {
@@ -94,5 +94,5 @@ class ActuatorsController extends BaseController
             return $this->sendError('Error.', ['error'=>$th->getMessage()]);
         }
     }
-   
+
 }

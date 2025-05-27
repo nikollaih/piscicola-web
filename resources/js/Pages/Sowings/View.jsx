@@ -1,10 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage, Link, router } from '@inertiajs/react';
-import {useEffect, useState} from "react";
+import { Head, usePage, router } from '@inertiajs/react';
+import { useState} from "react";
 import SowingInformation from "@/Pages/Sowings/Partials/SowingInformation.jsx";
 import Swal from "sweetalert2";
-import {deleteService} from "@/Services/Services.ts";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import {deleteService, postService} from "@/Services/Services.ts";
 import Speedometer from "@/Components/Speedometer.jsx";
 import BiomassesChartHistory from "@/Pages/Biomasses/Partials/ChartHistory.jsx";
 import moment from "moment";
@@ -80,8 +79,46 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
 
     const getSpeedometersDom = () => {
         return stats.map((stat) => {
-            return <Speedometer stat={stat} />
+            return <Speedometer key={stat.id} stat={stat} />
         })
+    }
+
+    const postManualReadingsMqtt = async (turned_on) => {
+        try {
+            // Send a request to delete the actuator
+            const response = await postService(route('mqtt.ask.manual.readings'), usePages.props.csrfToken, {
+                unidad_productiva: "Filandia",
+                estacion_id: sowing.pond.mqtt_id
+            });
+
+            // Parse the response body as JSON
+            const jsonResponse = await response.json();
+
+            // Check if the deletion was successful
+            if (response.ok) {
+                // Show a success message to the actuator
+                Swal.fire({
+                    title: "Exito",
+                    text: jsonResponse.msg,
+                    icon: "success",
+                    confirmButtonText: "Continuar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.reload();
+                    }
+                });
+            } else {
+                // If deletion failed, show an error message to the actuator
+                throw new Error(jsonResponse.msg || 'Failed to delete actuator.');
+            }
+        } catch (error) {
+            // Handle any errors
+            Swal.fire({
+                title: "Error",
+                text: error.message || 'An unexpected error occurred.',
+                icon: "error"
+            });
+        }
     }
 
     return (
@@ -109,8 +146,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
                                 <BiomassesChartHistory biomasses={biomasses.data} />
                         </div>
                     </div>
-                    <p className="font-bold text-xl text-center">Lectura de parámetros <span onClick={() => {location.reload()}} className="text-orange-600 cursor-pointer">(Actualizar)</span></p>
-                    <p className="mb-4 text-center">Ultima actualización: {moment().format('YYYY-MM-DD - hh:mm a')}</p>
+                    <p className="font-bold text-xl text-center">Lectura de parámetros</p>
                     <div className="col-span-1 md:col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
                     </div>

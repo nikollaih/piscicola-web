@@ -115,6 +115,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('store', [ActuatorsController::class, 'store'])->name('actuator.store');
         Route::delete('{actuatorId}', [ActuatorsController::class, 'destroy'])->name('actuator.delete');
         Route::get('{actuatorId}/edit', [ActuatorsController::class, 'edit'])->name('actuator.edit');
+        Route::get('{actuatorId}/config', [ActuatorsController::class, 'config'])->name('actuator.config');
+        Route::post('{actuatorId}/config', [ActuatorsController::class, 'updateConfig'])->name('actuator.config.update');
+        Route::post('{actuatorId}/config/delete', [ActuatorsController::class, 'deleteConfig'])->name('actuator.config.delete');
         Route::patch('{actuatorId}/update', [ActuatorsController::class, 'update'])->name('actuator.update');
     });
 });
@@ -285,6 +288,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('mqtt')->group(function() {
         Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
+        Route::post('ask_manual_readings', [MqttController::class, 'askForManualReadings'])->name('mqtt.ask.manual.readings');
     });
 });
 

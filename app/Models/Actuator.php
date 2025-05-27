@@ -28,7 +28,7 @@ class Actuator extends Model
     }
 
     public function Get($actuatorId) {
-        return Actuator::with('Pond')
+        return Actuator::with('Pond.productiveUnit')
             ->with('ActuatorType')
             ->find($actuatorId);
     }
@@ -45,5 +45,10 @@ class Actuator extends Model
                 ->with('ActuatorType')
                 ->paginate(20);
         }
+    }
+
+    public function automationTimes()
+    {
+        return $this->hasMany(ActuatorAutomationTime::class);
     }
 }
