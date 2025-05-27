@@ -34,6 +34,7 @@ class SowingsController extends Controller
         $Sowing = new Sowing();
         $sowings = $Sowing->GetAll();
 
+
         return \inertia('Sowings/Index', [
             'user' => $user,
             'sowings' => $sowings,

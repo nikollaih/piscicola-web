@@ -1,30 +1,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, Link, router } from '@inertiajs/react';
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import SowingInformation from "@/Pages/Sowings/Partials/SowingInformation.jsx";
 import Swal from "sweetalert2";
-import {deleteService} from "@/Services/Services.ts";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import { deleteService } from "@/Services/Services.ts";
 import Speedometer from "@/Components/Speedometer.jsx";
 import BiomassesChartHistory from "@/Pages/Biomasses/Partials/ChartHistory.jsx";
 import moment from "moment";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
 
-export default function ViewSowing({ auth, sowing, statsReadings, biomasses, baseUrl }) {
-    let usePages = usePage();
+export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
+    const usePages = usePage();
     const [stats] = useState(statsReadings);
 
-    /**
-     * Prompt the sowing to confirm deletion of a sowing.
-     *
-     * @param {Object} sowing - The sowing object to be deleted.
-     * @returns {void}
-     */
     const confirmDeleteSowing = (sowingId) => {
-
         Swal.fire({
             title: "¿Estás seguro(a)?",
-            text: `¿Deseas eliminar la cosecha ?`,
+            text: `¿Deseas eliminar la cosecha?`,
             showCancelButton: true,
             confirmButtonColor: "#dd2627",
             cancelButtonColor: "#1f2937",
@@ -37,25 +29,14 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
         });
     };
 
-    /**
-     * Delete a sowing asynchronously.
-     *
-     * @param {number} sowingId - The ID of the sowing to be deleted.
-     * @returns {Promise<void>} - A promise that resolves once the sowing is deleted.
-     */
     const deleteSowing = async (sowingId) => {
         try {
-            // Send a request to delete the sowing
-            const response = await deleteService(route('sowing.delete', {sowingId}), usePages.props.csrfToken);
-
-            // Parse the response body as JSON
+            const response = await deleteService(route('sowing.delete', { sowingId }), usePages.props.csrfToken);
             const jsonResponse = await response.json();
 
-            // Check if the deletion was successful
-            if(response.ok) {
-                // Show a success message to the sowing
+            if (response.ok) {
                 Swal.fire({
-                    title: "Exito",
+                    title: "Éxito",
                     text: jsonResponse.msg,
                     icon: "success",
                     confirmButtonText: "Continuar",
@@ -65,58 +46,76 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, bas
                     }
                 });
             } else {
-                // If deletion failed, show an error message to the sowing
-                throw new Error(jsonResponse.msg || 'Failed to delete sowing.');
+                throw new Error(jsonResponse.msg || 'Falló la eliminación.');
             }
         } catch (error) {
-            // Handle any errors
             Swal.fire({
                 title: "Error",
-                text: error.message || 'An unexpected error occurred.',
+                text: error.message || 'Ocurrió un error inesperado.',
                 icon: "error"
             });
         }
     };
 
     const getSpeedometersDom = () => {
-        return stats.map((stat) => {
-            return <Speedometer stat={stat} />
-        })
-    }
+        return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
+    };
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Cosecha
-                    </h2>
-                </div>
-            }
+            // header={
+            //     <div className="flex items-center">
+            //         {/* <h2 className="font-semibold text-xl text-gray-800 leading-tight">Cosecha</h2> */}
+            //     </div>
+            // }
         >
-            <Head title="Cosecha"/>
-            <div className="py-4 lg:py-12">
-                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing}/>
-                    <div className="grid-cols-1 md:grid-cols-3 sm:grid-cols-1 grid sm:gap-4 mb-4">
-                        <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full mb-4 sm:mb-0">
-                            <SowingInformation sowing={sowing}/>
-                        </div>
-                        <div
-                            className="rounded-lg p-2 shadow-md col-span-1 md:col-span-2 sm:grid grid-cols-1 bg-white">
-                                <BiomassesChartHistory biomasses={biomasses.data} />
+            <Head title="Cosecha" />
+
+            <div className="py-4 lg:py-6 bg-gray-100">
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <p className="text-sm text-gray-500">Cultivos</p>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {sowing.pond?.name}
+                                </h2>
+                            </div>
+                            <Link href={route('sowing.edit', { sowingId: sowing.id })}>
+                                <button class="px-4 py-2 border border-gray-500 rounded-md text-sm text-gray-700 hover:bg-gray-100">
+                                    Configuración
+                                </button>
+                            </Link>
                         </div>
                     </div>
-                    <p className="font-bold text-xl text-center">Lectura de parámetros <span onClick={() => {location.reload()}} className="text-orange-600 cursor-pointer">(Actualizar)</span></p>
-                    <p className="mb-4 text-center">Ultima actualización: {moment().format('YYYY-MM-DD - hh:mm a')}</p>
-                    <div className="col-span-1 md:col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-4">
+
+                    <div className="flex flex-wrap justify-center gap-4 mb-4">
+                        <SowingInformation sowing={sowing} />
+                    </div>
+
+
+                    <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing} />
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
+                        <div className="bg-white rounded-lg p-2 shadow-md col-span-full">
+                            <BiomassesChartHistory biomasses={biomasses.data} />
+                        </div>
+                    </div>
+
+                    <p className="font-bold text-xl text-center">
+                        Lectura de parámetros{" "}
+                        <span onClick={() => location.reload()} className="text-orange-600 cursor-pointer">(Actualizar)</span>
+                    </p>
+                    <p className="mb-4 text-center">
+                        Última actualización: {moment().format('YYYY-MM-DD - hh:mm a')}
+                    </p>
+
+                    <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
-    )
-        ;
+    );
 }
