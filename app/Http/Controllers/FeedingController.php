@@ -34,12 +34,14 @@ class FeedingController extends Controller
         $supplies = $Supply->getAllByUse("ALIMENT");
         $Sowing->setSowingId($sowingId);
 
+        $sowingTitle = Sowing::with('pond')->findOrFail($sowingId);
         $sowing = $Sowing->Get();
         $feeding = $Feeding->getAll($sowingId, 'ALIMENT', true);
         $allFeeding["data"] = $Feeding->getAll($sowingId, 'ALIMENT');
 
         return \inertia('SupplyUse/Index', [
-            'title' => 'alimentación',
+            'title' => 'Alimentación',
+            'buttonText' => 'Agregar Alimentación',
             'supplies' => $supplies,
             'sowing' => $sowing,
             'feeds' => $feeding,
@@ -81,6 +83,7 @@ class FeedingController extends Controller
 
         return \inertia('SupplyUse/Readings', [
             'title' => 'alimentación',
+            'buttonText' => 'Agregar Alimentación',
             'sowing' => $sowing,
             'biomasseOne' => $biomasseOne,
             'biomasseTwo' => $biomasseTwo,

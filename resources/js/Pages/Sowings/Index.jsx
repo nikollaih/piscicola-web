@@ -26,17 +26,26 @@ export default function Sowings({ auth, sowings, request, createSowingUrl, baseU
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Cosechas</h2>}
+            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Cosechas</h2>}
         >
             <Head title="Cosechas" />
             <div className="py-4 sm:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex mb-4 justify-end">
-                        <Link href={createSowingUrl}>
-                            <PrimaryButton className="bg-orange-600 h-10">
-                                Agregar Cosecha
-                            </PrimaryButton>
-                        </Link>
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    Cultivos
+                                </h2>
+                            </div>
+                            <div className="flex mb-4 justify-end">
+                                <Link href={createSowingUrl}>
+                                    <PrimaryButton className="bg-orange-600 h-10 text-white">
+                                        Nuevo cultivo
+                                    </PrimaryButton>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 rounded-lg gap-4 p-1">
                         {getSowingsDom()}

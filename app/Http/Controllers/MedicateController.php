@@ -31,13 +31,15 @@ class MedicateController extends Controller
 
         $supplies = $Supply->getAllByUse("MEDICINE");
         $Sowing->setSowingId($sowingId);
+        $sowingTitle = Sowing::with('pond')->findOrFail($sowingId);
 
         $sowing = $Sowing->Get();
         $feeding = $Feeding->getAll($sowingId, 'MEDICINE', true);
         $allFeeding["data"] = $Feeding->getAll($sowingId, 'MEDICINE');
 
         return \inertia('SupplyUse/Index', [
-            'title' => 'medicamentos',
+            'title' => 'Medicamentos',
+            'buttonText' => 'Agregar Medicamento',
             'supplies' => $supplies,
             'sowing' => $sowing,
             'feeds' => $feeding,
@@ -79,6 +81,7 @@ class MedicateController extends Controller
 
         return \inertia('SupplyUse/Readings', [
             'title' => 'medicamentos',
+            'buttonText' => 'Agregar Medicamento',
             'sowing' => $sowing,
             'biomasseOne' => $biomasseOne,
             'biomasseTwo' => $biomasseTwo,
