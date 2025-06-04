@@ -39,7 +39,7 @@ class MedicateController extends Controller
 
         return \inertia('SupplyUse/Index', [
             'title' => 'Medicamentos',
-            'buttonText' => 'Agregar Medicamento',
+            'buttonText' => 'Nuevo Medicamento',
             'supplies' => $supplies,
             'sowing' => $sowing,
             'feeds' => $feeding,
@@ -81,7 +81,7 @@ class MedicateController extends Controller
 
         return \inertia('SupplyUse/Readings', [
             'title' => 'medicamentos',
-            'buttonText' => 'Agregar Medicamento',
+            'buttonText' => 'Nuevo Medicamento',
             'sowing' => $sowing,
             'biomasseOne' => $biomasseOne,
             'biomasseTwo' => $biomasseTwo,
@@ -108,7 +108,9 @@ class MedicateController extends Controller
             'biomasseId' => $latestBiomasse->id,
             'supplies' => $supplies,
             'indexRoute' => route('medicate', ['sowingId' => $sowingId]),
-            'formActionUrl' => route('medicate.store')
+            'formActionUrl' => route('medicate.store'),
+            'buttonText' => 'Nuevo Medicamento',
+            'titleh2' => 'Medicamento'
         ]);
     }
 

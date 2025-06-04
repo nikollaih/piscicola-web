@@ -79,7 +79,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.biomasse?.id) ? "Modificar" : "Agregar"} biomasa</h2>}
+            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.biomasse?.id) ? "Modificar" : "Agregar"} biomasa</h2>}
         >
             <Head title="Biomasa" />
             <div className="py-12">
@@ -90,6 +90,28 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                             onClose={() => setSuccessMessage('')}
                         />
 
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                        <div>
+                                            <div className="flex items-center text-sm text-gray-500 mb-1">
+                                                <Link href="/sowings" className="hover:text-gray-700">Cultivo</Link>
+                                                <span className="mx-2">{'>'}</span>
+                                                <span className="text-gray-700">Agregar Biomasas</span>
+                                            </div>
+                                            <h2 className="text-xl font-semibold text-gray-800">
+                                                Nuevo Biomasas
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Link className="w-full sm:w-auto" href={biomassesUrl}>
+                                <PrimaryButton className="">Volver</PrimaryButton>
+                            </Link>
+                        </div>
+                        <br />
                         <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-2">
@@ -147,11 +169,8 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link className="w-full sm:w-auto" href={biomassesUrl}>
-                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
-                            </Link>
                             <PrimaryButton
-                                className="bg-orange-600 w-full sm:w-auto"
+                                className="bg-orange-600 w-full sm:w-auto text-white"
                                 disabled={processing}
                             >
                                 Guardar

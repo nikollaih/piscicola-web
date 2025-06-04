@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
 import TextInput from "@/Components/TextInput.jsx";
 import TextArea from "@/Components/TextArea.jsx";
 import InputLabel from '@/Components/InputLabel.jsx';
@@ -9,12 +9,11 @@ import DropDownToggle from "@/Components/DropDownToggle.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputError from '@/Components/InputError.jsx';
 import AlertMessage from '@/Components/AlertMessage.jsx';
-import {useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import moment from "moment";
 import Constants from "@/../Constants.js";
 
 export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute }) {
-    // Create a ref for the reset button
     const buttonResetRef = useRef(null);
     const hasErrors = usePage().props.errors;
     const pageProps = usePage().props;
@@ -33,10 +32,10 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
     const [actuatorTypeTitle, setActuatorTypeTitle] = useState('Seleccionar');
 
     useEffect(() => {
-        if(pageProps?.actuator?.id){
+        if (pageProps?.actuator?.id) {
             setActuatorData(pageProps.actuator);
         }
-    }, [])
+    }, []);
 
     const setActuatorData = (actuator) => {
         setData({
@@ -49,66 +48,55 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
         });
 
         setActuatorTypeTitle(actuator.actuator_type.name);
-        setPondTitle(actuator.pond.name)
-    }
+        setPondTitle(actuator.pond.name);
+    };
 
-    // Handle the form submition
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Send the form data to be processed
-        if(pageProps?.actuator?.id){
-            patch(pageProps.formActionUrl, {
-                onSuccess: () => onSuccessSubmit()
-            });
+        if (pageProps?.actuator?.id) {
+            patch(pageProps.formActionUrl, { onSuccess: () => onSuccessSubmit() });
+        } else {
+            post(pageProps.formActionUrl, { onSuccess: () => onSuccessSubmit() });
         }
-        else {
-            post(pageProps.formActionUrl, {
-                onSuccess: () => onSuccessSubmit(),
-            });
-        }
-    }
+    };
 
     const onSuccessSubmit = () => {
-        let successAction = "modificado";
-        if(!pageProps?.actuator?.id) {
-            // Reset the form...
-            reset();
-            successAction = "agregado";
-        }
-        // Set the success message to be displayed to the actuator
-        setSuccessMessage('El actuador fue '+successAction+' satisfactoriamente');
-        // Clear the form
+        let successAction = pageProps?.actuator?.id ? "modificado" : "agregado";
+        if (!pageProps?.actuator?.id) reset();
+        setSuccessMessage(`El actuador fue ${successAction} satisfactoriamente`);
         buttonResetRef.current.click();
-    }
+    };
+
+    const handleDelete = () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este actuador?")) {
+            router.delete(route('actuator.delete', { actuatorId: pageProps.actuator.id }));
+        }
+    };
 
     const getMUDropdownDom = () => {
-        return ponds.data.map((item) => {
-            return <DropDownItem onClick={() => {setSelectedPond(item)}}>{item.name}</DropDownItem>
-        })
-    }
+        return ponds.data.map((item) => (
+            <DropDownItem onClick={() => setSelectedPond(item)} key={item.id}>{item.name}</DropDownItem>
+        ));
+    };
 
     const setSelectedPond = (pond) => {
         setPondTitle(pond.name);
-        setData({...data, pond_id: pond.id});
-    }
+        setData({ ...data, pond_id: pond.id });
+    };
 
     const getActuatorTypeDom = () => {
-        return actuatorTypes.map((item) => {
-            return <DropDownItem onClick={() => {setSelectedActuatorType(item)}}>{item.name}</DropDownItem>
-        })
-    }
+        return actuatorTypes.map((item) => (
+            <DropDownItem onClick={() => setSelectedActuatorType(item)} key={item.id}>{item.name}</DropDownItem>
+        ));
+    };
 
     const setSelectedActuatorType = (actuatorType) => {
         setActuatorTypeTitle(actuatorType.name);
-        setData({...data, actuator_type_id: actuatorType.id});
-    }
+        setData({ ...data, actuator_type_id: actuatorType.id });
+    };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.actuator?.id) ? "Modificar" : "Agregar"} actuador</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Actuador" />
             <div className="lg:py-12 py-4">
                 <form onSubmit={handleSubmit}>
@@ -118,101 +106,130 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm rounded-lg p-5">
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex items-center text-sm text-gray-500 mb-1">
+                                        <Link href="/sowings" className="hover:text-gray-700">Infraestructura</Link>
+                                        <span className="mx-2">{'>'}</span>
+                                        <span className="text-gray-700">
+                                            {pageProps?.actuator?.id ? "Editar Actuador" : "Agregar Actuador"}
+                                        </span>
+                                    </div>
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        {pageProps?.actuator?.id ? "Editar" : "Nuevo"} Actuador
+                                    </h2>
+                                </div>
+                            </div>
+                            <Link className="w-full sm:w-auto" href={goBackRoute}>
+                                <PrimaryButton>Regresar</PrimaryButton>
+                            </Link>
+                        </div>
+                        <br />
+                        <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid grid-cols-1">
                                 <div className="grid grid-cols-1 md:grid-cols-2 col-span-1 gap-4 mb-4">
-                                    <div className="md:col-span-1 sm:col-span-4">
-                                        <InputLabel value="Nombre"/>
+                                    <div>
+                                        <InputLabel value="Nombre" />
                                         <TextInput
                                             type="text"
                                             className="w-full"
-                                            placeholder=""
                                             name="name"
                                             value={data.name}
                                             required
-                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                        {(hasErrors?.name) ?
-                                            <InputError message={hasErrors.name}/> : ""}
+                                            onChange={(e) => setData(e.target.name, e.target.value)}
+                                        />
+                                        {hasErrors?.name && <InputError message={hasErrors.name} />}
                                     </div>
-                                    <div className="md:col-span-1 sm:col-span-4">
-                                        <InputLabel value="Costo por minuto"/>
+                                    <div>
+                                        <InputLabel value="Costo por minuto" />
                                         <TextInput
                                             type="number"
                                             className="w-full"
-                                            placeholder=""
                                             name="cost_by_minute"
                                             value={data.cost_by_minute}
                                             required
-                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                        {(hasErrors?.cost_by_minute) ?
-                                            <InputError message={hasErrors.cost_by_minute}/> : ""}
+                                            onChange={(e) => setData(e.target.name, e.target.value)}
+                                        />
+                                        {hasErrors?.cost_by_minute && <InputError message={hasErrors.cost_by_minute} />}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 col-span-1 mb-4">
-                                    <div className="md:col-span-1 sm:col-span-3">
-                                        <InputLabel value="Estanque"/>
+                                    <div>
+                                        <InputLabel value="Estanque" />
                                         <Dropdown>
                                             <Dropdown.Trigger>
-                                                <DropDownToggle
-                                                    className="items-center cursor-pointer">{pondTitle}</DropDownToggle>
+                                                <DropDownToggle className="items-center cursor-pointer">
+                                                    {pondTitle}
+                                                </DropDownToggle>
                                             </Dropdown.Trigger>
                                             <Dropdown.Content align="left" className="px-2" width={100}>
                                                 {getMUDropdownDom()}
                                             </Dropdown.Content>
                                         </Dropdown>
-                                        {(hasErrors?.pond_id) ?
-                                            <InputError message={hasErrors.pond_id}/> : ""}
+                                        {hasErrors?.pond_id && <InputError message={hasErrors.pond_id} />}
                                     </div>
-                                    <div className="md:col-span-1 sm:col-span-3">
-                                        <InputLabel value="Tipo de actuador"/>
+                                    <div>
+                                        <InputLabel value="Tipo de actuador" />
                                         <Dropdown>
                                             <Dropdown.Trigger>
-                                                <DropDownToggle
-                                                    className="items-center cursor-pointer">{actuatorTypeTitle}</DropDownToggle>
+                                                <DropDownToggle className="items-center cursor-pointer">
+                                                    {actuatorTypeTitle}
+                                                </DropDownToggle>
                                             </Dropdown.Trigger>
                                             <Dropdown.Content align="left" className="px-2" width={100}>
                                                 {getActuatorTypeDom()}
                                             </Dropdown.Content>
                                         </Dropdown>
-                                        {(hasErrors?.actuator_type_id) ?
-                                            <InputError message={hasErrors.actuator_type_id}/> : ""}
+                                        {hasErrors?.actuator_type_id && <InputError message={hasErrors.actuator_type_id} />}
                                     </div>
-                                    <div className="md:col-span-1 sm:col-span-3">
-                                        <InputLabel value="MQTT ID"/>
+                                    <div>
+                                        <InputLabel value="MQTT ID" />
                                         <TextInput
                                             type="text"
                                             className="w-full"
-                                            placeholder=""
                                             name="mqtt_id"
                                             value={data.mqtt_id}
                                             required
-                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                        {(hasErrors?.mqtt_id) ?
-                                            <InputError message={hasErrors.mqtt_id}/> : ""}
+                                            onChange={(e) => setData(e.target.name, e.target.value)}
+                                        />
+                                        {hasErrors?.mqtt_id && <InputError message={hasErrors.mqtt_id} />}
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="w-full">
-                                        <InputLabel value="Descripción"/>
-                                        <TextArea
-                                            className="w-full"
-                                            placeholder=""
-                                            name="description"
-                                            value={data.description}
-                                            onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                        {(hasErrors?.description) ?
-                                            <InputError message={hasErrors.description}/> : ""}
-                                    </div>
+                                    <InputLabel value="Descripción" />
+                                    <TextArea
+                                        className="w-full"
+                                        name="description"
+                                        value={data.description}
+                                        onChange={(e) => setData(e.target.name, e.target.value)}
+                                    />
+                                    {hasErrors?.description && <InputError message={hasErrors.description} />}
                                 </div>
-
                             </div>
                         </div>
+
+                        {/* Sección de eliminación (solo si es edición) */}
+                        {pageProps?.actuator?.id && (
+                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
+                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
+                                <p className="mb-4 text-gray-600">
+                                    Se eliminará permanentemente el actuador “
+                                    <strong>{pageProps.actuator.name}</strong>”. Verifica que sea la acción que quieres realizar.
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                                >
+                                    Eliminar actuador
+                                </button>
+                            </div>
+                        )}
+
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link className="w-full sm:w-auto" href={goBackRoute}>
-                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
-                            </Link>
                             <PrimaryButton
-                                className="bg-orange-600 w-full sm:w-auto"
+                                className="bg-orange-600 w-full sm:w-auto text-white"
                                 disabled={processing}
                             >
                                 Guardar

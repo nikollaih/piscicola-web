@@ -12,7 +12,7 @@ import {useEffect, useState, useRef} from "react";
 import moment from "moment";
 import Constants from "@/../Constants.js";
 
-export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, indexRoute }) {
+export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, indexRoute, buttonText, titleh2 }) {
     // Create a ref for the reset button
     const buttonResetRef = useRef(null);
     const hasErrors = usePage().props.errors;
@@ -88,7 +88,7 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.feed?.id) ? "Modificar" : "Agregar"} Suministro</h2>}
+            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.feed?.id) ? "Modificar" : "Agregar"} Suministro</h2>}
         >
             <Head title="Biomasa" />
             <div className="py-12">
@@ -98,6 +98,29 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                             title={successMessage}
                             onClose={() => setSuccessMessage('')}
                         />
+
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                        <div>
+                                            <div className="flex items-center text-sm text-gray-500 mb-1">
+                                                <Link href="/sowings" className="hover:text-gray-700">Cultivo</Link>
+                                                <span className="mx-2">{'>'}</span>
+                                                <span className="text-gray-700">{titleh2}</span>
+                                            </div>
+                                            <h2 className="text-xl font-semibold text-gray-800">
+                                                {buttonText}
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Link className="w-full sm:w-auto" href={indexRoute}>
+                                <PrimaryButton className="">Volver</PrimaryButton>
+                            </Link>
+                        </div>
+                        <br />
 
                         <div class="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
@@ -143,11 +166,8 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                             </div>
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link className="w-full sm:w-auto" href={indexRoute}>
-                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
-                            </Link>
                             <PrimaryButton
-                                className="bg-orange-600 w-full sm:w-auto"
+                                className="bg-orange-600 w-full sm:w-auto text-white"
                                 disabled={processing}
                             >
                                 Guardar

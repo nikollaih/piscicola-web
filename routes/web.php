@@ -266,8 +266,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('sales')->group(function() {
         Route::get('/', [SalesController::class, 'index'])->name('sales');
-        Route::get('create/{sowingId}', [SalesController::class, 'create'])->name('sale.create');
-        Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
+        Route::get('create', [SalesController::class, 'create'])->name('sale.create');
+        Route::post('store', [SalesController::class, 'store'])->name('sale.store');
         Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
         Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
         Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
