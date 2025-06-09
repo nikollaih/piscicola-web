@@ -1,13 +1,19 @@
 import { Link } from "@inertiajs/react";
+import dayjs from "dayjs"; // Instala dayjs: npm install dayjs
 
 export default function SowingItem({ sowing, baseUrl }) {
-    const stepProgress = {
-        1: 25,
-        2: 50,
-        3: 100,
-    };
+    // Calcula porcentaje de días transcurridos hasta la fecha estimada
+    const now = dayjs();
+    const fechaEstimada = sowing.fecha_estimada ? dayjs(sowing.fecha_estimada) : null;
 
-    const progreso = stepProgress[sowing.step_id] || 0;
+    let progreso = 0;
+
+    if (fechaEstimada) {
+        const totalDias = fechaEstimada.diff(dayjs(sowing.manual_created_at), 'day');
+        const diasPasados = now.diff(dayjs(sowing.manual_created_at), 'day');
+        progreso = totalDias > 0 ? Math.min((diasPasados / totalDias) * 100, 100) : 100;
+        progreso = Math.round(progreso);
+    }
 
     return (
         <div className="bg-white rounded-xl shadow-md p-6 w-full max-w-sm mx-auto hover:shadow-lg transition-all space-y-4">
@@ -16,8 +22,7 @@ export default function SowingItem({ sowing, baseUrl }) {
             </h3>
             <p className="font-bold">{sowing.pond.name}</p>
 
-
-            <p className="text-sm text-gray-500">Cumplimiento del ciclo</p>
+            <p className="text-sm text-gray-500">Progreso hacia la fecha estimada</p>
 
             <div className="w-full h-2 bg-gray-200 rounded-full relative">
                 <div

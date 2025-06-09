@@ -88,7 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('create', [SowingsController::class, 'create'])->name('sowing.create');
         Route::post('store', [SowingsController::class, 'store'])->name('sowing.store');
         Route::get('{sowingId}/edit', [SowingsController::class, 'edit'])->name('sowing.edit')->middleware(['check.saledate']);
-        Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowing.update');
+        Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowings.update');
         Route::delete('{sowingId}', [SowingsController::class, 'destroy'])->name('sowing.delete')->middleware(['check.saledate']);
     });
 });

@@ -26,7 +26,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                             <div className="hidden space-x-2 sm:-my-px sm:ms-10 lg:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Inicio
+                                    Resumen
                                 </NavLink>
                             </div>
                             {
@@ -58,30 +58,66 @@ export default function Authenticated({ user, header, children }) {
                                                 Cosechas
                                             </NavLink>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 lg:flex">
-                                            <NavLink href={route('actuators')} active={route().current('actuators')}>
-                                                Actuadores
-                                            </NavLink>
+
+                                        <div className="hidden lg:flex sm:items-center">
+                                            <div className="relative">
+                                                <Dropdown>
+                                                    <Dropdown.Trigger>
+                                                        <button
+                                                            className="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                                        >
+                                                            Infraestructura
+                                                            <svg
+                                                                className="ml-1 h-4 w-4 fill-current"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path d="M5.5 7l4.5 4 4.5-4H5.5z" />
+                                                            </svg>
+                                                        </button>
+                                                    </Dropdown.Trigger>
+
+                                                    <Dropdown.Content>
+                                                        <Dropdown.Link href={route('actuators')} active={route().current('actuators')}>
+                                                            Actuadores
+                                                        </Dropdown.Link>
+                                                        <Dropdown.Link href={route('ponds')} active={route().current('ponds')}>
+                                                            Estanques
+                                                        </Dropdown.Link>
+                                                        <Dropdown.Link href={route('supplies')} active={route().current('supplies')}>
+                                                            Suministros
+                                                        </Dropdown.Link>
+                                                    </Dropdown.Content>
+                                                </Dropdown>
+                                            </div>
                                         </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 lg:flex">
-                                            <NavLink href={route('ponds')} active={route().current('ponds')}>
-                                                Estanques
-                                            </NavLink>
-                                        </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 lg:flex">
-                                            <NavLink href={route('expenses')} active={route().current('expenses')}>
-                                                Gastos
-                                            </NavLink>
-                                        </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 lg:flex">
-                                            <NavLink href={route('sales')} active={route().current('sales')}>
-                                                Ventas
-                                            </NavLink>
-                                        </div>
-                                        <div className="hidden space-x-2 sm:-my-px sm:ms-2 lg:flex">
-                                            <NavLink href={route('supplies')} active={route().current('supplies')}>
-                                                Suministros
-                                            </NavLink>
+
+                                        <div className="hidden lg:flex sm:items-center">
+                                            <div className="relative">
+                                                <Dropdown>
+                                                    <Dropdown.Trigger>
+                                                        <button
+                                                            className="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                                        >
+                                                            Finanzas
+                                                            <svg
+                                                                className="ml-1 h-4 w-4 fill-current"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path d="M5.5 7l4.5 4 4.5-4H5.5z" />
+                                                            </svg>
+                                                        </button>
+                                                    </Dropdown.Trigger>
+
+                                                    <Dropdown.Content>
+                                                        <Dropdown.Link href={route('expenses')} active={route().current('expenses')}>
+                                                            Gastos
+                                                        </Dropdown.Link>
+                                                        <Dropdown.Link href={route('sales')} active={route().current('sales')}>
+                                                            Ventas
+                                                        </Dropdown.Link>
+                                                    </Dropdown.Content>
+                                                </Dropdown>
+                                            </div>
                                         </div>
                                         <div className="hidden lg:flex sm:items-center">
                                             <div className="relative">
@@ -193,23 +229,49 @@ export default function Authenticated({ user, header, children }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' lg:hidden bg-white w-full h-full z-10'}>
                     <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
+                        <ResponsiveNavLink href={route('dashboard')} active={(route().current('dashboard') || route().current('first'))}>
+                            Resumen
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('sowings')} active={(route().current('sowings') || route().current('first'))}>
                             Cosechas
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('actuators')} active={route().current('actuators')}>
-                            Actuadores
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('ponds')} active={route().current('ponds')}>
-                            Estanques
-                        </ResponsiveNavLink>
+                        
+                        
+                        
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <button
+                                    className="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                >
+                                    Infraestructura
+                                    <svg
+                                        className="ml-1 h-4 w-4 fill-current"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M5.5 7l4.5 4 4.5-4H5.5z" />
+                                    </svg>
+                                </button>
+                            </Dropdown.Trigger>
+
+                            <Dropdown.Content>
+                                <Dropdown.Link href={route('actuators')} active={route().current('actuators')}>
+                                    Actuadores
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('ponds')} active={route().current('ponds')}>
+                                    Estanques
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('supplies')} active={route().current('supplies')}>
+                                    Suministros
+                                </Dropdown.Link>
+                            </Dropdown.Content>
+                        </Dropdown>
+
+
                         <ResponsiveNavLink href={route('expenses')} active={route().current('expenses')}>
                             Gastos
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('sales')} active={route().current('sales')}>
                             Ventas
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('supplies')} active={route().current('supplies')}>
-                            Suministros
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('users')} active={route().current('users')}>
                             Usuarios

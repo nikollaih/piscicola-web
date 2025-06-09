@@ -20,7 +20,8 @@ class Sowing extends Model
         'sale_date',
         'quantity',
         'dead_quantity',
-        'manual_created_at'
+        'manual_created_at',
+        'fecha_estimada'
     ];
 
     protected $sowingId = null;
