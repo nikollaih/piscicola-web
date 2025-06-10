@@ -139,35 +139,55 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Actuador
-                    </h2>
-                </div>
-            }
+            // header={
+            //     <div className="flex items-center">
+            //         <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+            //             Actuador
+            //         </h2>
+            //     </div>
+            // }
         >
             <Head title="Actuador"/>
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 mb-4 justify-between">
-                        <div className="flex gap-4">
-                            {
-                                (actuator.is_turned_on === 1)
-                                    ?
-                                    <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(0)}} className="bg-red-600">Apagar</PrimaryButton>
-                                    :
-                                    <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(1)}} className="bg-green-600">Encender</PrimaryButton>
-                            }
+
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                        <div>
+                                            <div className="flex items-center text-sm text-gray-500 mb-1">
+                                                <Link href="/actuators/pond" className="hover:text-gray-700">Infraestructura</Link>
+                                                <span className="mx-2">{'>'}</span>
+                                                <span className="text-gray-700">Actuadores</span>
+                                            </div>
+                                            <h2 className="text-xl font-semibold text-gray-800">
+                                                Motobomba
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+                        
                         <div className="flex gap-4">
-                            <Link href={route('actuator.config', {actuatorId: actuator.id})}>
-                                <PrimaryButton className="bg-blue-600">Configurar</PrimaryButton>
-                            </Link>
+
+                            <div className="">
+                                {
+                                    (actuator.is_turned_on === 1)
+                                        ?
+                                        <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(0)}} className="bg-red-600 text-white">Apagar</PrimaryButton>
+                                        :
+                                        <PrimaryButton onClick={() => {confirmTurnActuatorMqtt(1)}} className="bg-green-600 text-white">Encender</PrimaryButton>
+                                }
+                            </div>
+
                             <Link href={route('actuator.edit', {actuatorId: actuator.id})}>
-                                <PrimaryButton className="bg-orange-600">Modificar</PrimaryButton>
+                                <PrimaryButton className="">Configuración</PrimaryButton>
                             </Link>
-                            <PrimaryButton onClick={() => {confirmDeleteActuator(actuator.id)}} className="bg-red-600">Eliminar</PrimaryButton>
+                            {/* <PrimaryButton onClick={() => {confirmDeleteActuator(actuator.id)}} className="bg-red-600">Eliminar</PrimaryButton> */}
                         </div>
                     </div>
 

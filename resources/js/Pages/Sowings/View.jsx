@@ -64,11 +64,6 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     return (
         <AuthenticatedLayout
             user={auth.user}
-            // header={
-            //     <div className="flex items-center">
-            //         {/* <h2 className="font-semibold text-xl text-gray-800 leading-tight">Cosecha</h2> */}
-            //     </div>
-            // }
         >
             <Head title="Cosecha" />
 

@@ -116,7 +116,7 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                                 </h2>
                             </div>
                             <Link href={addRoute}>
-                                <PrimaryButton className="">{buttonText}</PrimaryButton>
+                                <PrimaryButton className="bg-orange-600 h-10 text-white">{buttonText}</PrimaryButton>
                             </Link>
                         </div>
                     </div>

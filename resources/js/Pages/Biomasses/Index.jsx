@@ -77,7 +77,7 @@ export default function Biomasses({ auth, sowing, biomasses, latestBiomasses, cr
                                     <PrimaryButton className="bg-gray-800 text-white">Histórico de lecturas</PrimaryButton>
                                 </Link>
                                 <Link href={createBiomasseUrl}>
-                                    <PrimaryButton>Agregar</PrimaryButton>
+                                    <PrimaryButton className='bg-orange-600 h-10 text-white'>Agregar</PrimaryButton>
                                 </Link>
                             </div>
                         </div>

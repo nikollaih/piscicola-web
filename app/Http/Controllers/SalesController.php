@@ -10,48 +10,51 @@ use Illuminate\Http\Request;
 
 class SalesController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $Sale = new Sale();
         $sales = $Sale->getAll();
+        $sowingId = $request->get('sowing_id'); // por ejemplo ?sowing_id=1
 
-        return \inertia('Sales/Index', [
+        return inertia('Sales/Index', [
             'sales' => $sales,
+            'sowingId' => $sowingId,
+            'createSalesUrl' => route('sale.create', ['sowingId' => $sowingId]), // 👈 aquí la envío
             'csrfToken' => csrf_token()
         ]);
     }
 
-    public function create($sowingId) {
-        $Sowing = new Sowing();
-        $Sowing->setSowingId($sowingId);
+
+    public function create() {
         $Party = new Party();
-        $sowing = $Sowing->Get();
+        $Sowing = new Sowing();
+
+        $sowings = Sowing::orderBy('created_at', 'desc')->get(); // todas las cosechas
         $clients = $Party->getAllByRole(1);
 
-        return \inertia('Sales/Create', [
+        return inertia('Sales/Create', [
             'clients' => $clients,
-            'sowing' => $sowing,
-            'formActionUrl' => route('sale.store', ['sowingId' => $sowingId]),
+            'sowings' => $sowings, // enviamos todas
+            'formActionUrl' => route('sale.store'),
             'csrfToken' => csrf_token()
         ]);
     }
 
-    public function store(SalesCreateRequest $request, $sowingId){
+
+    public function store(SalesCreateRequest $request){
         $saleRequest = $request->all();
-        $saleRequest["sowing_id"] = $sowingId;
+        $sowingId = $saleRequest["sowing_id"];
+
         $saved = Sale::create($saleRequest);
 
         if($saved){
             Sowing::where('id', $sowingId)->update(['sale_date' => $saleRequest["manual_created_at"]]);
         }
 
-        // Api response
         if($request->is('api/*')){
-            if($saved){
-                return response()->json(Sale::find($saved->id), 200);
-            }
-            return response()->json([], 500);
+            return response()->json($saved ? Sale::find($saved->id) : [], $saved ? 200 : 500);
         }
     }
+
 
     public function edit($saleId) {
         $Sale = new Sale();

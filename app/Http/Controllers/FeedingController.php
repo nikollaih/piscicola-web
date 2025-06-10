@@ -41,7 +41,7 @@ class FeedingController extends Controller
 
         return \inertia('SupplyUse/Index', [
             'title' => 'Alimentación',
-            'buttonText' => 'Agregar Alimentación',
+            'buttonText' => 'Nueva Alimentación',
             'supplies' => $supplies,
             'sowing' => $sowing,
             'feeds' => $feeding,
@@ -83,7 +83,7 @@ class FeedingController extends Controller
 
         return \inertia('SupplyUse/Readings', [
             'title' => 'alimentación',
-            'buttonText' => 'Agregar Alimentación',
+            'buttonText' => 'Nueva Alimentación',
             'sowing' => $sowing,
             'biomasseOne' => $biomasseOne,
             'biomasseTwo' => $biomasseTwo,
@@ -110,7 +110,9 @@ class FeedingController extends Controller
             'biomasseId' => $latestBiomasse->id,
             'supplies' => $supplies,
             'indexRoute' => route('feeding', ['sowingId' => $sowingId]),
-            'formActionUrl' => route('feeding.store')
+            'formActionUrl' => route('feeding.store'),
+            'buttonText' => 'Nueva Alimentación',
+            'titleh2' => 'Alimentación'
         ]);
     }
 

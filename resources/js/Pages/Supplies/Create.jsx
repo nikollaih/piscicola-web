@@ -1,20 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
 import TextInput from "@/Components/TextInput.jsx";
 import TextArea from "@/Components/TextArea.jsx";
 import InputLabel from '@/Components/InputLabel.jsx';
 import Dropdown from '@/Components/Dropdown.jsx';
-import DropDownItem from '@/Components/DropDownItem.jsx'
+import DropDownItem from '@/Components/DropDownItem.jsx';
 import DropDownToggle from "@/Components/DropDownToggle.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputError from '@/Components/InputError.jsx';
 import AlertMessage from '@/Components/AlertMessage.jsx';
-import {useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import moment from "moment";
 import Constants from "@/../Constants.js";
 
 export default function CreateSupply({ auth, measurements, suppliesUrl, supply }) {
-    // Create a ref for the reset button
     const buttonResetRef = useRef(null);
     const hasErrors = usePage().props.errors;
     const pageProps = usePage().props;
@@ -29,18 +28,18 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
         notes: "",
         manual_created_at: moment().format(Constants.DATEFORMAT)
     });
+
     const [successMessage, setSuccessMessage] = useState('');
     const [measurementUnitTitle, setMeasurementUnitTitle] = useState('Seleccionar');
     const [useTitle, setUseTitle] = useState('Seleccionar');
 
     useEffect(() => {
-        if(pageProps?.supply?.id){
+        if (pageProps?.supply?.id) {
             setSupplyData(pageProps.supply);
         }
-    }, [])
+    }, []);
 
     const setSupplyData = (supply) => {
-        console.log(supply)
         setData({
             measurement_unit_id: supply.measurement_unit_id,
             name: supply.name,
@@ -49,70 +48,64 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
         });
 
         setUseTitle(Constants.SUPPLIES_USES_TYPES[supply.use_type]);
-        setMeasurementUnitTitle(supply.measurement_unit.name)
-    }
+        setMeasurementUnitTitle(supply.measurement_unit.name);
+    };
 
-    // Handle the form submition
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Send the form data to be processed
-        if(pageProps?.supply?.id){
-            patch(pageProps.formActionUrl, {
-                onSuccess: () => onSuccessSubmit()
-            });
+        if (pageProps?.supply?.id) {
+            patch(pageProps.formActionUrl, { onSuccess: () => onSuccessSubmit() });
+        } else {
+            post(pageProps.formActionUrl, { onSuccess: () => onSuccessSubmit() });
         }
-        else {
-            post(pageProps.formActionUrl, {
-                onSuccess: () => onSuccessSubmit(),
-            });
-        }
-    }
+    };
 
     const onSuccessSubmit = () => {
-        let successAction = "modificado";
-        if(!pageProps?.supply?.id) {
-            // Reset the form...
-            reset();
-            successAction = "agregado";
-        }
-        // Set the success message to be displayed to the supply
-        setSuccessMessage('El suministro fue '+successAction+' satisfactoriamente');
-        // Clear the form
+        let successAction = pageProps?.supply?.id ? "modificado" : "agregado";
+        if (!pageProps?.supply?.id) reset();
+        setSuccessMessage(`El suministro fue ${successAction} satisfactoriamente`);
         buttonResetRef.current.click();
-    }
+    };
+
+    const handleDelete = () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este suministro?")) {
+            router.delete(route('supplies.delete', { supplyId: pageProps.supply.id }));
+        }
+    };
 
     const getMUDropdownDom = () => {
-        return measurements.map((item) => {
-            return <DropDownItem onClick={() => {setSelectedMU(item)}}>{item.name}</DropDownItem>
-        })
-    }
+        return measurements.map((item) => (
+            <DropDownItem key={item.id} onClick={() => setSelectedMU(item)}>
+                {item.name}
+            </DropDownItem>
+        ));
+    };
 
     const setSelectedMU = (measurement) => {
         setMeasurementUnitTitle(measurement.name);
-        setData({...data, measurement_unit_id: measurement.id});
-    }
+        setData({ ...data, measurement_unit_id: measurement.id });
+    };
 
     const getUseDropdownDom = () => {
         let uses = Constants.SUPPLIES_USES_TYPES;
         let usesDom = [];
         for (let key in uses) {
-            usesDom.push(<DropDownItem onClick={() => {setSelectedUse(key, uses[key])}}>{uses[key]}</DropDownItem>);
+            usesDom.push(
+                <DropDownItem key={key} onClick={() => setSelectedUse(key, uses[key])}>
+                    {uses[key]}
+                </DropDownItem>
+            );
         }
-
         return usesDom;
-    }
+    };
 
     const setSelectedUse = (use, value) => {
         setUseTitle(value);
-        setData({...data, use_type: use});
-    }
+        setData({ ...data, use_type: use });
+    };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.supply?.id) ? "Modificar" : "Agregar"} suministro</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Agregar suministro" />
             <div className="py-4 lg:py-12">
                 <form onSubmit={handleSubmit}>
@@ -122,122 +115,142 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div class="bg-white shadow-sm rounded-lg p-5">
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex items-center text-sm text-gray-500 mb-1">
+                                        <Link href="/sowings" className="hover:text-gray-700">Infraestructura</Link>
+                                        <span className="mx-2">{'>'}</span>
+                                        <span className="text-gray-700">
+                                            {pageProps?.supply?.id ? "Editar Suministro" : "Agregar Suministro"}
+                                        </span>
+                                    </div>
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        {pageProps?.supply?.id ? "Editar" : "Nuevo"} Suministro
+                                    </h2>
+                                </div>
+                            </div>
+                            <Link className="w-full sm:w-auto" href={route('supplies')}>
+                                <PrimaryButton>Volver</PrimaryButton>
+                            </Link>
+                        </div>
+                        <br />
+                        <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-4">
-                                    <InputLabel value="Nombre del producto"/>
+                                    <InputLabel value="Nombre del producto" />
                                     <TextInput
                                         type="text"
                                         className="w-full"
-                                        placeholder=""
                                         name="name"
                                         value={data.name}
                                         required
-                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                    {(hasErrors?.name) ?
-                                        <InputError message={hasErrors.name}/> : ""}
+                                        onChange={(e) => setData(e.target.name, e.target.value)}
+                                    />
+                                    {hasErrors?.name && <InputError message={hasErrors.name} />}
                                 </div>
-                                {
-                                    (!supply?.id)
-                                        ?
+                                {!supply?.id && (
+                                    <>
                                         <div className="w-full md:col-span-1 sm:col-span-4">
-                                            <InputLabel value="Cantidad"/>
+                                            <InputLabel value="Cantidad" />
                                             <TextInput
                                                 type="number"
                                                 className="w-full"
-                                                placeholder=""
                                                 name="quantity"
                                                 value={data.quantity}
                                                 required
-                                                onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                            {(hasErrors?.quantity) ?
-                                                <InputError message={hasErrors.quantity}/> : ""}
+                                                onChange={(e) => setData(e.target.name, e.target.value)}
+                                            />
+                                            {hasErrors?.quantity && <InputError message={hasErrors.quantity} />}
                                         </div>
-                                        : null
-                                }
-
+                                        <div className="w-full md:col-span-1 sm:col-span-4">
+                                            <InputLabel value="Precio" />
+                                            <TextInput
+                                                type="number"
+                                                className="w-full"
+                                                name="total_price"
+                                                value={data.total_price}
+                                                required
+                                                onChange={(e) => setData(e.target.name, e.target.value)}
+                                            />
+                                            {hasErrors?.total_price && <InputError message={hasErrors.total_price} />}
+                                        </div>
+                                        <div className="w-full md:col-span-1 sm:col-span-4">
+                                            <InputLabel value="Fecha de compra" />
+                                            <TextInput
+                                                type="date"
+                                                className="w-full"
+                                                name="manual_created_at"
+                                                value={data.manual_created_at}
+                                                required
+                                                onChange={(e) => setData(e.target.name, e.target.value)}
+                                            />
+                                            {hasErrors?.manual_created_at && <InputError message={hasErrors.manual_created_at} />}
+                                        </div>
+                                    </>
+                                )}
                                 <div className="md:col-span-1 sm:col-span-4">
-                                    <InputLabel value="Unidad de medida"/>
+                                    <InputLabel value="Unidad de medida" />
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <DropDownToggle
-                                                className="items-center cursor-pointer">{measurementUnitTitle}</DropDownToggle>
+                                            <DropDownToggle className="items-center cursor-pointer">
+                                                {measurementUnitTitle}
+                                            </DropDownToggle>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getMUDropdownDom()}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    {(hasErrors?.measurement_unit_id) ?
-                                        <InputError message={hasErrors.measurement_unit_id}/> : ""}
+                                    {hasErrors?.measurement_unit_id && <InputError message={hasErrors.measurement_unit_id} />}
                                 </div>
                                 <div className="md:col-span-1 sm:col-span-4">
-                                    <InputLabel value="Uso"/>
+                                    <InputLabel value="Uso" />
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <DropDownToggle
-                                                className="items-center cursor-pointer">{useTitle}</DropDownToggle>
+                                            <DropDownToggle className="items-center cursor-pointer">
+                                                {useTitle}
+                                            </DropDownToggle>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getUseDropdownDom()}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    {(hasErrors?.use_type) ? <InputError message={hasErrors.use_type}/> : ""}
+                                    {hasErrors?.use_type && <InputError message={hasErrors.use_type} />}
                                 </div>
-                                {
-                                    (!supply?.id)
-                                        ?
-                                        <div className="w-full md:col-span-1 sm:col-span-4">
-                                            <InputLabel value="Precio"/>
-                                            <TextInput
-                                                type="number"
-                                                className="w-full"
-                                                placeholder=""
-                                                name="total_price"
-                                                value={data.total_price}
-                                                required
-                                                onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                            {(hasErrors?.total_price) ?
-                                                <InputError message={hasErrors.total_price}/> : ""}
-                                        </div>
-                                        : null
-                                }
-                                {
-                                    (!supply?.id)
-                                        ?
-                                        <div className="w-full md:col-span-1 sm:col-span-4">
-                                            <InputLabel value="Fecha de compra"/>
-                                            <TextInput
-                                                type="date"
-                                                className="w-full"
-                                                placeholder=""
-                                                name="manual_created_at"
-                                                value={data.manual_created_at}
-                                                required
-                                                onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                            {(hasErrors?.manual_created_at) ?
-                                                <InputError message={hasErrors.manual_created_at}/> : ""}
-                                        </div>
-                                        : null
-                                }
                                 <div className="w-full md:col-span-3 sm:col-span-4">
-                                    <InputLabel value="Notas"/>
+                                    <InputLabel value="Notas" />
                                     <TextArea
                                         className="w-full"
-                                        placeholder=""
                                         name="notes"
                                         value={data.notes}
-                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                    {(hasErrors?.notes) ?
-                                        <InputError message={hasErrors.notes}/> : ""}
+                                        onChange={(e) => setData(e.target.name, e.target.value)}
+                                    />
+                                    {hasErrors?.notes && <InputError message={hasErrors.notes} />}
                                 </div>
                             </div>
                         </div>
+
+                        {/* Sección de eliminación (solo si es edición) */}
+                        {pageProps?.supply?.id && (
+                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
+                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
+                                <p className="mb-4 text-gray-600">
+                                    Se eliminará permanentemente el suministro “
+                                    <strong>{pageProps.supply.name}</strong>”. Verifica que sea la acción que quieres realizar.
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                                >
+                                    Eliminar suministro
+                                </button>
+                            </div>
+                        )}
+
                         <div className="flex gap-4 justify-end mt-4">
-                            <Link className="w-full sm:w-auto" href={route('supplies')}>
-                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
-                            </Link>
                             <PrimaryButton
-                                className="bg-orange-600 w-full sm:w-auto"
+                                className="bg-orange-600 w-full sm:w-auto text-white"
                                 disabled={processing}
                             >
                                 Guardar

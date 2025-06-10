@@ -64,7 +64,7 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
 
             <div className="py-4 lg:py-6 bg-gray-100">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                    <div className="">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Cultivos</p>
@@ -74,7 +74,7 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
                             </div>
                             <div className="flex gap-2">
                                 <Link href={createMortalityUrl}>
-                                    <PrimaryButton>Registrar Mortalidad</PrimaryButton>
+                                    <PrimaryButton className='bg-orange-600 h-10 text-white'>Registrar Mortalidad</PrimaryButton>
                                 </Link>
                             </div>
                         </div>

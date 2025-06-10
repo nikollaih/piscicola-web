@@ -88,7 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('create', [SowingsController::class, 'create'])->name('sowing.create');
         Route::post('store', [SowingsController::class, 'store'])->name('sowing.store');
         Route::get('{sowingId}/edit', [SowingsController::class, 'edit'])->name('sowing.edit')->middleware(['check.saledate']);
-        Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowing.update');
+        Route::patch('{sowingId}/update', [SowingsController::class, 'update'])->name('sowings.update');
         Route::delete('{sowingId}', [SowingsController::class, 'destroy'])->name('sowing.delete')->middleware(['check.saledate']);
     });
 });
@@ -269,8 +269,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('sales')->group(function() {
         Route::get('/', [SalesController::class, 'index'])->name('sales');
-        Route::get('create/{sowingId}', [SalesController::class, 'create'])->name('sale.create');
-        Route::post('store/{sowingId}', [SalesController::class, 'store'])->name('sale.store');
+        Route::get('create', [SalesController::class, 'create'])->name('sale.create');
+        Route::post('store', [SalesController::class, 'store'])->name('sale.store');
         Route::get('{saleId}/edit', [SalesController::class, 'edit'])->name('sale.edit');
         Route::patch('{saleId}/update', [SalesController::class, 'update'])->name('sale.update');
         Route::delete('{saleId}', [SalesController::class, 'destroy'])->name('sale.delete');
