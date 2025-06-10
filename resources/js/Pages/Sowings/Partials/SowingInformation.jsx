@@ -20,16 +20,21 @@ export default function SowingInformation({ sowing }) {
     ].filter(Boolean);
 
     return (
-        <div className="flex w-full gap-4">
-            {cards.map((card, index) => (
-                <div
-                    key={index}
-                    className="flex-1 bg-white border border-gray-200 rounded-lg shadow-sm px-6 py-4 text-center"
-                >
-                    <p className="text-sm text-gray-500">{card.label}</p>
-                    <p className="font-semibold text-lg text-gray-800">{card.value}</p>
-                </div>
-            ))}
+        <div className="w-full sm:overflow-x-auto">
+            <div className="flex flex-wrap w-full gap-4">
+                {cards.map((card, index) => (
+                    <div
+                        key={index}
+                        className="flex-1 bg-white border border-gray-200 rounded-lg shadow-sm px-6 py-4 text-center"
+                        style={{ minWidth: "190px" }} // Evita que se rompan en móvil
+                    >
+                        <p className="text-sm text-gray-500">{card.label}</p>
+                        <p className="font-semibold text-lg text-gray-800 break-words">
+                            {card.value}
+                        </p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

@@ -76,25 +76,29 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        {supply.name}
-                    </h2>
-                </div>
-            }
         >
             <Head title={supply.name}/>
+
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4 justify-between sm:justify-end mb-4">
-                        <Link className="flex-1 sm:flex-none" href={route('supply_purchase.create', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-blue-600 w-full">Nueva compra</PrimaryButton>
-                        </Link>
-                        <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-orange-600 w-full">Modificar </PrimaryButton>
-                        </Link>
-                        <PrimaryButton onClick={() => {confirmDeleteSupplyPurchase(supply.id)}} className="bg-red-600 flex-1 sm:flex-none">Eliminar</PrimaryButton>
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <p className="text-sm text-gray-500">Suministros</p>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {supply.name}
+                                </h2>
+                            </div>
+                            <div className="flex gap-4 justify-between sm:justify-end mb-4">
+                                <Link className="flex-1 sm:flex-none" href={route('supply_purchase.create', {supplyId: supply.id})}>
+                                    <PrimaryButton className="bg-blue-600 w-full text-white">Nueva compra</PrimaryButton>
+                                </Link>
+                                <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
+                                    <PrimaryButton className="bg-orange-600 w-full text-white">Modificar </PrimaryButton>
+                                </Link>
+                                <PrimaryButton onClick={() => {confirmDeleteSupplyPurchase(supply.id)}} className="text-white bg-red-600 flex-1 sm:flex-none">Eliminar</PrimaryButton>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">

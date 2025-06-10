@@ -1,9 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, Link, router } from '@inertiajs/react';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import SowingInformation from "@/Pages/Sowings/Partials/SowingInformation.jsx";
 import Swal from "sweetalert2";
-import {deleteService} from "@/Services/Services.ts";
+import { deleteService } from "@/Services/Services.ts";
 import LinearChart from "@/Components/LinearChart.jsx";
 import moment from "moment";
 import Pagination from "@/Components/Pagination.jsx";
@@ -12,13 +12,10 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputLabel from "@/Components/InputLabel.jsx";
 import Dropdown from "@/Components/Dropdown.jsx";
 import DropDownToggle from "@/Components/DropDownToggle.jsx";
-import InputError from "@/Components/InputError.jsx";
 import DropDownItem from "@/Components/DropDownItem.jsx";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
 
-
 export default function Feeding({ auth, sowing, feeds, readings, supplies, addRoute, deleteRoute, compareRoute, title, buttonText }) {
-
     let usePages = usePage();
     const [supplyTitle, setSupplyTitle] = useState('Seleccionar');
     const [activeReadings, setActiveReadings] = useState([]);
@@ -28,7 +25,7 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
     }, []);
 
     const setInitialActiveReadings = () => {
-        if(supplies.length > 0) {
+        if (supplies.length > 0) {
             let supply = supplies[0];
             setSelectedSupply(supply);
         }
@@ -52,10 +49,10 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
 
     const deleteFeed = async (feedingId) => {
         try {
-            const response = await deleteService(route(deleteRoute, {feedingId}), usePages.props.csrfToken);
+            const response = await deleteService(route(deleteRoute, { feedingId }), usePages.props.csrfToken);
             const jsonResponse = await response.json();
 
-            if(response.ok) {
+            if (response.ok) {
                 Swal.fire({
                     title: "Éxito",
                     text: jsonResponse.msg,
@@ -93,16 +90,7 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            // header={
-            //     <div className="flex items-center">
-            //         <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-            //             Historial de {title}
-            //         </h2>
-            //     </div>
-            // }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Cosecha" />
 
             <div className="py-4 lg:py-6 bg-gray-100">
@@ -121,17 +109,17 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                         </div>
                     </div>
 
-
                     <div className="flex flex-wrap justify-center gap-4 mb-4">
                         <SowingInformation sowing={sowing} />
                     </div>
 
                     <ButtonsGroup sowing={sowing} />
 
+                    {/* Gráfica */}
                     <div className="grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
                         <div className="bg-white rounded-lg p-2 shadow-md col-span-full">
                             <div className="px-4 mb-4 pt-2">
-                                <InputLabel value="Seleccione un suministro para ver la gráfica." />
+                                <InputLabel className='mb-5' value="Seleccione un suministro para ver la gráfica." />
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <DropDownToggle className="items-center cursor-pointer">
@@ -143,19 +131,23 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
-                            <div style={{ height: 300 }}>
-                                <LinearChart
-                                    readings={activeReadings}
-                                    date="manual_created_at"
-                                    value="quantity"
-                                    chartId="feed"
-                                />
+                            {/* Responsive Chart */}
+                            <div className="w-full overflow-x-auto">
+                                <div className="min-w-[320px] sm:min-w-0" style={{ height: 300 }}>
+                                    <LinearChart
+                                        readings={activeReadings}
+                                        date="manual_created_at"
+                                        value="quantity"
+                                        chartId="feed"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    {/* Tabla */}
                     <div className="bg-white overflow-x-auto shadow-md rounded-lg py-5">
-                        <table id="table-feeds" className="w-full table-auto">
+                        <table id="table-feeds" className="min-w-[640px] w-full table-auto">
                             <thead className="text-gray-900 font-bold">
                                 <tr>
                                     <td className="pl-5 pr-20">Producto</td>

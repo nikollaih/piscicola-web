@@ -241,7 +241,7 @@ export default function Authenticated({ user, header, children }) {
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <button
-                                    className="flex items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
                                 >
                                     Infraestructura
                                     <svg
@@ -253,7 +253,7 @@ export default function Authenticated({ user, header, children }) {
                                 </button>
                             </Dropdown.Trigger>
 
-                            <Dropdown.Content>
+                            <Dropdown.Content clas>
                                 <Dropdown.Link href={route('actuators')} active={route().current('actuators')}>
                                     Actuadores
                                 </Dropdown.Link>
@@ -266,25 +266,69 @@ export default function Authenticated({ user, header, children }) {
                             </Dropdown.Content>
                         </Dropdown>
 
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <button
+                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                >
+                                    Finanzas
+                                    <svg
+                                        className="ml-1 h-4 w-4 fill-current"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M5.5 7l4.5 4 4.5-4H5.5z" />
+                                    </svg>
+                                </button>
+                            </Dropdown.Trigger>
 
-                        <ResponsiveNavLink href={route('expenses')} active={route().current('expenses')}>
-                            Gastos
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('sales')} active={route().current('sales')}>
-                            Ventas
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('users')} active={route().current('users')}>
-                            Usuarios
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('parties', {partyRoleId: 1})} active={(route().current('parties') || route().current('party.create')) && partyRoleId === "1"}>
-                            Clientes
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('parties', {partyRoleId: 2})} active={(route().current('parties') || route().current('party.create')) && partyRoleId === "2"}>
-                            Empleados
-                        </ResponsiveNavLink>
-                    </div>
+                            <Dropdown.Content clas>
+                                <Dropdown.Link href={route('expenses')} active={route().current('expenses')}>
+                                    Gastos
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('sales')} active={route().current('sales')}>
+                                    Ventas
+                                </Dropdown.Link>
+                            </Dropdown.Content>
+                        </Dropdown>
 
-                    <div className="pt-4 pb-1 border-t border-gray-200">
+
+                        
+
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <button
+                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                >
+                                    Personas
+                                    <svg
+                                        className="ml-1 h-4 w-4 fill-current"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M5.5 7l4.5 4 4.5-4H5.5z" />
+                                    </svg>
+                                </button>
+                            </Dropdown.Trigger>
+
+                            <Dropdown.Content>
+                                <Dropdown.Link href={route('users')} active={route().current('users')}>
+                                    Usuarios
+                                </Dropdown.Link>
+                                <Dropdown.Link
+                                    href={route('parties', { partyRoleId: 1 })}
+                                    active={(route().current('parties') || route().current('party.create')) && partyRoleId === "1"}
+                                >
+                                    Clientes
+                                </Dropdown.Link>
+                                <Dropdown.Link
+                                    href={route('parties', { partyRoleId: 2 })}
+                                    active={(route().current('parties') || route().current('party.create')) && partyRoleId === "2"}
+                                >
+                                    Empleados
+                                </Dropdown.Link>
+                            </Dropdown.Content>
+                        </Dropdown>
+
+                        <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{user.name}</div>
                             <div className="font-medium text-sm text-gray-500">{user.email}</div>
@@ -296,6 +340,8 @@ export default function Authenticated({ user, header, children }) {
                                 Cerrar Sesión
                             </ResponsiveNavLink>
                         </div>
+                    </div>
+
                     </div>
                 </div>
             </nav>

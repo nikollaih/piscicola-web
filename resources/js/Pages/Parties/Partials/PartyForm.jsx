@@ -164,10 +164,10 @@ export default function PartyForm({ partyRoleId, party }) {
                     </div>
                     <div className="flex gap-4 justify-end mt-4">
                         <Link href={route('parties', {partyRoleId: partyRoleId})}>
-                            <PrimaryButton className="gray bg-gray-800">Regresar</PrimaryButton>
+                            <PrimaryButton className="gray bg-gray-800 text-white">Regresar</PrimaryButton>
                         </Link>
                         <PrimaryButton
-                            className="bg-orange-500"
+                            className="bg-orange-500 text-white"
                             disabled={processing}
                         >
                             Guardar

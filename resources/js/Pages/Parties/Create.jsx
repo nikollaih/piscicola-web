@@ -13,10 +13,21 @@ export default function CreateParty({ auth, party, partyRoles, partyRoleId, form
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{pageTitle}</h2>}
         >
             <Head title={pageTitle} />
             <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <p className="text-sm text-gray-500">Clientes</p>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {pageTitle}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <PartyForm auth={auth} party={party}  partyRoleId={partyRoleId} formActionUrl={formActionUrl}/>
             </div>
         </AuthenticatedLayout>

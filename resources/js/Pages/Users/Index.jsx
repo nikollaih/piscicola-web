@@ -138,11 +138,29 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}
         >
             <Head title="Useres" />
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        Usuarios
+                                    </h2>
+                                </div>
+                                <div className="flex gap-4 justify-between sm:justify-end mb-4">
+                                    <Link href={createUserUrl}>
+                                        <PrimaryButton className="bg-orange-500 h-10 text-white">
+                                            Agregar Usuario
+                                        </PrimaryButton>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div className="flex mb-4 justify-between">
                         <div/>
                         {/*<div className="flex-1">
@@ -175,11 +193,7 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                                 }
                             </form>
                         </div>*/}
-                        <Link href={createUserUrl}>
-                            <PrimaryButton className="bg-orange-500 h-10">
-                                Agregar Usuario
-                            </PrimaryButton>
-                        </Link>
+
                     </div>
                     <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                         <table id="table-users" className="w-full table table-auto">

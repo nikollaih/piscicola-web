@@ -42,7 +42,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     confirmButtonText: "Continuar",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        router.visit(route('sowings'));
+                        router.visit(route('sowings.index'));
                     }
                 });
             } else {
@@ -61,10 +61,40 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
         return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
     };
 
+    // 🔥 NUEVO: Speedometers con datos quemados
+    const getStaticSpeedometersDom = () => {
+        const staticData = [
+            {
+                id: 1,
+                value: 22,
+                triggered_alarm: false,
+                step_stat: {
+                    name: 'Temperatura agua',
+                    value_minimun: 15,
+                    value_maximun: 30
+                }
+            },
+            {
+                id: 2,
+                value: 5.2,
+                triggered_alarm: false,
+                step_stat: {
+                    name: 'Oxígeno disuelto',
+                    value_minimun: 4,
+                    value_maximun: 10
+                }
+            }
+        ];
+
+        return staticData.map((stat) => (
+            <div key={stat.id} className="bg-white rounded-lg p-4 shadow-md">
+                <Speedometer stat={stat} />
+            </div>
+        ));
+    };
+
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Cosecha" />
 
             <div className="py-4 lg:py-6 bg-gray-100">
@@ -78,7 +108,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                                 </h2>
                             </div>
                             <Link href={route('sowing.edit', { sowingId: sowing.id })}>
-                                <button class="px-4 py-2 border border-gray-500 rounded-md text-sm text-gray-700 hover:bg-gray-100">
+                                <button className="px-4 py-2 border border-gray-500 rounded-md text-sm text-gray-700 hover:bg-gray-100">
                                     Configuración
                                 </button>
                             </Link>
@@ -89,10 +119,9 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                         <SowingInformation sowing={sowing} />
                     </div>
 
-
                     <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing} />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
+                    <div className="  grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
                         <div className="bg-white rounded-lg p-2 shadow-md col-span-full">
                             <BiomassesChartHistory biomasses={biomasses.data} />
                         </div>
@@ -108,6 +137,11 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
 
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
+                    </div>
+
+                    {/* 🔥 Nuevo bloque con medidores estáticos */}
+                    <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-8">
+                        {getStaticSpeedometersDom()}
                     </div>
                 </div>
             </div>
