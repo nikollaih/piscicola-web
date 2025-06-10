@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\SowingNews;
 use App\Helpers\ActuatorHelper;
 use App\Models\Actuator;
+use App\Models\ActuatorAutomationTime;
+use App\Models\ActuatorAutomationVariable;
 use App\Models\Biomasse;
 use App\Models\Pond;
+use App\Models\PondStatus;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\StepStat;
@@ -21,23 +24,115 @@ class MqttController extends Controller
     {
 
     }
-    public function getTurnActuator($topic, $message): void
+    public function getTurnActuator($message): void
     {
         try {
             $data = json_decode($message, true);
-            $mqttId = $data['vcontrol'];
-            $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
-            $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
-            $actuator = Actuator::where('mqtt_id', $mqttId)->first();
 
-            if ($updated) {
-                $ActuatorHelper = new ActuatorHelper();
-                $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
-                Log::log("", "Cambio de estado actuador: ID-".$actuator->id);
+            if(isset($data["UNIDAD"]) && isset($data["actuadores"])){
+                $mqttId = $data['vcontrol'];
+                $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
+                $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
+                $actuator = Actuator::where('mqtt_id', $mqttId)->first();
+
+                if ($updated) {
+                    $ActuatorHelper = new ActuatorHelper();
+                    $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+                    Log::log("", "Cambio de estado actuador: ID-".$actuator->id);
+                }
+            }
+            else {
+                Log::log("", "MQTT Actuator ERROR: Cambio de estado actuador datos incorrectos");
             }
 
         } catch (\Exception $e) {
             Log::error('Error al procesar el mensaje MQTT: ' . $e->getMessage());
+        }
+    }
+
+    public function setPondStatus($message): void
+    {
+        try {
+            $data = json_decode($message, true);
+            $pond = (new Pond())->getPondMQTT($data["estacion_id"], $data["unidad_productiva"]);
+            if (!$pond) {
+                Log::warning("Estanque no encontrado para estación {$data["estacion_id"]}");
+                return;
+            }
+
+
+            PondStatus::create([
+                'pond_id' => $data["estacion_id"],
+                'status' => $data["status"],
+                'event_date' => now()
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error al procesar el mensaje MQTT: ' . $e->getMessage());
+        }
+    }
+
+    public function setActuatorAutomationTime($message): void
+    {
+        try {
+            $data = json_decode($message, true);
+            $actuator = Actuator::where('mqtt_id', $data['vcontrol'])->first();
+
+            if (!$actuator) {
+                Log::warning("setActuatorAutomationTime -> Actuador no encontrado {$data["vcontrol"]}");
+                return;
+            }
+
+            if($data["valor"] === 'on') {
+                $newAutomation['start_time'] = $data["t_inicio"];
+                $newAutomation['end_time'] = $data["t_fin"];
+                $newAutomation['user_id'] = $data["user_id"];
+
+                ActuatorAutomationTime::updateOrCreate(
+                    ['actuator_id' => $actuator->id], // Condición para buscar
+                    $newAutomation // Datos a actualizar o crear
+                );
+            }
+
+            if($data["valor"] === 'off') {
+                ActuatorAutomationTime::where('actuator_id', $actuator->id)->delete();
+            }
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            Log::error('Error al procesar el mensaje MQTT setActuatorAutomationTime: ' . $e->getMessage());
+        }
+    }
+
+    public function setActuatorAutomationVariable($message): void
+    {
+        try {
+            $data = json_decode($message, true);
+            $actuator = Actuator::where('mqtt_id', $data['vcontrol'])->first();
+
+            if (!$actuator) {
+                Log::warning("setActuatorAutomationVariable -> Actuador no encontrado {$data["vcontrol"]}");
+                return;
+            }
+
+            if($data["valor"] === 'on') {
+                $newAutomation['min_value'] = $data["valmin"];
+                $newAutomation['max_value'] = $data["valmax"];
+                $newAutomation['action'] = $data["onwhen"];
+                $newAutomation['variable_key'] = $data["variable"];
+                $newAutomation['user_id'] = $data["user_id"];
+
+                ActuatorAutomationVariable::updateOrCreate(
+                    ['actuator_id' => $actuator->id], // Condición para buscar
+                    $newAutomation // Datos a actualizar o crear
+                );
+            }
+
+            if($data["valor"] === 'off') {
+                ActuatorAutomationVariable::where('actuator_id', $actuator->id)->delete();
+            }
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+            Log::error('Error al procesar el mensaje MQTT setActuatorAutomationTime: ' . $e->getMessage());
         }
     }
 
@@ -70,6 +165,89 @@ class MqttController extends Controller
     public function setReadings($message): void
     {
         try {
+            $data = json_decode($message, true);
+
+            if (!$this->isValidPayload($data)) {
+                Log::warning('MQTT Lecturas error: Mensaje MQTT inválido o sin medidas.');
+                return;
+            }
+
+            $pond = (new Pond())->getPondMQTT($data["estanque_id"], $data["unidad_productiva"]);
+            if (!$pond) {
+                Log::warning("MQTT Lecturas error: Estanque no encontrado para estación {$data["estanque_id"]}");
+                return;
+            }
+
+            $sowing = (new Sowing())->getByPond($pond->id);
+            if (!$sowing) {
+                Log::warning("MQTT Lecturas error: Siembra no encontrada para estanque {$pond->id}");
+                return;
+            }
+
+            $biomasse = (new Biomasse())->Active($sowing->id);
+            $stepStatModel = new StepStat();
+
+            $this->processMedida($data, $sowing, $biomasse, $stepStatModel);
+
+        } catch (\Exception $e) {
+            Log::error('MQTT Lecturas error: Get readings MQTT controller: ' . $e->getMessage());
+        }
+    }
+
+    private function isValidPayload(array $data): bool
+    {
+        return isset($data['valores'], $data['unidad_productiva'], $data['estanque_id'])
+            && is_array($data['valores']);
+    }
+
+    private function processMedida(array $medida, $sowing, $biomasse, $stepStatModel): void
+    {
+        if (empty($medida['valores']) || empty($medida['t_medida'])) {
+            Log::warning("MQTT Lecturas error: Medida incompleta: " . json_encode($medida));
+            return;
+        }
+
+        $timestamp = date("Y-m-d H:i:s", strtotime($medida["t_medida"]));
+
+        foreach ($medida["valores"] as $key => $reading) {
+            $stepStat = $stepStatModel->getByKeyStep($key, $sowing->step_id);
+
+            if (!$stepStat) {
+                continue;
+            }
+
+            $newReading = [
+                "sowing_id" => $sowing->id,
+                "step_id" => $sowing->step_id,
+                "biomasse_id" => $biomasse->id,
+                "step_stat_id" => $stepStat->id,
+                "value" => $reading,
+                "topic_time" => $timestamp,
+                "triggered_alarm" => $this->isTriggeredAlarm(
+                    $reading,
+                    $stepStat->value_minimun,
+                    $stepStat->value_maximun
+                ),
+            ];
+
+
+            $this->storeReadingAndCheckAlarm($newReading);
+        }
+    }
+
+    private function storeReadingAndCheckAlarm(array $newReading): void
+    {
+        $statReading = StatsReading::create($newReading);
+
+        if ($statReading && $newReading["triggered_alarm"]) {
+            (new SowingNews())->newStatAlarm($statReading);
+        }
+    }
+
+
+    public function setManualReadings($message): void
+    {
+        try {
             $Sowing = new Sowing();
             $StepStat = new StepStat();
             $Biomasse = new Biomasse();
@@ -77,45 +255,63 @@ class MqttController extends Controller
 
             $data = json_decode($message, true);
 
-            if(count($data["valores"])){
-                //TODO change the constant id
-                //$pond = Pond::where('mqtt_id', $data["pond_id"])->first();
-                $pond = $Pond->getPondMQTT($data["estanque_id"], $data["unidad_productiva"]);
+            print_r($data);
 
-                $sowing = $Sowing->getByPond($pond->id);
+            if (!isset($data['medidas']) || !is_array($data['medidas'])) {
+                Log::warning('Mensaje MQTT sin medidas válidas');
+                return;
+            }
 
-                if(!empty($pond)){
-                    if(!empty($sowing)){
+            $pond = $Pond->getPondMQTT($data["estacion_id"], $data["unidad_productiva"]);
 
-                        $activeBiomasse = $Biomasse->Active($sowing->id);
-                        $newReading["sowing_id"] = $sowing->id;
-                        $newReading["step_id"] = $sowing->step_id;
-                        $newReading["biomasse_id"] = $activeBiomasse->id;
+            if (empty($pond)) {
+                Log::warning('Estanque no encontrado para estación ' . $data["estacion_id"]);
+                return;
+            }
 
-                        foreach ($data["valores"] as $key => $reading) {
-                            $stepStat = $StepStat->getByKeyStep($key, $sowing->step_id);
+            $sowing = $Sowing->getByPond($pond->id);
+            if (empty($sowing)) {
+                Log::warning('Siembra no encontrada para estanque ' . $pond->id);
+                return;
+            }
 
-                            if(!empty($stepStat)) {
+            $activeBiomasse = $Biomasse->Active($sowing->id);
 
-                                $newReading["step_stat_id"] = $stepStat->id;
-                                $newReading["value"] = $reading;
-                                $newReading["topic_time"] = date("Y-m-d H:i:s", strtotime($data["t_medida"]));
-                                $newReading["triggered_alarm"] = $this->isTriggeredAlarm($reading, $stepStat->value_minimun, $stepStat->value_maximun);
+            foreach ($data["medidas"] as $medida) {
+                $valores = $medida["valores"];
+                $timestamp = $medida["t_evento"];
 
-                                $statReading = StatsReading::create($newReading);
+                foreach ($valores as $key => $reading) {
+                    $stepStat = $StepStat->getByKeyStep($key, $sowing->step_id);
 
-                                if($statReading && $newReading["triggered_alarm"] == 1){
-                                    $SowingNews = new SowingNews();
-                                    $SowingNews->newStatAlarm($statReading);
-                                }
-                            }
-                        }
+                    if (!empty($stepStat)) {
+                        $newReading = [
+                            "sowing_id" => $sowing->id,
+                            "step_id" => $sowing->step_id,
+                            "biomasse_id" => $activeBiomasse->id,
+                            "step_stat_id" => $stepStat->id,
+                            "value" => $reading,
+                            "topic_time" => date("Y-m-d H:i:s", strtotime($timestamp)),
+                            "triggered_alarm" => $this->isTriggeredAlarm(
+                                $reading,
+                                $stepStat->value_minimun,
+                                $stepStat->value_maximun
+                            ),
+                        ];
+
+                        /*$statReading = StatsReading::create($newReading);
+
+                        if ($statReading && $newReading["triggered_alarm"] == 1) {
+                            $SowingNews = new SowingNews();
+                            $SowingNews->newStatAlarm($statReading);
+                        }*/
                     }
                 }
             }
-        }
-        catch (\Exception $e) {
-            // Registra la excepción en el registro
+
+            print_r("Se ha terminado el proceso de lectura continua");
+
+        } catch (\Exception $e) {
             Log::error('Get readings MQTT controller: ' . $e->getMessage());
         }
     }
@@ -123,5 +319,28 @@ class MqttController extends Controller
     private function isTriggeredAlarm($value, $min, $max): int
     {
         return ($value < $min || $value > $max) ? 1 : 0;
+    }
+
+    public function askForManualReadings (Request $request)
+    {
+        try {
+            // Get the actuator id and status
+            $actuatorRequest = $request->all();
+
+            $mqtt["tInicio"] = date("Y-m-d H:i:s", strtotime("-10 minutes"));
+            $mqtt["tFin"] = date("Y-m-d H:i:s");
+            $mqtt["unidad_productiva"] = $actuatorRequest["unidad_productiva"];
+            $mqtt["estacion_id"] = $actuatorRequest["estacion_id"];
+            $mqtt["chunkSize"] = 10;
+            // Publish the MQTT topic
+            $MqttConnection = MQTT::connection("publish");
+            $MqttConnection->publish(env('MQTT_POST_READINGS_MANUAL'), json_encode($mqtt));
+            // Return a confirmation message
+            return response()->json(["msg" => "Se ha enviado una peticón de lecturas"], 200);
+
+        } catch (\Exception $e) {
+            // Return a confirmation message
+            return response()->json(["msg" => "Ha ocurrido un error, intente de nuevo más tarde", "error" => $e->getMessage()], 500);
+        }
     }
 }
