@@ -131,7 +131,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                 </div>
                             </div>
                             <Link className="w-full sm:w-auto" href={route('supplies')}>
-                                <PrimaryButton>Volver</PrimaryButton>
+                                <PrimaryButton>Regresar</PrimaryButton>
                             </Link>
                         </div>
                         <br />

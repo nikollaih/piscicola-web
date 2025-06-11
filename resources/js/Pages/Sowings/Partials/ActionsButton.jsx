@@ -21,7 +21,7 @@ export default function ActionsButton({ sowing }) {
                         <Link
                             key={tab.routeName}
                             href={route(tab.routeName, { sowingId: sowing.id })}
-                            className={`px-4 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${
+                            className={`px-4 py-1.5 rounded-md rounded-b-none text-sm font-medium whitespace-nowrap transition ${
                                 isActive
                                     ? 'bg-[#6B7280] text-white'
                                     : 'text-gray-500 hover:text-gray-700'

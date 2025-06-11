@@ -24,7 +24,7 @@ export default function Actuators({ auth, actuators }) {
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
-            text: `¿Deseas eliminar el estanque "${name}"?`,
+            text: `¿Deseas eliminar el actuador "${name}"?`,
             showCancelButton: true,
             confirmButtonColor: "#dd2627",
             cancelButtonColor: "#1f2937",
@@ -97,13 +97,13 @@ export default function Actuators({ auth, actuators }) {
                             <div>
                                 <p className="text-sm text-gray-500">Infraestructura</p>
                                 <h2 className="text-xl font-semibold text-gray-800">
-                                    Estanques
+                                    Actuadores
                                 </h2>
                             </div>
                             <div className="flex mb-4 justify-end">
                                 <Link href={route('actuator.create')}>
                                     <PrimaryButton className="bg-orange-600 h-10 text-white">
-                                        Agregar Estanque
+                                        Agregar Actuador
                                     </PrimaryButton>
                                 </Link>
                             </div>

@@ -91,18 +91,18 @@ export default function CreatePond({ auth }) {
                                 </div>
                             </div>
                             <Link href={route('ponds')}>
-                                <PrimaryButton>Volver</PrimaryButton>
+                                <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                         </div>
 
-                        <br />
+                        <br/>
 
                         <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4">
                                 {/* Columna Izquierda */}
                                 <div className="flex flex-col gap-3">
                                     <div>
-                                        <InputLabel value="Nombre del estanque" />
+                                        <InputLabel value="Nombre del estanque"/>
                                         <TextInput
                                             type="text"
                                             className="w-full h-9 text-sm"
@@ -111,10 +111,10 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.name && <InputError message={hasErrors.name} />}
+                                        {hasErrors?.name && <InputError message={hasErrors.name}/>}
                                     </div>
                                     <div>
-                                        <InputLabel value="Área (mt2)" />
+                                        <InputLabel value="Área (mt2)"/>
                                         <TextInput
                                             type="number"
                                             className="w-full h-9 text-sm"
@@ -123,10 +123,10 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.area && <InputError message={hasErrors.area} />}
+                                        {hasErrors?.area && <InputError message={hasErrors.area}/>}
                                     </div>
                                     <div>
-                                        <InputLabel value="Volumen" />
+                                        <InputLabel value="Volumen"/>
                                         <TextInput
                                             type="number"
                                             className="w-full h-9 text-sm"
@@ -135,10 +135,10 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.volume && <InputError message={hasErrors.volume} />}
+                                        {hasErrors?.volume && <InputError message={hasErrors.volume}/>}
                                     </div>
                                     <div>
-                                        <InputLabel value="Caudal de entrada (L/s)" />
+                                        <InputLabel value="Caudal de entrada (L/s)"/>
                                         <TextInput
                                             type="number"
                                             className="w-full h-9 text-sm"
@@ -147,14 +147,14 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.entrance && <InputError message={hasErrors.entrance} />}
+                                        {hasErrors?.entrance && <InputError message={hasErrors.entrance}/>}
                                     </div>
                                 </div>
 
                                 {/* Columna Derecha */}
                                 <div className="flex flex-col gap-3">
                                     <div>
-                                        <InputLabel value="Caudal de salida (L/s)" />
+                                        <InputLabel value="Caudal de salida (L/s)"/>
                                         <TextInput
                                             type="number"
                                             className="w-full h-9 text-sm"
@@ -163,10 +163,10 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.exit && <InputError message={hasErrors.exit} />}
+                                        {hasErrors?.exit && <InputError message={hasErrors.exit}/>}
                                     </div>
                                     <div>
-                                        <InputLabel value="MQTT ID" />
+                                        <InputLabel value="MQTT ID"/>
                                         <TextInput
                                             type="text"
                                             className="w-full h-9 text-sm"
@@ -175,40 +175,22 @@ export default function CreatePond({ auth }) {
                                             required
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
-                                        {hasErrors?.mqtt_id && <InputError message={hasErrors.mqtt_id} />}
+                                        {hasErrors?.mqtt_id && <InputError message={hasErrors.mqtt_id}/>}
                                     </div>
                                     <div className="flex items-center gap-2 mt-4">
-                                        <InputLabel value="Cubierto" />
+                                        <InputLabel value="Cubierto"/>
                                         <Checkbox
                                             name="covered"
                                             checked={data.covered === 1}
-                                            style={{ height: 20, width: 20 }}
+                                            style={{height: 20, width: 20}}
                                             className="cursor-pointer"
                                             onChange={(e) => setData(e.target.name, e.target.checked ? 1 : 0)}
                                         />
-                                        {hasErrors?.covered && <InputError message={hasErrors.covered} />}
+                                        {hasErrors?.covered && <InputError message={hasErrors.covered}/>}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Sección de eliminación (solo si es edición) */}
-                        {pageProps?.pond?.id && (
-                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
-                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
-                                <p className="mb-4 text-gray-600">
-                                    Se eliminará permanentemente el estanque “
-                                    <strong>{pageProps.pond.name}</strong>”. Verifica que sea la acción que quieres realizar.
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={handleDelete}
-                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
-                                >
-                                    Eliminar estanque
-                                </button>
-                            </div>
-                        )}
 
                         <div className="flex gap-4 justify-end mt-4">
                             <PrimaryButton
@@ -219,6 +201,25 @@ export default function CreatePond({ auth }) {
                             </PrimaryButton>
                             <button type="reset" className="hidden" ref={buttonResetRef}>reset</button>
                         </div>
+
+                        {/* Sección de eliminación (solo si es edición) */}
+                        {pageProps?.pond?.id && (
+                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
+                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
+                                <p className="mb-4 text-gray-600">
+                                    Se eliminará permanentemente el estanque “
+                                    <strong>{pageProps.pond.name}</strong>”. Verifica que sea la acción que quieres
+                                    realizar.
+                                </p>
+                                <PrimaryButton
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                                >
+                                    Eliminar estanque
+                                </PrimaryButton>
+                            </div>
+                        )}
                     </div>
                 </form>
             </div>

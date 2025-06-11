@@ -147,6 +147,7 @@ class MqttController extends Controller
             if($actuator){
                 $mqtt["vcontrol"] = $actuatorRequest["mqtt_id"];
                 $mqtt["valor"] = $actuatorRequest["status"];
+                $mqtt["timestamp"] = date("Y-m-d H:i:s");
                 // Publish the MQTT topic
                 $MqttConnection = MQTT::connection("publish");
                 $MqttConnection->publish(env('MQTT_TURN_ACTUATOR'), json_encode($mqtt));

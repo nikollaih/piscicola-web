@@ -171,7 +171,7 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                             </div>
 
                         </div>
-                        
+
                         <div className="flex gap-4">
 
                             <div className="">
@@ -184,8 +184,12 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                                 }
                             </div>
 
+                            <Link href={route('actuator.config', {actuatorId: actuator.id})}>
+                                <PrimaryButton className="bg-orange-500 hover:bg-orange-700">Automatización</PrimaryButton>
+                            </Link>
+
                             <Link href={route('actuator.edit', {actuatorId: actuator.id})}>
-                                <PrimaryButton className="">Configuración</PrimaryButton>
+                                <PrimaryButton className="bg-neutral-500">Configuración</PrimaryButton>
                             </Link>
                             {/* <PrimaryButton onClick={() => {confirmDeleteActuator(actuator.id)}} className="bg-red-600">Eliminar</PrimaryButton> */}
                         </div>

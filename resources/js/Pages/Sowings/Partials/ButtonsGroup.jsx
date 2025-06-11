@@ -3,7 +3,7 @@ import {Link} from "@inertiajs/react";
 import ActionsButton from "@/Pages/Sowings/Partials/ActionsButton.jsx";
 export default function ButtonsGroup({onDelete = () => {}, sowing}) {
     return (
-        <div className="mb-4 flex gap-2">
+        <div className="mt-10 mb-6 flex gap-2">
             <div className="flex gap-2 flex-1 relative">
                 <ActionsButton sowing={sowing} />
             </div>

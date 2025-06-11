@@ -8,6 +8,7 @@ import Speedometer from "@/Components/Speedometer.jsx";
 import BiomassesChartHistory from "@/Pages/Biomasses/Partials/ChartHistory.jsx";
 import moment from "moment";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
     const usePages = usePage();
@@ -69,7 +70,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
 
             <div className="py-4 lg:py-6 bg-gray-100">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                    <div className="pb-5">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Cultivos</p>
@@ -78,9 +79,9 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                                 </h2>
                             </div>
                             <Link href={route('sowing.edit', { sowingId: sowing.id })}>
-                                <button class="px-4 py-2 border border-gray-500 rounded-md text-sm text-gray-700 hover:bg-gray-100">
+                                <PrimaryButton className="bg-gray-800">
                                     Configuración
-                                </button>
+                                </PrimaryButton>
                             </Link>
                         </div>
                     </div>
