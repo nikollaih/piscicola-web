@@ -19,10 +19,12 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar la mortalidad?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteMortality(mortalityId);
@@ -128,6 +130,37 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
                     </div>
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
     );
 }

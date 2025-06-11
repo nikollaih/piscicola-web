@@ -36,10 +36,12 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar el suministro?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteFeed(feedId);
@@ -131,7 +133,6 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
-                            {/* Responsive Chart */}
                             <div className="w-full overflow-x-auto">
                                 <div className="min-w-[320px] sm:min-w-0" style={{ height: 300 }}>
                                     <LinearChart
@@ -182,6 +183,37 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
                     </div>
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
     );
 }
