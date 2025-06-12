@@ -10,7 +10,6 @@ import {useState} from "react";
 import ReadingStatHistory from "@/Components/ReadingStatHistory.jsx";
 
 export default function SupplyUseReadings({ auth, sowing, biomasses, readings, biomasseOne, biomasseTwo, indexRoute, compareRoute, title }) {
-    console.log(readings)
     let usePages = usePage();
     const [selectedBiomasseOne, setSelectedBiomasseOne] = useState(biomasseOne);
     const [selectedBiomasseTwo, setSelectedBiomasseTwo] = useState(biomasseTwo);
