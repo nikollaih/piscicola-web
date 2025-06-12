@@ -8,7 +8,6 @@ import {deleteService} from "@/Services/Services.ts";
 import Swal from "sweetalert2";
 
 export default function Ponds({ auth, ponds }) {
-    console.log(ponds)
     let usePages = usePage();
 
     useEffect(() => {

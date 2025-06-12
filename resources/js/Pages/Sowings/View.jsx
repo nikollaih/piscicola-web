@@ -74,7 +74,6 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     };
 
     const LastUpdate = () => {
-        console.log(statsReadings)
         // Ordena por fecha descendente y toma el más reciente
         const latestCreatedAt = Array.isArray(statsReadings) && statsReadings.length
             ? statsReadings
@@ -82,8 +81,6 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                 .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]
                 .created_at
             : new Date(); // Si está vacío, usa la fecha actual
-
-        console.log(latestCreatedAt)
 
         return (
             <p className={"mb-4 text-center"}>Última lectura: {formatDate(latestCreatedAt)}</p>

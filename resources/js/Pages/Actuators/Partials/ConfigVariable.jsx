@@ -10,7 +10,6 @@ import DropDownToggle from "@/Components/DropDownToggle.jsx";
 import DropDownItem from "@/Components/DropDownItem.jsx";
 
 export default function ConfigVariable({ formActionUrl, formActionDeleteUrl, automation, onSuccess, steps }) {
-    console.log(automation)
     const { errors } = usePage().props;
     const buttonResetRef = useRef(null);
     const [variableTitle, setVariableTitle] = useState('Seleccionar');

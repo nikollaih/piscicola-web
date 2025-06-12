@@ -85,7 +85,6 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                 throw new Error(jsonResponse.msg || 'Failed to delete user.');
             }
         } catch (error) {
-            console.log(error)
             // Handle any errors
             Swal.fire({
                 title: "Error",
