@@ -62,6 +62,34 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
         return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
     };
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toLocaleString("es-CO", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+    
+    const LastUpdate = () => {
+        console.log(statsReadings)
+        // Ordena por fecha descendente y toma el más reciente
+        const latestCreatedAt = Array.isArray(statsReadings) && statsReadings.length
+            ? statsReadings
+                .slice()
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]
+                .created_at
+            : new Date(); // Si está vacío, usa la fecha actual
+
+        console.log(latestCreatedAt)
+
+        return (
+            <p className={"mb-4 text-center"}>Última actualización: {formatDate(latestCreatedAt)}</p>
+        );
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -103,9 +131,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                         Lectura de parámetros{" "}
                         <span onClick={() => location.reload()} className="text-orange-600 cursor-pointer">(Actualizar)</span>
                     </p>
-                    <p className="mb-4 text-center">
-                        Última actualización: {moment().format('YYYY-MM-DD - hh:mm a')}
-                    </p>
+                    <LastUpdate />
 
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
