@@ -9,7 +9,6 @@ import {useState} from "react";
 import ReadingStatHistory from "@/Components/ReadingStatHistory.jsx";
 
 export default function MortalitiesReadings({ auth, sowing, biomasses, readings, biomasseOne, biomasseTwo }) {
-    console.log(readings)
     let usePages = usePage();
     const [selectedBiomasseOne, setSelectedBiomasseOne] = useState(biomasseOne);
     const [selectedBiomasseTwo, setSelectedBiomasseTwo] = useState(biomasseTwo);

@@ -72,8 +72,6 @@ class SowingsController extends Controller
         // Agregar la biomasa inicial
         $Biomasse = new Biomasse();
         $Biomasse->AddFirst($newSowing);
-
-        return redirect()->route('sowing.index')->with('success', 'Siembra creada exitosamente.');
     }
 
     /**
@@ -108,8 +106,6 @@ class SowingsController extends Controller
 
         // Actualizar la siembra con la fecha_estimada incluida
         Sowing::where('id', $sowingId)->update($sowingRequest);
-
-        return redirect()->route('sowings.index')->with('success', 'Siembra actualizada exitosamente.');
     }
 
     /**

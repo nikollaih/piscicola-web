@@ -22,8 +22,9 @@ class Pond extends Model
         'mqtt_id'
     ];
 
-    public function ProductiveUnit() {
-        return $this->belongsTo('ProductiveUnits');
+    public function productiveUnit()
+    {
+        return $this->belongsTo(ProductiveUnit::class);
     }
 
     public function isUsed($pondId) {
@@ -34,6 +35,7 @@ class Pond extends Model
     public function getAll() {
         $user = Auth::user();
         return Pond::where('productive_unit_id', $user->productive_unit_id)
+            ->with('latestStatus')
             ->paginate(20);
     }
 
@@ -43,5 +45,10 @@ class Pond extends Model
             ->where('ponds.mqtt_id', $pondMQTT)
             ->where('productive_units.mqtt_id', $productiveUnitMQTT)
             ->first();
+    }
+
+    public function latestStatus()
+    {
+        return $this->hasOne(PondStatus::class)->latestOfMany('event_date');
     }
 }

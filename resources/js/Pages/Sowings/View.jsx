@@ -8,6 +8,7 @@ import Speedometer from "@/Components/Speedometer.jsx";
 import BiomassesChartHistory from "@/Pages/Biomasses/Partials/ChartHistory.jsx";
 import moment from "moment";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
     const usePages = usePage();
@@ -61,36 +62,30 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
         return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
     };
 
-    // 🔥 NUEVO: Speedometers con datos quemados
-    const getStaticSpeedometersDom = () => {
-        const staticData = [
-            {
-                id: 1,
-                value: 22,
-                triggered_alarm: false,
-                step_stat: {
-                    name: 'Temperatura agua',
-                    value_minimun: 15,
-                    value_maximun: 30
-                }
-            },
-            {
-                id: 2,
-                value: 5.2,
-                triggered_alarm: false,
-                step_stat: {
-                    name: 'Oxígeno disuelto',
-                    value_minimun: 4,
-                    value_maximun: 10
-                }
-            }
-        ];
 
-        return staticData.map((stat) => (
-            <div key={stat.id} className="bg-white rounded-lg p-4 shadow-md">
-                <Speedometer stat={stat} />
-            </div>
-        ));
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return d.toLocaleString("es-CO", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
+    const LastUpdate = () => {
+        // Ordena por fecha descendente y toma el más reciente
+        const latestCreatedAt = Array.isArray(statsReadings) && statsReadings.length
+            ? statsReadings
+                .slice()
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]
+                .created_at
+            : new Date(); // Si está vacío, usa la fecha actual
+
+        return (
+            <p className={"mb-4 text-center"}>Última lectura: {formatDate(latestCreatedAt)}</p>
+        );
     };
 
     return (
@@ -99,7 +94,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
 
             <div className="py-4 lg:py-6 bg-gray-100">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                    <div className="pb-5">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Cultivos</p>
@@ -108,9 +103,9 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                                 </h2>
                             </div>
                             <Link href={route('sowing.edit', { sowingId: sowing.id })}>
-                                <button className="px-4 py-2 border border-gray-500 rounded-md text-sm text-gray-700 hover:bg-gray-100">
+                                <PrimaryButton className="bg-gray-800">
                                     Configuración
-                                </button>
+                                </PrimaryButton>
                             </Link>
                         </div>
                     </div>
@@ -131,9 +126,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                         Lectura de parámetros{" "}
                         <span onClick={() => location.reload()} className="text-orange-600 cursor-pointer">(Actualizar)</span>
                     </p>
-                    <p className="mb-4 text-center">
-                        Última actualización: {moment().format('YYYY-MM-DD - hh:mm a')}
-                    </p>
+                    <LastUpdate />
 
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}

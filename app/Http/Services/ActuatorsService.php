@@ -7,7 +7,7 @@ use App\Models\Actuator;
 use App\Models\ActuatorType;
 use App\Models\ActuatorUse;
 use App\Models\Pond;
-use App\Http\Requests\ActuatorCreateRequest;
+use App\Http\Requests\ActuatorAutomationTimeCreateRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -35,7 +35,7 @@ class ActuatorsService {
         return ['ponds' => $ponds,'actuatorTypes'=>$actuatorTypes];
     }
 
-    public function storeActuator(ActuatorCreateRequest $request){
+    public function storeActuator(ActuatorAutomationTimeCreateRequest $request){
         $actuatorRequest = $request->all();
         $actuator = Actuator::create($actuatorRequest);
         return $actuator;
@@ -52,7 +52,7 @@ class ActuatorsService {
     }
 
     //allows update an actuator by it id
-    public function updateActuator(ActuatorCreateRequest $request,$actuatorId){
+    public function updateActuator(ActuatorAutomationTimeCreateRequest $request, $actuatorId){
         $actuatorRequest = $request->all();
         Actuator::where('id', $actuatorId)->update($actuatorRequest);
     }

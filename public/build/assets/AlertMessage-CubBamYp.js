@@ -1,0 +1,1 @@
+import{r as t,j as r}from"./app-DoPl5lFM.js";function a({className:s="",onClose:l=()=>{},...e}){const[i]=t.useState(5e3);return t.useEffect(()=>{setTimeout(()=>{l()},i)},[]),e.title&&e.title!==""?r.jsx("div",{...e,className:"w-full mb-4 p-3 bg-green-400 text-white border-2 border-green-500 rounded-lg"+s,children:r.jsx("p",{className:"m-0",children:e.title})}):null}export{a as A};

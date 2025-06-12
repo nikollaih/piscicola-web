@@ -1,0 +1,1 @@
+import{j as t}from"./app-DoPl5lFM.js";const n="/build/assets/fish-qWuamzvR.png";function a({width:s=40}){return t.jsx("img",{src:n,width:s})}const i="/build/assets/uq-BKa-IbBJ.png",g="/build/assets/gq-hgnQO5YO.png",p="/build/assets/SR-BKPHCU0q.png";export{a as A,g as G,p as S,i as U};

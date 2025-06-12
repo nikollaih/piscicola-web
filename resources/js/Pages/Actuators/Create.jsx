@@ -110,7 +110,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                                 <div>
                                     <div className="flex items-center text-sm text-gray-500 mb-1">
-                                        <Link href="/sowings" className="hover:text-gray-700">Infraestructura</Link>
+                                        <Link href="/actuators/pond" className="hover:text-gray-700">Infraestructura</Link>
                                         <span className="mx-2">{'>'}</span>
                                         <span className="text-gray-700">
                                             {pageProps?.actuator?.id ? "Editar Actuador" : "Agregar Actuador"}
@@ -122,7 +122,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                                 </div>
                             </div>
                             <Link className="w-full sm:w-auto" href={goBackRoute}>
-                                <PrimaryButton>Regresar</PrimaryButton>
+                                <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
                             </Link>
                         </div>
                         <br />
@@ -209,23 +209,6 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             </div>
                         </div>
 
-                        {/* Sección de eliminación (solo si es edición) */}
-                        {pageProps?.actuator?.id && (
-                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
-                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
-                                <p className="mb-4 text-gray-600">
-                                    Se eliminará permanentemente el actuador “
-                                    <strong>{pageProps.actuator.name}</strong>”. Verifica que sea la acción que quieres realizar.
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={handleDelete}
-                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
-                                >
-                                    Eliminar actuador
-                                </button>
-                            </div>
-                        )}
 
                         <div className="flex gap-4 justify-end mt-4">
                             <PrimaryButton
@@ -236,8 +219,27 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                             </PrimaryButton>
                             <button type="reset" className="hidden" ref={buttonResetRef}>reset</button>
                         </div>
+
+                        {/* Sección de eliminación (solo si es edición) */}
+                        {pageProps?.actuator?.id && (
+                            <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
+                                <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
+                                <p className="mb-4 text-gray-600">
+                                    Se eliminará permanentemente el actuador “
+                                    <strong>{pageProps.actuator.name}</strong>”. Verifica que sea la acción que quieres realizar.
+                                </p>
+                                <PrimaryButton
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                                >
+                                    Eliminar actuador
+                                </PrimaryButton>
+                            </div>
+                        )}
                     </div>
                 </form>
+
             </div>
         </AuthenticatedLayout>
     );
