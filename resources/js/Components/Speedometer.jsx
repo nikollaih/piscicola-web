@@ -93,7 +93,7 @@ export default function Speedometer ({stat}) {
                 <p className="font-bold">{parseFloat(stat.step_stat.value_minimun)}</p>
             </div>
             <div className="text-center flex-1">
-                <h2 className="font-bold text-xl">{parseFloat(stat.value)}</h2>
+                <h2 className="font-bold text-xl">{parseFloat(stat.value).toFixed(1)}</h2>
             </div>
             <div className="text-center flex-1">
                 <p className="text-gray-700">Max</p>
