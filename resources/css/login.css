@@ -7,7 +7,7 @@
 
 @media (min-width: 640px) { /* Tailwind's md breakpoint starts at 768px */
     .background-image-custom {
-        background-image: url("images/granja.webp");
+        background-image: url("granja.webp");
         background-repeat: no-repeat;
         background-size: cover;
     }
