@@ -145,21 +145,26 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
-                            <div>
-                                <div className="flex items-center text-sm text-gray-500 mb-1">
-                                    <Link href="/sowings" className="hover:text-gray-700">Infraestructura</Link>
-                                    <span className="mx-2">{'>'}</span>
-                                    <span className="text-gray-700">
-                                        {pageProps?.supply?.id ? "Editar Suministro" : "Agregar Suministro"}
-                                    </span>
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <div className="flex items-center text-sm text-gray-500 mb-1">
+                                        <Link href="/supplies" className="hover:text-gray-700">Infraestructura</Link>
+                                        <span className="mx-2">{'>'}</span>
+                                        <span className="text-gray-700">
+                                            {pageProps?.supply?.id ? "Editar Suministro" : "Agregar Suministro"}
+                                        </span>
+                                    </div>
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        {pageProps?.supply?.id ? "Editar" : "Nuevo"} Suministro
+                                    </h2>
                                 </div>
                                 <h2 className="text-xl font-semibold text-gray-800">
                                     {pageProps?.supply?.id ? "Editar" : "Nuevo"} Suministro
                                 </h2>
                             </div>
                             <Link className="w-full sm:w-auto" href={route('supplies')}>
-                                <PrimaryButton>Volver</PrimaryButton>
+                                <PrimaryButton>Regresar</PrimaryButton>
                             </Link>
                         </div>
 

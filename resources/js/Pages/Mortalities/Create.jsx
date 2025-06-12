@@ -103,7 +103,7 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
                                 </div>
                             </div>
                             <Link className="w-full sm:w-auto" href={mortalitiesUrl}>
-                                <PrimaryButton className="">Volver</PrimaryButton>
+                                <PrimaryButton className="">Regresar</PrimaryButton>
                             </Link>
                         </div>
                         <br />

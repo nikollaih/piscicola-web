@@ -57,7 +57,6 @@ export default function CreateUser({ auth, usersUrl, roles }) {
             });
         }
         else {
-            console.log(data)
             post(pageProps.formActionUrl, {
                 onSuccess: () => onSuccessSubmit(),
             });

@@ -1,0 +1,1 @@
+import{j as e}from"./app-DoPl5lFM.js";import s from"./ActionsButton-CvIAJ4LF.js";function i({onDelete:o=()=>{},sowing:t}){return e.jsx("div",{className:"mt-10 mb-6 flex gap-2",children:e.jsx("div",{className:"flex gap-2 flex-1 relative",children:e.jsx(s,{sowing:t})})})}export{i as default};

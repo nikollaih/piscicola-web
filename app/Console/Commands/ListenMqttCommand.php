@@ -45,14 +45,15 @@ class ListenMqttCommand extends Command
             // Save the ID of the current MQTT connection
             File::put($mqttConnectionFile, json_encode($connectionId));
 
-            $mqtt->subscribe(env('MQTT_TURN_ACTUATOR'), function (string $topic, string $message, $retained) {
+            $mqtt->subscribe(env('MQTT_GET_ACTUATORS_STATUS'), function (string $topic, string $message, $retained) {
                 if($retained != 1) {
                     print_r("Actuador");
-                    $this->MqttController->getTurnActuator($topic, $message);
+                    $this->MqttController->getTurnActuator($message);
                 }
             }, 1);
 
             $mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message, $retained) {
+                print_r("Lectura automatica");
                 if($retained != 1) {
                     print_r("Lectura automatica");
                     $this->MqttController->setReadings($message);
@@ -63,6 +64,27 @@ class ListenMqttCommand extends Command
                 if($retained != 1) {
                     print_r("Lectura manual");
                     $this->MqttController->setReadings($message);
+                }
+            }, 1);
+
+            $mqtt->subscribe(env('MQTT_GET_POND_STATUS'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Pond status");
+                    $this->MqttController->setPondStatus($message);
+                }
+            }, 1);
+
+            $mqtt->subscribe(env('MQTT_POST_ACTUATOR_AUTOMATION_TIME'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Actuator automation time");
+                    $this->MqttController->setActuatorAutomationTime($message);
+                }
+            }, 1);
+
+            $mqtt->subscribe(env('MQTT_POST_ACTUATOR_AUTOMATION_VARIABLE'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("Actuator automation variable");
+                    $this->MqttController->setActuatorAutomationVariable($message);
                 }
             }, 1);
 

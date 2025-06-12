@@ -108,7 +108,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                                 </div>
                             </div>
                             <Link className="w-full sm:w-auto" href={biomassesUrl}>
-                                <PrimaryButton className="">Volver</PrimaryButton>
+                                <PrimaryButton className="">Regresar</PrimaryButton>
                             </Link>
                         </div>
                         <br />

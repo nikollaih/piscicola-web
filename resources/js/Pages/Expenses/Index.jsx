@@ -9,6 +9,7 @@ import LinearChart from "@/Components/LinearChart.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function Expenses({ auth, sowing, expenses }) {
+
     const page = usePage();
     const { success, errors } = page.props;
 
@@ -52,8 +53,8 @@ export default function Expenses({ auth, sowing, expenses }) {
         <AuthenticatedLayout user={auth.user}>
             <Head title="Gastos" />
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="mb-10">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Finanzas</p>
@@ -70,6 +71,7 @@ export default function Expenses({ auth, sowing, expenses }) {
                         <div className="col-span-1 rounded-lg p-2 shadow-md grid grid-cols-1 bg-white">
                             <p className="px-4 pt-2 mb-4 font-bold text-lg">Gastos del último mes</p>
                             <LinearChart readings={page.props.latestExpenses} value="cost" date="manual_created_at" chartId="expenses" />
+
                         </div>
                     </div>
                     <div>

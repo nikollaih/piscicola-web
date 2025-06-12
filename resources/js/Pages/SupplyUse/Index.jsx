@@ -97,7 +97,7 @@ export default function Feeding({ auth, sowing, feeds, readings, supplies, addRo
 
             <div className="py-4 lg:py-6 bg-gray-100">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                    <div className="mb-10">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Cultivos</p>

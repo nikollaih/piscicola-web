@@ -1,0 +1,1 @@
+import{r,j as n}from"./app-DoPl5lFM.js";const i=r.forwardRef(function({type:o="text",className:t="",isFocused:a=!1,...f},e){const s=e||r.useRef();return r.useEffect(()=>{a&&s.current.focus()},[]),n.jsx("textarea",{...f,type:o,rows:5,className:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm "+t,ref:s})});export{i as T};

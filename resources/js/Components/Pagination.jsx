@@ -1,9 +1,6 @@
 import { Link } from '@inertiajs/react';
 
 export default function Pagination({ links, search }) {
-
-    console.log(links)
-
     const getLabel = (label) => {
         switch (label){
             case "&laquo; Previous":
