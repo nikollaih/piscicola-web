@@ -163,7 +163,7 @@ export default function ViewActuator({ auth, actuator, actuatorUses, readings })
                                                 <span className="text-gray-700">Actuadores</span>
                                             </div>
                                             <h2 className="text-xl font-semibold text-gray-800">
-                                                Motobomba
+                                                {actuator.name}
                                             </h2>
                                         </div>
                                     </div>

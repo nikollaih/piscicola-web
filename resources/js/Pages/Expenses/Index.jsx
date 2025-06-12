@@ -12,7 +12,6 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function Expenses({ auth, sowing, expenses }) {
     let usePages = usePage();
-console.log(usePages.props.createExpenseUrl)
     /**
      * Prompt the expense to confirm deletion of a expense.
      *
@@ -83,8 +82,8 @@ console.log(usePages.props.createExpenseUrl)
         >
             <Head title="Gastos"/>
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="mb-10">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Finanzas</p>
@@ -99,7 +98,6 @@ console.log(usePages.props.createExpenseUrl)
                             </div>
                         </div>
                     </div>
-                    <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
 
                         <div className="grid-cols-1 grid gap-4 mb-6">
                             <div
@@ -157,7 +155,6 @@ console.log(usePages.props.createExpenseUrl)
                             </div>
                             <Pagination class="mt-6" links={expenses.links} />
                         </div>
-                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

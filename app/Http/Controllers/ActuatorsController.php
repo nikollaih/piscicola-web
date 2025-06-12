@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ActuatorAutomationTimeCreateRequest;
 use App\Http\Requests\ActuatorAutomationTimeDeleteRequest;
+use App\Http\Requests\ActuatorCreateRequest;
 use App\Http\Requests\PondCreateRequest;
 use App\Models\Actuator;
 use App\Models\ActuatorAutomationTime;
@@ -64,7 +65,7 @@ class ActuatorsController extends Controller
         ]);
     }
 
-    public function store (ActuatorAutomationTimeCreateRequest $request) {
+    public function store (ActuatorCreateRequest $request) {
         $actuatorRequest = $request->all();
         $actuator = Actuator::create($actuatorRequest);
 
@@ -203,7 +204,7 @@ class ActuatorsController extends Controller
     /**
      * Update the actuator's profile information.
      */
-    public function update(ActuatorAutomationTimeCreateRequest $request, $actuatorId)
+    public function update(ActuatorCreateRequest $request, $actuatorId)
     {
         $actuatorRequest = $request->all();
         Actuator::where('id', $actuatorId)->update($actuatorRequest);

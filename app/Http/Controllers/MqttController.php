@@ -30,15 +30,29 @@ class MqttController extends Controller
             $data = json_decode($message, true);
 
             if(isset($data["UNIDAD"]) && isset($data["actuadores"])){
-                $mqttId = $data['vcontrol'];
-                $mqttStatus = ($data['valor'] == 'on') ? 1 : 0;
-                $updated = Actuator::where('mqtt_id', $mqttId)->update(['is_turned_on' => $mqttStatus]);
-                $actuator = Actuator::where('mqtt_id', $mqttId)->first();
+                $actuators = $data["actuadores"];
 
-                if ($updated) {
-                    $ActuatorHelper = new ActuatorHelper();
-                    $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
-                    Log::log("", "Cambio de estado actuador: ID-".$actuator->id);
+                if(is_array($actuators)){
+                    $keys  = array_keys($actuators);
+                    $count = count($keys);
+
+                    for ($i = 0; $i < $count; $i++) {
+                        $act_mqtt_id = $keys[$i];
+                        $act = $actuators[$act_mqtt_id];
+
+                        $mqttStatus  = ($act == 1) ? 1 : 0;
+
+                        $updated  = Actuator::where('mqtt_id', $act_mqtt_id)
+                            ->update(['is_turned_on' => $mqttStatus]);
+
+                        $actuator = Actuator::where('mqtt_id', $act_mqtt_id)->first();
+
+                        if ($updated && $actuator) {
+                            $ActuatorHelper = new ActuatorHelper();
+                            $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+                            Log::info("Cambio de estado actuador: ID-" . $actuator->id);
+                        }
+                    }
                 }
             }
             else {

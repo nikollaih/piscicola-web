@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy.js";
 export default function LinearChart({readings, date, value, chartId}) {
+    console.log(readings)
     const [loaded, setLoaded] = useState(false);
     const [series, setSeries] = useState(false);
 
