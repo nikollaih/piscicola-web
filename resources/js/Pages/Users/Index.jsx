@@ -172,7 +172,6 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                                                     d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21a48.11 48.11 0 0 0-3.478-.397m-12 .562a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916" />
                                             </svg>
 
-                                        </Link>
                                         {
                                             (auth.user.role_id <= 2) ?
                                                 <svg onClick={() => {
