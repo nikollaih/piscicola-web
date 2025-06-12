@@ -72,7 +72,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
             minute: "2-digit",
         });
     };
-    
+
     const LastUpdate = () => {
         console.log(statsReadings)
         // Ordena por fecha descendente y toma el más reciente
@@ -86,7 +86,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
         console.log(latestCreatedAt)
 
         return (
-            <p className={"mb-4 text-center"}>Última actualización: {formatDate(latestCreatedAt)}</p>
+            <p className={"mb-4 text-center"}>Última lectura: {formatDate(latestCreatedAt)}</p>
         );
     };
 
