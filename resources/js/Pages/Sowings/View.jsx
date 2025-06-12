@@ -131,11 +131,6 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
                     </div>
-
-                    {/* 🔥 Nuevo bloque con medidores estáticos */}
-                    <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-8">
-                        {getStaticSpeedometersDom()}
-                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
