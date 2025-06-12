@@ -74,28 +74,20 @@ class PartiesController extends Controller
      */
     public function destroy($partyId)
     {
-        // Get the logged user instance
-        $user = Auth::user();
-        // Get the client the user is trying to delete
-        $client = Party::where('id', $partyId)
-            ->where('company_id', $user->company_id)
-            ->first();
+        $client = Party::find($partyId);
 
-        // If the user exists
-        if($client){
-            // Do the soft delete
-            if($client->delete()){
-                // Return a confirmation message
-                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
-            }
-            else {
-                // In case the soft delete generate an error then return a warning message
-                return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
-            }
+        if (!$client) {
+            return redirect()->back()->withErrors(['msg' => 'El registro no existe.']);
         }
-        else {
-            // If the user doesn't exist
-            return response()->json(["msg" => "El registro no existe"], 404);
+
+        if ($client->delete()) {
+            return redirect()
+                ->route('parties', ['partyRoleId' => $client->party_role_id])
+                ->with('success', 'Registro eliminado satisfactoriamente.');
         }
+
+        return redirect()->back()->withErrors(['msg' => 'No ha sido posible eliminar el registro.']);
     }
+
+
 }

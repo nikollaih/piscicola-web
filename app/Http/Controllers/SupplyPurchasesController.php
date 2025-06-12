@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
+
 class SupplyPurchasesController extends Controller
 {
     public function create($supplyId): Response
@@ -76,26 +77,25 @@ class SupplyPurchasesController extends Controller
     public function destroy($supplyPurchaseId)
     {
         $supplyPurchase = SupplyPurchase::find($supplyPurchaseId);
+
+        if (!$supplyPurchase) {
+            return response()->json(["msg" => "La compra no existe."], 404);
+        }
+
         $supply = Supply::find($supplyPurchase->supply_id);
 
-        $newSupply["available_quantity"] = (doubleval($supply->available_quantity) - doubleval($supplyPurchase->quantity));
+        if (!$supply) {
+            return response()->json(["msg" => "El suministro asociado no existe."], 404);
+        }
 
-        // If the user exists
-        if($supplyPurchase){
-            // Do the soft delete
-            if($supplyPurchase->delete()){
-                Supply::where('id', $supplyPurchase->supply_id)->update($newSupply);
-                // Return a confirmation message
-                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
-            }
-            else {
-                // In case the soft delete generate an error then return a warning message
-                return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
-            }
+        $newSupply["available_quantity"] = max(0, doubleval($supply->available_quantity) - doubleval($supplyPurchase->quantity));
+
+        if ($supplyPurchase->delete()) {
+            $supply->update($newSupply);
+            return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
         }
-        else {
-            // If the user doesn't exist
-            return response()->json(["msg" => "El registro no existe"], 404);
-        }
+
+        return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
     }
+
 }

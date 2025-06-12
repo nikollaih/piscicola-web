@@ -111,9 +111,8 @@ class SuppliesController extends Controller
         // If the user exists
         if($supply){
             // Do the soft delete
-            if($supply->delete()){
-                // Return a confirmation message
-                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
+            if ($supply->delete()) {
+                return redirect()->route('supplies')->with('success', 'Registro eliminado satisfactoriamente');
             }
             else {
                 // In case the soft delete generate an error then return a warning message

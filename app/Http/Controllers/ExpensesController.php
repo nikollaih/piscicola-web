@@ -87,29 +87,17 @@ class ExpensesController extends Controller
      */
     public function destroy($expenseId)
     {
-        // Get the biomasse the user is trying to delete
-        $expense = Expense::with('Sowings')->find($expenseId);
+        $expense = Expense::find($expenseId);
 
-        // If the user exists
-        if($expense){
-            if($expense->sowings) {
-                $sowing = Sowing::find($expense->sowings[0]->id);
-                if($sowing->sale_date) return response()->json(["msg" => "No es posible eliminar el registro para una cosecha vendida"], 500);
-            }
+        if (!$expense) {
+            return redirect()->back()->withErrors(['msg' => 'El gasto no existe.']);
+        }
 
-            // Do the soft delete
-            if($expense->delete()){
-                // Return a confirmation message
-                return response()->json(["msg" => "Registro eliminado satisfactoriamente"], 200);
-            }
-            else {
-                // In case the soft delete generate an error then return a warning message
-                return response()->json(["msg" => "No ha sido posible eliminar el registro"], 500);
-            }
+        if ($expense->delete()) {
+            return redirect()->route('expenses')->with('success', 'Gasto eliminado correctamente.');
         }
-        else {
-            // If the user doesn't exist
-            return response()->json(["msg" => "El registro no existe"], 404);
-        }
+
+        return redirect()->back()->withErrors(['msg' => 'No se pudo eliminar el gasto.']);
     }
+
 }

@@ -36,15 +36,20 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
 
             if (response.ok) {
                 Swal.fire({
-                    title: "Éxito",
-                    text: jsonResponse.msg,
-                    icon: "success",
-                    confirmButtonText: "Continuar",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        router.visit(route('sowings.index'));
-                    }
-                });
+                title: "Éxito",
+                text: jsonResponse.msg,
+                icon: "success",
+                confirmButtonText: "Continuar",
+                customClass: {
+                    confirmButton: 'swal2-confirm',
+                },
+                buttonsStyling: false // para que no se apliquen estilos por defecto
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
+
             } else {
                 throw new Error(jsonResponse.msg || 'Falló la eliminación.');
             }

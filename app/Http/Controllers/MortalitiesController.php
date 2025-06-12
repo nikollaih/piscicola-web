@@ -104,7 +104,7 @@ class MortalitiesController extends Controller
     {
         // Get the mortality the user is trying to delete
         $mortality = Mortality::with('Biomasse')->find($mortalityId);
-        $sowing = Sowing::find($mortality->biomasse->id);
+        $sowing = $mortality->biomasse->sowing;
 
         // If the user exists
         if($mortality){
