@@ -1,4 +1,6 @@
 import { Link } from '@inertiajs/react';
+import { useState } from 'react';
+import { Menu } from '@headlessui/react';
 
 const tabs = [
     { name: 'Indicadores', routeName: 'sowing.view' },
@@ -7,14 +9,13 @@ const tabs = [
     { name: 'Biomasas', routeName: 'biomasses' },
     { name: 'Mortalidad', routeName: 'mortalities' },
     { name: 'Actividad', routeName: 'sowing_news' },
-    // { name: 'Gastos', routeName: 'expenses' },
-    // { name: 'Resumen financiero', routeName: 'sowing.resume' },
 ];
 
 export default function ActionsButton({ sowing }) {
     return (
         <div className="mb-6 overflow-x-auto">
-            <div className="flex gap-4 border-b border-gray-200">
+            {/* Vista de PC */}
+            <div className="hidden sm:flex gap-4 border-b border-gray-200">
                 {tabs.map((tab) => {
                     const isActive = route().current(tab.routeName);
                     return (
@@ -31,6 +32,38 @@ export default function ActionsButton({ sowing }) {
                         </Link>
                     );
                 })}
+            </div>
+
+            {/* Vista móvil */}
+            <div className="sm:hidden reative">
+                <Menu as="div" className="relative inline-block w-full">
+                    <Menu.Button className="w-full px-4 py-2 bg-gray-200 rounded-md text-left">
+                        Selecciona una acción
+                    </Menu.Button>
+                    <Menu.Items className="relative left-0 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                        {tabs.map((tab) => {
+                            const isActive = route().current(tab.routeName);
+                            return (
+                                <Menu.Item key={tab.routeName}>
+                                    {({ active }) => (
+                                        <Link
+                                            href={route(tab.routeName, { sowingId: sowing.id })}
+                                            className={`block px-4 py-2 text-sm ${
+                                                isActive
+                                                    ? 'bg-[#6B7280] text-white'
+                                                    : active
+                                                    ? 'bg-gray-100'
+                                                    : 'text-gray-700'
+                                            }`}
+                                        >
+                                            {tab.name}
+                                        </Link>
+                                    )}
+                                </Menu.Item>
+                            );
+                        })}
+                    </Menu.Items>
+                </Menu>
             </div>
         </div>
     );

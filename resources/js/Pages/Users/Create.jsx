@@ -91,10 +91,22 @@ export default function CreateUser({ auth, usersUrl, roles }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.user?.id) ? "Modificar" : "Agregar"} usuario</h2>}
+            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.user?.id) ? "Modificar" : "Agregar"} usuario</h2>}
         >
             <Head title="Dashboard" />
             <div className="py-4 lg:py-12">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <p className="text-sm text-gray-500">Usuarios</p>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {(pageProps?.user?.id) ? "Modificar" : "Agregar"}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -196,10 +208,10 @@ export default function CreateUser({ auth, usersUrl, roles }) {
                         </div>
                         <div className="flex gap-4 justify-end mt-4">
                             <Link className="w-full sm:w-auto" href={usersUrl}>
-                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto">Regresar</PrimaryButton>
+                                <PrimaryButton className="gray bg-gray-800 w-full sm:w-auto text-white">Regresar</PrimaryButton>
                             </Link>
                             <PrimaryButton
-                                className="bg-orange-600 w-full sm:w-auto"
+                                className="bg-orange-600 w-full sm:w-auto text-white"
                                 disabled={processing}
                             >
                                 Guardar

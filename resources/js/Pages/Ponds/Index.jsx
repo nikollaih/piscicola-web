@@ -10,26 +10,21 @@ import Swal from "sweetalert2";
 export default function Ponds({ auth, ponds }) {
     let usePages = usePage();
 
-    useEffect(() => {
-    }, [])
+    useEffect(() => {}, []);
 
-    /**
-     * Prompt the user to confirm deletion of a user.
-     *
-     * @param {Object} user - The user object to be deleted.
-     * @returns {void}
-     */
     const confirmDeletePond = (pond) => {
-        const { name, id } = pond; // Destructure user object
+        const { name, id } = pond;
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar el estanque "${name}"?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deletePond(id);
@@ -37,42 +32,29 @@ export default function Ponds({ auth, ponds }) {
         });
     };
 
-    /**
-     * Delete a user asynchronously.
-     *
-     * @param {number} userId - The ID of the user to be deleted.
-     * @returns {Promise<void>} - A promise that resolves once the user is deleted.
-     */
     const deletePond = async (pondId) => {
         try {
-            // Send a request to delete the user
             const response = await deleteService(route('pond.delete', {pondId}), usePages.props.csrfToken);
-
-            // Parse the response body as JSON
             const jsonResponse = await response.json();
 
-            // Check if the deletion was successful
             if(response.ok) {
-                // Show a success message to the biomasse
                 Swal.fire({
-                    title: "Exito",
+                    title: "Éxito",
                     text: jsonResponse.msg,
                     icon: "success",
                     confirmButtonText: "Continuar",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                       router.reload()
+                        router.reload();
                     }
                 });
             } else {
-                // If deletion failed, show an error message to the user
-                throw new Error(jsonResponse.msg || 'Failed to delete user.');
+                throw new Error(jsonResponse.msg || 'Falló la eliminación.');
             }
         } catch (error) {
-            // Handle any errors
             Swal.fire({
                 title: "Error",
-                text: error,
+                text: error.message || 'Ocurrió un error inesperado.',
                 icon: "error"
             });
         }
@@ -80,15 +62,12 @@ export default function Ponds({ auth, ponds }) {
 
     const getPondsDom = () => {
         return ponds.data.map((pond) => {
-            return <PondItem pond={pond} onDelete={confirmDeletePond}/>
-        })
-    }
+            return <PondItem key={pond.id} pond={pond} onDelete={confirmDeletePond} />;
+        });
+    };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Estanques</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Estanques" />
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
@@ -112,10 +91,40 @@ export default function Ponds({ auth, ponds }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 rounded-lg gap-4 p-1">
                         {getPondsDom()}
                     </div>
-                    <Pagination class="mt-6" links={ponds.links}/>
+                    <Pagination className="mt-6" links={ponds.links} />
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
-    )
-        ;
+    );
 }

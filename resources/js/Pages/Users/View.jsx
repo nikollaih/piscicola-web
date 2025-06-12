@@ -95,6 +95,18 @@ export default function ViewUser({ auth, user, loggedUser, envRoles }) {
             <Head title="Useres"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                        <div className="">
+                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                                <div>
+                                    <p className="text-sm text-gray-500">Usuarios</p>
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        {user.name.toUpperCase()}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="grid-cols-2 grid gap-4">
 
                         <div className="bg-white overflow-hidden rounded-lg p-5 shadow-md">

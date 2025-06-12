@@ -81,16 +81,21 @@ export default function Reports({ auth, sowings }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Reportes
-                    </h2>
-                </div>
-            }
         >
             <Head title="Reportes"/>
             <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    Reportes
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
                         <div className="col-span-1 w-full grid">

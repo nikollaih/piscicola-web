@@ -43,7 +43,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     confirmButtonText: "Continuar",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        router.visit(route('sowings'));
+                        router.visit(route('sowings.index'));
                     }
                 });
             } else {
@@ -61,6 +61,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     const getSpeedometersDom = () => {
         return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
     };
+
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -88,9 +89,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Cosecha" />
 
             <div className="py-4 lg:py-6 bg-gray-100">
@@ -115,10 +114,9 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                         <SowingInformation sowing={sowing} />
                     </div>
 
-
                     <ButtonsGroup sowing={sowing} onDelete={confirmDeleteSowing} />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
+                    <div className="  grid grid-cols-1 md:grid-cols-3 sm:gap-4 mb-4">
                         <div className="bg-white rounded-lg p-2 shadow-md col-span-full">
                             <BiomassesChartHistory biomasses={biomasses.data} />
                         </div>
@@ -132,6 +130,11 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
 
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                         {getSpeedometersDom()}
+                    </div>
+
+                    {/* 🔥 Nuevo bloque con medidores estáticos */}
+                    <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-8">
+                        {getStaticSpeedometersDom()}
                     </div>
                 </div>
             </div>

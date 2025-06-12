@@ -12,21 +12,17 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 export default function SupplyView({ auth, supply, supplyPurchases }) {
     let usePages = usePage();
 
-    /**
-     * Prompt the user to confirm deletion of a supply.
-     *
-     * @param {Object} supply - The supply object to be deleted.
-     * @returns {void}
-     */
     const confirmDeleteSupplyPurchase = (supplyId) => {
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar la compra?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteSupplyPurchase(supplyId);
@@ -34,37 +30,22 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
         });
     };
 
-    /**
-     * Delete a supply asynchronously.
-     *
-     * @param {number} supplyId - The ID of the supply to be deleted.
-     * @returns {Promise<void>} - A promise that resolves once the supply is deleted.
-     */
     const deleteSupplyPurchase = async (supplyId) => {
         try {
-            // Send a request to delete the supply
             const response = await deleteService(route('supply_purchase.delete', {supplyPurchaseId: supplyId}), usePages.props.csrfToken);
-
-            // Parse the response body as JSON
             const jsonResponse = await response.json();
 
-            // Check if the deletion was successful
             if(response.ok) {
-                // If successful, update the supply list
                 router.reload();
-
-                // Show a success message to the user
                 Swal.fire({
-                    title: "Exito",
+                    title: "Éxito",
                     text: jsonResponse.msg,
                     icon: "success"
                 });
             } else {
-                // If deletion failed, show an error message to the user
                 throw new Error(jsonResponse.msg || 'Failed to delete supply.');
             }
         } catch (error) {
-            // Handle any errors
             Swal.fire({
                 title: "Error",
                 text: error.message || 'An unexpected error occurred.',
@@ -74,32 +55,35 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        {supply.name}
-                    </h2>
-                </div>
-            }
-        >
-            <Head title={supply.name}/>
+        <AuthenticatedLayout user={auth.user}>
+            <Head title={supply.name} />
+
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4 justify-between sm:justify-end mb-4">
-                        <Link className="flex-1 sm:flex-none" href={route('supply_purchase.create', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-blue-600 w-full">Nueva compra</PrimaryButton>
-                        </Link>
-                        <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
-                            <PrimaryButton className="bg-orange-600 w-full">Modificar </PrimaryButton>
-                        </Link>
-                        <PrimaryButton onClick={() => {confirmDeleteSupplyPurchase(supply.id)}} className="bg-red-600 flex-1 sm:flex-none">Eliminar</PrimaryButton>
+                    <div className="">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div>
+                                <p className="text-sm text-gray-500">Suministros</p>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {supply.name}
+                                </h2>
+                            </div>
+                            <div className="flex gap-4 justify-between sm:justify-end mb-4">
+                                <Link className="flex-1 sm:flex-none" href={route('supply_purchase.create', {supplyId: supply.id})}>
+                                    <PrimaryButton className="bg-blue-600 w-full text-white">Nueva compra</PrimaryButton>
+                                </Link>
+                                <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
+                                    <PrimaryButton className="bg-orange-600 w-full text-white">Modificar</PrimaryButton>
+                                </Link>
+                                <PrimaryButton onClick={() => confirmDeleteSupplyPurchase(supply.id)} className="text-white bg-red-600 flex-1 sm:flex-none">
+                                    Eliminar
+                                </PrimaryButton>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
-                        <div
-                            className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
+                        <div className="bg-white overflow-hidden rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-1 w-full">
                             <div className="p-3 rounded-md">
                                 <div className="mb-3">
                                     <p className="text-gray-600">Producto</p>
@@ -119,29 +103,27 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
                                 </div>
                             </div>
                         </div>
-                        <div
-                            className=" rounded-lg p-4 shadow-md overflow-x-auto sm:col-span-1 md:col-span-2 bg-white">
+                        <div className="rounded-lg p-4 shadow-md overflow-x-auto sm:col-span-1 md:col-span-2 bg-white">
                             <p className="font-bold text-lg">Compras</p>
                             <p className="mb-4">Historial de compras del suministro.</p>
-                                <table id="table-supplyPurchases"
-                                       className="w-full table table-auto bg-gray-50 rounded-md">
-                                    <thead className="text-gray-900 font-bold">
-                                    <td className="pl-5 py-2 pr-10">Cantidad</td>
-                                    <td className="pr-20">Precio</td>
-                                    <td className="pr-10 min-w-[250px]">Fecha de compra</td>
-                                    <td></td>
-                                    </thead>
-                                    <tbody>
+                            <table id="table-supplyPurchases" className="w-full table table-auto bg-gray-50 rounded-md">
+                                <thead className="text-gray-900 font-bold">
+                                    <tr>
+                                        <td className="pl-5 py-2 pr-10">Cantidad</td>
+                                        <td className="pr-20">Precio</td>
+                                        <td className="pr-10 min-w-[250px]">Fecha de compra</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     {supplyPurchases.data.map((supply) => (
-                                        <tr key={supply.id} id={supply.id}
-                                            className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
+                                        <tr key={supply.id} id={supply.id} className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
                                             <td className="font-bold pl-5">{supply.quantity}{supply.measurement_unit_name}</td>
-                                            <td className=" pr-2">${supply.price.toLocaleString('es-CO')}</td>
+                                            <td className="pr-2">${supply.price.toLocaleString('es-CO')}</td>
                                             <td className="pr-2">{moment(supply.manual_created_at).format(Constants.DATEFORMAT)}</td>
                                             <td className="flex gap-2 py-4">
                                                 <div className="flex gap-2">
-                                                    <Link
-                                                        href={route('supply_purchase.edit', {supplyPurchaseId: supply.id})}>
+                                                    <Link href={route('supply_purchase.edit', {supplyPurchaseId: supply.id})}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                              viewBox="0 0 24 24"
                                                              strokeWidth={1} stroke="currentColor"
@@ -150,9 +132,8 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
                                                                   d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                                                         </svg>
                                                     </Link>
-                                                    <svg onClick={() => {
-                                                        confirmDeleteSupplyPurchase(supply.id)
-                                                    }} xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    <svg onClick={() => confirmDeleteSupplyPurchase(supply.id)}
+                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"
                                                          strokeWidth="1" stroke="currentColor"
                                                          className="w-5 h-5 text-red-600">
@@ -163,13 +144,43 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
                                             </td>
                                         </tr>
                                     ))}
-                                    </tbody>
-                                </table>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
-    )
-        ;
+    );
 }

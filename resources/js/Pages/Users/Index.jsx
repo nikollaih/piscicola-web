@@ -3,42 +3,36 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination.jsx';
 import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import {useEffect, useState} from "react";
-import {deleteService, pathService} from "@/Services/Services.ts";
+import { useEffect, useState } from "react";
+import { deleteService, pathService } from "@/Services/Services.ts";
 import Swal from "sweetalert2";
 
 export default function Users({ auth, users, request, url, createUserUrl }) {
     let usePages = usePage();
-    // Define the search variable
     const [searchValue, setSearchValue] = useState("");
     const [usersList, setUsersList] = useState([]);
 
     useEffect(() => {
-        if(usersList.length === 0){
-            setUsersList(users.data)
+        if (usersList.length === 0) {
+            setUsersList(users.data);
         }
 
-        // Set the searched value by default
-        if(request?.search) setSearchValue(request.search);
-    }, [])
+        if (request?.search) setSearchValue(request.search);
+    }, []);
 
-    /**
-     * Prompt the user to confirm deletion of a user.
-     *
-     * @param {Object} user - The user object to be deleted.
-     * @returns {void}
-     */
     const confirmDeleteUser = (user) => {
-        const { name, id } = user; // Destructure user object
+        const { name, id } = user;
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar el usuario ${name.toUpperCase()}?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteUser(id);
@@ -47,16 +41,18 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
     };
 
     const confirmRestorePassword = (user) => {
-        const { name, id } = user; // Destructure user object
+        const { name, id } = user;
 
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: `¿Deseas restablecer la contraseña para el usuario ${name.toUpperCase()}?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, restablecer",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 restorePassword(id);
@@ -66,23 +62,17 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
 
     const restorePassword = async (userId) => {
         try {
-            // Send a request to delete the user
-            const response = await pathService(route('user.password', {userId}), usePages.props.csrfToken);
-
-            // Parse the response body as JSON
+            const response = await pathService(route('user.password', { userId }), usePages.props.csrfToken);
             const jsonResponse = await response.json();
 
-            // Check if the deletion was successful
-            if(response.ok) {
-                // Show a success message to the user
+            if (response.ok) {
                 Swal.fire({
-                    title: "Exito",
+                    title: "Éxito",
                     text: jsonResponse.msg,
                     icon: "success"
                 });
             } else {
-                // If deletion failed, show an error message to the user
-                throw new Error(jsonResponse.msg || 'Failed to delete user.');
+                throw new Error(jsonResponse.msg || 'Error al restablecer la contraseña.');
             }
         } catch (error) {
             // Handle any errors
@@ -94,38 +84,24 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
         }
     };
 
-    /**
-     * Delete a user asynchronously.
-     *
-     * @param {number} userId - The ID of the user to be deleted.
-     * @returns {Promise<void>} - A promise that resolves once the user is deleted.
-     */
     const deleteUser = async (userId) => {
         try {
-            // Send a request to delete the user
-            const response = await deleteService(route('user.delete', {userId}), usePages.props.csrfToken);
-
-            // Parse the response body as JSON
+            const response = await deleteService(route('user.delete', { userId }), usePages.props.csrfToken);
             const jsonResponse = await response.json();
 
-            // Check if the deletion was successful
-            if(response.ok) {
-                // If successful, update the user list
+            if (response.ok) {
                 const updatedUsers = usersList.filter(user => user.id !== userId);
                 setUsersList(updatedUsers);
 
-                // Show a success message to the user
                 Swal.fire({
-                    title: "Exito",
+                    title: "Éxito",
                     text: jsonResponse.msg,
                     icon: "success"
                 });
             } else {
-                // If deletion failed, show an error message to the user
-                throw new Error(jsonResponse.msg || 'Failed to delete user.');
+                throw new Error(jsonResponse.msg || 'Error al eliminar el usuario.');
             }
         } catch (error) {
-            // Handle any errors
             Swal.fire({
                 title: "Error",
                 text: 'Ha ocurrido un error, intente de nuevo más tarde.',
@@ -135,80 +111,67 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}
-        >
-            <Head title="Useres" />
+        <AuthenticatedLayout user={auth.user}>
+            <Head title="Usuarios" />
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex mb-4 justify-between">
-                        <div/>
-                        {/*<div className="flex-1">
-                            <form>
-                                <TextInput
-                                    onChange={(event) => {
-                                        setSearchValue(event.target.value);
-                                    }}
-                                    className="w-2/4"
-                                    type="text"
-                                    name="search"
-                                    placeholder="Documento, nombre o teléfono" value={searchValue}
-                                    required={true}/>
-                                <PrimaryButton
-                                    className="bg-indigo-500 ml-4 h-10"
-                                    type="submit"
-                                >
-                                    Buscar
+                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                        <div>
+                            <h2 className="text-xl font-semibold text-gray-800">Usuarios</h2>
+                        </div>
+                        <div className="flex gap-4 justify-between sm:justify-end mb-4">
+                            <Link href={createUserUrl}>
+                                <PrimaryButton className="bg-orange-500 h-10 text-white">
+                                    Agregar Usuario
                                 </PrimaryButton>
-                                {
-                                    (request?.search) ?
-                                        <Link href={url}>
-                                            <PrimaryButton
-                                                className="bg-gray-500/75 ml-4 h-10"
-                                                type="reset"
-                                            >
-                                                Limpiar
-                                            </PrimaryButton>
-                                        </Link>: null
-                                }
-                            </form>
-                        </div>*/}
-                        <Link href={createUserUrl}>
-                            <PrimaryButton className="bg-orange-500 h-10">
-                                Agregar Usuario
-                            </PrimaryButton>
-                        </Link>
+                            </Link>
+                        </div>
                     </div>
+
                     <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                         <table id="table-users" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
-                            <td className="pl-5 pr-20 min-w-[200px]">Nombre</td>
-                            <td className="pr-20">Rol</td>
-                            <td className="pr-20">Documento</td>
-                            <td className="pr-20">Celular</td>
-                            <td className="pr-20">Email</td>
-                            <td></td>
+                                <tr>
+                                    <td className="pl-5 pr-20 min-w-[200px]">Nombre</td>
+                                    <td className="pr-20">Rol</td>
+                                    <td className="pr-20">Documento</td>
+                                    <td className="pr-20">Celular</td>
+                                    <td className="pr-20">Email</td>
+                                    <td></td>
+                                </tr>
                             </thead>
                             <tbody>
-                            { usersList.map( (user) => (
-                                <tr key={user.id} id={user.id}
-                                    className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
-                                    <td className="font-bold pl-5">
-                                        {user.name.toUpperCase()}
-                                    </td>
-                                    <td>{user.role.name}</td>
-                                    <td>{user.document}</td>
-                                    <td>{user.mobile_phone}</td>
-                                    <td>{user.email}</td>
-                                    <td className="flex gap-2 py-4 pr-6">
-                                        <Link href={usePages.props.baseUrl + '/users/' + user.id + '/edit'}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 strokeWidth={1} stroke="currentColor"
-                                                 className="w-5 h-5 text-indigo-600 cursor-pointer">
+                                {usersList.map((user) => (
+                                    <tr key={user.id} className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
+                                        <td className="font-bold pl-5">{user.name.toUpperCase()}</td>
+                                        <td>{user.role.name}</td>
+                                        <td>{user.document}</td>
+                                        <td>{user.mobile_phone}</td>
+                                        <td>{user.email}</td>
+                                        <td className="flex gap-2 py-4 pr-6">
+                                            <Link href={usePages.props.baseUrl + '/users/' + user.id + '/edit'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    strokeWidth={1} stroke="currentColor"
+                                                    className="w-5 h-5 text-indigo-600 cursor-pointer">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                                                </svg>
+                                            </Link>
+                                            {auth.user.role_id <= 2 && (
+                                                <svg onClick={() => confirmRestorePassword(user)} xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                                                    className="w-5 h-5 text-orange-600">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                                </svg>
+                                            )}
+                                            <svg onClick={() => confirmDeleteUser(user)} xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor"
+                                                className="w-5 h-5 text-red-600">
                                                 <path strokeLinecap="round" strokeLinejoin="round"
-                                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21a48.11 48.11 0 0 0-3.478-.397m-12 .562a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916" />
                                             </svg>
+
                                         </Link>
                                         {
                                             (auth.user.role_id <= 2) ?
@@ -236,10 +199,40 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                             </tbody>
                         </table>
                     </div>
-                    <Pagination class="mt-6" links={users.links} search={request.search}/>
+                    <Pagination class="mt-6" links={users.links} search={request.search} />
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
-    )
-        ;
+    );
 }

@@ -30,10 +30,12 @@ export default function Sales({ auth, sales }) {
             title: "¿Estás seguro(a)?",
             text: `¿Deseas eliminar la venta?`,
             showCancelButton: true,
-            confirmButtonColor: "#dd2627",
-            cancelButtonColor: "#1f2937",
             confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteSale(saleId);
@@ -67,14 +69,12 @@ export default function Sales({ auth, sales }) {
         }
     };
 
-    // Genera la lista de clientes únicos
     const uniqueClients = Array.from(new Set(salesList.map(sale => sale.client.name)))
         .map(clientName => {
             const client = salesList.find(sale => sale.client.name === clientName);
             return { id: client.client.id, name: clientName };
         });
 
-    // Maneja la selección del cliente
     const setSelectedClient = (client) => {
         setSelectedClientTitle(client.name);
         const filteredSales = salesList.filter(sale => sale.client.id === client.id);
@@ -90,12 +90,10 @@ export default function Sales({ auth, sales }) {
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Finanzas</p>
-                                <h2 className="text-xl font-semibold text-gray-800">
-                                    Ventas
-                                </h2>
+                                <h2 className="text-xl font-semibold text-gray-800">Ventas</h2>
                             </div>
                             <div className="flex gap-2">
-                                <Link href={usePage().props.createSalesUrl}>
+                                <Link href={usePages.props.createSalesUrl}>
                                     <PrimaryButton className="bg-orange-600 text-white">
                                         Registrar Venta
                                     </PrimaryButton>
@@ -121,19 +119,18 @@ export default function Sales({ auth, sales }) {
                             </Dropdown.Content>
                         </Dropdown>
 
-                    <div className="mt-4" style={{ height: 300 }}>
-                        <LinearChart
-                            readings={activeSales.map(sale => ({
-                                manual_created_at: sale.manual_created_at,
-                                total_value: sale.unit_cost * sale.total_weight
-                            }))}
-                            date="manual_created_at"
-                            value="total_value"
-                            chartId="sales"
-                            tooltipFormatter={(value) => `$${value.toLocaleString('es-CO')}`}
-                        />
-                    </div>
-
+                        <div className="mt-4" style={{ height: 300 }}>
+                            <LinearChart
+                                readings={activeSales.map(sale => ({
+                                    manual_created_at: sale.manual_created_at,
+                                    total_value: sale.unit_cost * sale.total_weight
+                                }))}
+                                date="manual_created_at"
+                                value="total_value"
+                                chartId="sales"
+                                tooltipFormatter={(value) => `$${value.toLocaleString('es-CO')}`}
+                            />
+                        </div>
                     </div>
 
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
@@ -165,14 +162,14 @@ export default function Sales({ auth, sales }) {
                                                          strokeWidth={1} stroke="currentColor"
                                                          className="w-5 h-5 text-indigo-600 cursor-pointer">
                                                         <path strokeLinecap="round" strokeLinejoin="round"
-                                                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+                                                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
                                                 </Link>
-                                                <svg onClick={() => { confirmDeleteSale(sale.id) }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                <svg onClick={() => confirmDeleteSale(sale.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      strokeWidth="1" stroke="currentColor"
                                                      className="w-5 h-5 text-red-600 cursor-pointer">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
-                                                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916"/>
+                                                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916" />
                                                 </svg>
                                             </td>
                                         </tr>
@@ -184,6 +181,37 @@ export default function Sales({ auth, sales }) {
                     </div>
                 </div>
             </div>
+
+            {/* SweetAlert2 Custom Styles */}
+            <style>
+                {`
+                .swal2-confirm.btn-confirm {
+                    background-color: #f5f5f5 !important;
+                    color: #dc2626 !important;
+                    font-weight: bold;
+                    border: 1px solid #dc2626 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-confirm.btn-confirm:hover {
+                    background-color: #ffecec !important;
+                    color: #b91c1c !important;
+                }
+
+                .swal2-cancel.btn-cancel {
+                    background-color: #e5e7eb !important;
+                    color: #374151 !important;
+                    border-radius: 4px;
+                    padding: 8px 20px;
+                }
+
+                .swal2-cancel.btn-cancel:hover {
+                    background-color: #d1d5db !important;
+                    color: #1f2937 !important;
+                }
+                `}
+            </style>
         </AuthenticatedLayout>
     );
 }
