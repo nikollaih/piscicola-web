@@ -4,14 +4,13 @@ import TextInput from "@/Components/TextInput.jsx";
 import TextArea from "@/Components/TextArea.jsx";
 import InputLabel from '@/Components/InputLabel.jsx';
 import Dropdown from '@/Components/Dropdown.jsx';
-import DropDownItem from '@/Components/DropDownItem.jsx'
+import DropDownItem from '@/Components/DropDownItem.jsx';
 import DropDownToggle from "@/Components/DropDownToggle.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import InputError from '@/Components/InputError.jsx';
 import AlertMessage from '@/Components/AlertMessage.jsx';
+import Swal from "sweetalert2";
 import { useEffect, useState, useRef } from "react";
-import moment from "moment";
-import Constants from "@/../Constants.js";
 
 export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute }) {
     const buttonResetRef = useRef(null);
@@ -67,9 +66,57 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
         buttonResetRef.current.click();
     };
 
-    const handleDelete = () => {
-        if (window.confirm("¿Estás seguro de que deseas eliminar este actuador?")) {
-            router.delete(route('actuator.delete', { actuatorId: pageProps.actuator.id }));
+    const handleDelete = async () => {
+        const result = await Swal.fire({
+            title: "¿Estás seguro(a)?",
+            text: `Se eliminará el actuador “${pageProps.actuator.name}” permanentemente.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'swal2-confirm',
+                cancelButton: 'swal2-cancel'
+            },
+            buttonsStyling: false
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const res = await fetch(route('actuator.delete', { actuatorId: pageProps.actuator.id }), {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    }
+                });
+
+                const json = await res.json();
+
+                if (res.ok) {
+                    Swal.fire({
+                        title: "Eliminado",
+                        text: json.msg,
+                        icon: "success",
+                        confirmButtonText: "Continuar",
+                        customClass: {
+                            confirmButton: 'swal2-confirm'
+                        },
+                        buttonsStyling: false
+                    }).then(() => {
+                        router.visit(route('actuators'));
+                    });
+                } else {
+                    throw new Error(json.msg || "Error al eliminar");
+                }
+
+            } catch (err) {
+                Swal.fire({
+                    title: "Error",
+                    text: err.message || "Ocurrió un error inesperado",
+                    icon: "error"
+                });
+            }
         }
     };
 
@@ -240,6 +287,32 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                     </div>
                 </form>
 
+                <style>
+                    {`
+                        .swal2-confirm {
+                            background-color: #dc2626 !important;
+                            color: white !important;
+                            border-radius: 4px;
+                            padding: 8px 20px;
+                            font-weight: bold;
+                        }
+
+                        .swal2-confirm:hover {
+                            background-color: #b91c1c !important;
+                        }
+
+                        .swal2-cancel {
+                            background-color: #e5e7eb !important;
+                            color: #374151 !important;
+                            border-radius: 4px;
+                            padding: 8px 20px;
+                        }
+
+                        .swal2-cancel:hover {
+                            background-color: #d1d5db !important;
+                        }
+                    `}
+                </style>
             </div>
         </AuthenticatedLayout>
     );

@@ -12,6 +12,7 @@ import AlertMessage from '@/Components/AlertMessage.jsx';
 import { useEffect, useState, useRef } from "react";
 import moment from "moment";
 import Constants from "@/../Constants.js";
+import Swal from 'sweetalert2';
 
 export default function CreateSupply({ auth, measurements, suppliesUrl, supply }) {
     const buttonResetRef = useRef(null);
@@ -68,9 +69,38 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
     };
 
     const handleDelete = () => {
-        if (window.confirm("¿Estás seguro de que deseas eliminar este suministro?")) {
-            router.delete(route('supplies.delete', { supplyId: pageProps.supply.id }));
-        }
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: `Se eliminará permanentemente el suministro "${pageProps.supply.name}"`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn-confirm',
+                cancelButton: 'btn-cancel'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('supply.delete', { supplyId: pageProps.supply.id }), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Eliminado",
+                            text: "El suministro fue eliminado satisfactoriamente.",
+                            icon: "success"
+                        });
+                        router.visit(route('supplies'));
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar eliminar el suministro.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });
     };
 
     const getMUDropdownDom = () => {
@@ -129,15 +159,18 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                         {pageProps?.supply?.id ? "Editar" : "Nuevo"} Suministro
                                     </h2>
                                 </div>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    {pageProps?.supply?.id ? "Editar" : "Nuevo"} Suministro
+                                </h2>
                             </div>
                             <Link className="w-full sm:w-auto" href={route('supplies')}>
                                 <PrimaryButton>Regresar</PrimaryButton>
                             </Link>
                         </div>
-                        <br />
+
                         <div className="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
-                                <div className="w-full md:col-span-1 sm:col-span-4">
+                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 mb-4">
+                                <div className="w-full">
                                     <InputLabel value="Nombre del producto" />
                                     <TextInput
                                         type="text"
@@ -149,9 +182,10 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                     />
                                     {hasErrors?.name && <InputError message={hasErrors.name} />}
                                 </div>
+
                                 {!supply?.id && (
                                     <>
-                                        <div className="w-full md:col-span-1 sm:col-span-4">
+                                        <div className="w-full">
                                             <InputLabel value="Cantidad" />
                                             <TextInput
                                                 type="number"
@@ -163,7 +197,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                             />
                                             {hasErrors?.quantity && <InputError message={hasErrors.quantity} />}
                                         </div>
-                                        <div className="w-full md:col-span-1 sm:col-span-4">
+                                        <div className="w-full">
                                             <InputLabel value="Precio" />
                                             <TextInput
                                                 type="number"
@@ -175,7 +209,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                             />
                                             {hasErrors?.total_price && <InputError message={hasErrors.total_price} />}
                                         </div>
-                                        <div className="w-full md:col-span-1 sm:col-span-4">
+                                        <div className="w-full">
                                             <InputLabel value="Fecha de compra" />
                                             <TextInput
                                                 type="date"
@@ -189,7 +223,8 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                         </div>
                                     </>
                                 )}
-                                <div className="md:col-span-1 sm:col-span-4">
+
+                                <div className="w-full">
                                     <InputLabel value="Unidad de medida" />
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -203,7 +238,8 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                     </Dropdown>
                                     {hasErrors?.measurement_unit_id && <InputError message={hasErrors.measurement_unit_id} />}
                                 </div>
-                                <div className="md:col-span-1 sm:col-span-4">
+
+                                <div className="w-full">
                                     <InputLabel value="Uso" />
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -217,7 +253,8 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                     </Dropdown>
                                     {hasErrors?.use_type && <InputError message={hasErrors.use_type} />}
                                 </div>
-                                <div className="w-full md:col-span-3 sm:col-span-4">
+
+                                <div className="w-full md:col-span-3">
                                     <InputLabel value="Notas" />
                                     <TextArea
                                         className="w-full"
@@ -230,7 +267,6 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                             </div>
                         </div>
 
-                        {/* Sección de eliminación (solo si es edición) */}
                         {pageProps?.supply?.id && (
                             <div className="bg-white shadow-sm rounded-lg p-5 mt-6 border border-gray-300">
                                 <h2 className="text-lg font-semibold mb-2 text-gray-800">Eliminación</h2>
@@ -260,6 +296,36 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                     </div>
                 </form>
             </div>
+
+            <style>
+                {`
+                    .swal2-confirm.btn-confirm {
+                        background-color: #f5f5f5 !important;
+                        color: #dc2626 !important;
+                        font-weight: bold;
+                        border: 1px solid #dc2626 !important;
+                        border-radius: 4px;
+                        padding: 8px 20px;
+                    }
+
+                    .swal2-confirm.btn-confirm:hover {
+                        background-color: #ffecec !important;
+                        color: #b91c1c !important;
+                    }
+
+                    .swal2-cancel.btn-cancel {
+                        background-color: #e5e7eb !important;
+                        color: #374151 !important;
+                        border-radius: 4px;
+                        padding: 8px 20px;
+                    }
+
+                    .swal2-cancel.btn-cancel:hover {
+                        background-color: #d1d5db !important;
+                        color: #1f2937 !important;
+                    }
+                `}
+            </style>
         </AuthenticatedLayout>
     );
 }

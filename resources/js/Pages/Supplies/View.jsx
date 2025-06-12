@@ -75,9 +75,9 @@ export default function SupplyView({ auth, supply, supplyPurchases }) {
                                 <Link className="flex-1 sm:flex-none" href={route('supply.edit', {supplyId: supply.id})}>
                                     <PrimaryButton className="bg-orange-600 w-full text-white">Modificar</PrimaryButton>
                                 </Link>
-                                <PrimaryButton onClick={() => confirmDeleteSupplyPurchase(supply.id)} className="text-white bg-red-600 flex-1 sm:flex-none">
+                                {/* <PrimaryButton onClick={() => confirmDeleteSupplyPurchase(supply.id)} className="text-white bg-red-600 flex-1 sm:flex-none">
                                     Eliminar
-                                </PrimaryButton>
+                                </PrimaryButton> */}
                             </div>
                         </div>
                     </div>
