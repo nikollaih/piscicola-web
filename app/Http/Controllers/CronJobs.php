@@ -26,8 +26,9 @@ class CronJobs extends Controller
         if (!$stats->isEmpty()) {
             foreach ($stats as $stat) {
                 $emails = ["no-reply@piscicola.redesystemco.com", "nikollaihernandezgamus@gmail.com"];
-                $localTime = Carbon::parse($stat->topic_time)->setTimezone(env('LOCAL_TIMEZONE'));
-
+                $localTime = Carbon::parse($stat->topic_time);
+                print_r($localTime->diffInMinutes(now()));
+die();
                 if ($localTime->diffInMinutes(now()) >= env("LATEST_READINGS_PERIOD")?? 10) {
                     $productiveUnit = $ProductiveUnit->Get($stat->Sowing->productive_unit_id);
 
