@@ -405,4 +405,20 @@ class MqttController extends Controller
             return response()->json(["msg" => "Ha ocurrido un error, intente de nuevo más tarde", "error" => $e->getMessage()], 500);
         }
     }
+
+    // Solicita el estado global de la unidad productiva
+    public function askForFullStatus (Request $request)
+    {
+        try {
+            // Publish the MQTT topic
+            $MqttConnection = MQTT::connection("publish");
+            $MqttConnection->publish(env('MQTT_FILANDIA_STATUS'), "1");
+            // Return a confirmation message
+            return response()->json(["msg" => "Se ha enviado una peticón para conocer el estado global, en breve se verá reflejado"], 200);
+
+        } catch (\Exception $e) {
+            // Return a confirmation message
+            return response()->json(["msg" => "Ha ocurrido un error, intente de nuevo más tarde", "error" => $e->getMessage()], 500);
+        }
+    }
 }

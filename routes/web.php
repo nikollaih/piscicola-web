@@ -5,6 +5,7 @@ use App\Http\Controllers\AssociationsController;
 use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\CronJobs;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicateController;
@@ -48,9 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('simulate', [StatReadingsController::class, 'index'])->name('simulate');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // Parties routes
@@ -290,6 +289,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('mqtt')->group(function() {
         Route::post('set_actuator_turn', [MqttController::class, 'setTurnActuator'])->name('mqtt.set.actuator.turn');
         Route::post('ask_manual_readings', [MqttController::class, 'askForManualReadings'])->name('mqtt.ask.manual.readings');
+        Route::post('get_full_status', [MqttController::class, 'askForFullStatus'])->name('mqtt.ask.full.status');
     });
 });
 
