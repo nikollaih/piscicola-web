@@ -14,6 +14,8 @@ export default function PondItem ({pond, onDelete = () => {}}) {
             <p className="font-bold mb-1">{pond.exit}L/s</p>
             <p className="text-gray-500">MQTT ID</p>
             <p className="font-bold mb-1">{pond.mqtt_id}</p>
+            <p className="text-gray-500">SensorID</p>
+            <p className="font-bold mb-1">{pond.sensor_id}</p>
             <p className="text-gray-500">Cubierto</p>
             <p className="font-bold">{(pond.covered === 1) ? "Si" : "No"}</p>
             <hr className="my-2"/>

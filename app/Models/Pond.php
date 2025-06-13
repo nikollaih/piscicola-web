@@ -19,7 +19,8 @@ class Pond extends Model
         'exit',
         'volume',
         'area',
-        'mqtt_id'
+        'mqtt_id',
+        'sensor_id'
     ];
 
     public function productiveUnit()
@@ -32,10 +33,13 @@ class Pond extends Model
             ->exists();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $user = Auth::user();
         return Pond::where('productive_unit_id', $user->productive_unit_id)
-            ->with('latestStatus')
+            ->with(['latestStatus' => function ($query) {
+                $query->orderBy('event_date', 'desc');
+            }])
             ->paginate(20);
     }
 

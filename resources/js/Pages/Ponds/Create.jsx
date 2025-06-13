@@ -23,7 +23,8 @@ export default function CreatePond({ auth }) {
         entrance: "",
         exit: "",
         covered: 0,
-        mqtt_id: ''
+        mqtt_id: '',
+        sensor_id: ''
     });
 
     useEffect(() => {
@@ -40,7 +41,8 @@ export default function CreatePond({ auth }) {
             entrance: pond.entrance,
             exit: pond.exit,
             covered: pond.covered,
-            mqtt_id: pond.mqtt_id
+            mqtt_id: pond.mqtt_id,
+            sensor_id: pond.sensor_id
         });
     };
 
@@ -176,6 +178,18 @@ export default function CreatePond({ auth }) {
                                             onChange={(e) => setData(e.target.name, e.target.value)}
                                         />
                                         {hasErrors?.mqtt_id && <InputError message={hasErrors.mqtt_id}/>}
+                                    </div>
+                                    <div>
+                                        <InputLabel value="Sensor ID"/>
+                                        <TextInput
+                                            type="text"
+                                            className="w-full h-9 text-sm"
+                                            name="sensor_id"
+                                            value={data.sensor_id}
+                                            required
+                                            onChange={(e) => setData(e.target.name, e.target.value)}
+                                        />
+                                        {hasErrors?.sensor_id && <InputError message={hasErrors.sensor_id}/>}
                                     </div>
                                     <div className="flex items-center gap-2 mt-4">
                                         <InputLabel value="Cubierto"/>
