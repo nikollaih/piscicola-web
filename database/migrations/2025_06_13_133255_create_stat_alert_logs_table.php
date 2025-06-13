@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('stat_alert_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('stats_reading_id');
-            $table->timestamp('created_at')->useCurrent();
             $table->longText('stat_data');       // serializado
             $table->longText('emails');          // serializado
             $table->unsignedInteger('counter')->default(1);

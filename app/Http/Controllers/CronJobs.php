@@ -60,7 +60,7 @@ class CronJobs extends Controller
                         $emails = array_unique($emails);
 
                         // Enviar correo
-                        //Mail::to($emails)->send(new StatsAlertMail($stat));
+                        Mail::to($emails)->send(new StatsAlertMail($stat));
 
                         // Actualizar o crear log
                         if ($existingLog) {
