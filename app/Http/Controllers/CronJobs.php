@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\StatsAlertMail;
 use App\Models\ProductiveUnit;
+use App\Models\StatAlertLog;
 use App\Models\StatsReading;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class CronJobs extends Controller
         return true;
     }
 
-    public function checkLatestReadings() {
+    public function checkLatestReadings()
+    {
         $StatReadings = new StatsReading();
         $ProductiveUnit = new ProductiveUnit();
         $stats = $StatReadings->latestGeneral();
@@ -27,8 +29,20 @@ class CronJobs extends Controller
             foreach ($stats as $stat) {
                 $emails = ["no-reply@piscicola.redesystemco.com", "nikollaihernandezgamus@gmail.com"];
                 $localTime = Carbon::parse($stat->topic_time);
-   
-                if ($localTime->diffInMinutes(now()) >= env("LATEST_READINGS_PERIOD")?? 10) {
+                $checkInterval = (int) $stat->Sowing->check_interval;
+
+                // Verifica si han pasado al menos X minutos
+                if ($localTime->diffInMinutes(now()) >= $checkInterval && $checkInterval > 0) {
+                    // Busca último log del stat
+                    $existingLog = StatAlertLog::where('stats_reading_id', $stat->id)
+                        ->latest('created_at')
+                        ->first();
+
+                    // Si ya se ha notificado 3 veces, no continuar
+                    if ($existingLog && $existingLog->counter >= 3) {
+                        continue;
+                    }
+
                     $productiveUnit = $ProductiveUnit->Get($stat->Sowing->productive_unit_id);
 
                     if (!is_null($productiveUnit) && $productiveUnit->Users->isNotEmpty()) {
@@ -38,11 +52,23 @@ class CronJobs extends Controller
                             }
                         }
 
-                        // Elimina duplicados por si acaso
                         $emails = array_unique($emails);
 
-                        // Enviar correo a todos los emails recogidos
+                        // Enviar correo
                         Mail::to($emails)->send(new StatsAlertMail($stat));
+
+                        // Actualizar o crear log
+                        if ($existingLog) {
+                            $existingLog->update(['counter' => $existingLog->counter + 1]);
+                        } else {
+                            StatAlertLog::create([
+                                'stats_reading_id' => $stat->id,
+                                'stat_data' => json_encode($stat->toArray(), JSON_PRETTY_PRINT),
+                                'emails' => serialize($emails),
+                                'counter' => 1,
+                                'created_at' => now(),
+                            ]);
+                        }
                     }
                 }
             }

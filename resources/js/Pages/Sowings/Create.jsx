@@ -25,7 +25,8 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
         quantity: null,
         manual_created_at: moment().format(Constants.DATEFORMAT),
         fecha_estimada: "", // ➡️ Nuevo campo
-        name: ""
+        name: "",
+        check_interval: -1
     });
 
     const [fishTitle, setFishTitle] = useState('Seleccionar');
@@ -46,6 +47,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
             pond_id: sowing.pond_id,
             quantity: sowing.quantity,
             name: sowing.name,
+            check_interval: sowing.check_interval,
             manual_created_at: moment(sowing.manual_created_at).format(Constants.DATEFORMAT),
             fecha_estimada: sowing.fecha_estimada ? moment(sowing.fecha_estimada).format(Constants.DATEFORMAT) : "", // ➡️ Nuevo campo
         });
@@ -142,7 +144,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                         <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Nombre" />
+                                    <InputLabel value="Nombre"/>
                                     <TextInput
                                         type="text"
                                         className="w-full"
@@ -151,52 +153,55 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                         required
                                         onChange={(e) => setData(e.target.name, e.target.value)}
                                     />
-                                    {hasErrors?.name && <InputError message={hasErrors.name} />}
+                                    {hasErrors?.name && <InputError message={hasErrors.name}/>}
                                 </div>
 
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Producto" />
+                                    <InputLabel value="Producto"/>
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <DropDownToggle className="items-center cursor-pointer">{fishTitle}</DropDownToggle>
+                                            <DropDownToggle
+                                                className="items-center cursor-pointer">{fishTitle}</DropDownToggle>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getFishDropdownDom()}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    {hasErrors?.fish_id && <InputError message={hasErrors.fish_id} />}
+                                    {hasErrors?.fish_id && <InputError message={hasErrors.fish_id}/>}
                                 </div>
 
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Etapa" />
+                                    <InputLabel value="Etapa"/>
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <DropDownToggle className="items-center cursor-pointer">{stepTitle}</DropDownToggle>
+                                            <DropDownToggle
+                                                className="items-center cursor-pointer">{stepTitle}</DropDownToggle>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getStepDropdownDom()}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    {hasErrors?.step_id && <InputError message={hasErrors.step_id} />}
+                                    {hasErrors?.step_id && <InputError message={hasErrors.step_id}/>}
                                 </div>
                             </div>
 
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Estanque" />
+                                    <InputLabel value="Estanque"/>
                                     <Dropdown>
                                         <Dropdown.Trigger>
-                                            <DropDownToggle className="items-center cursor-pointer">{pondTitle}</DropDownToggle>
+                                            <DropDownToggle
+                                                className="items-center cursor-pointer">{pondTitle}</DropDownToggle>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getPondDropdownDom()}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    {hasErrors?.pond_id && <InputError message={hasErrors.pond_id} />}
+                                    {hasErrors?.pond_id && <InputError message={hasErrors.pond_id}/>}
                                 </div>
 
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Fecha de siembra" />
+                                    <InputLabel value="Fecha de siembra"/>
                                     <TextInput
                                         type="date"
                                         className="w-full"
@@ -205,11 +210,12 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                         required
                                         onChange={(e) => setData(e.target.name, e.target.value)}
                                     />
-                                    {hasErrors?.manual_created_at && <InputError message={hasErrors.manual_created_at} />}
+                                    {hasErrors?.manual_created_at &&
+                                        <InputError message={hasErrors.manual_created_at}/>}
                                 </div>
 
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Cantidad de peces" />
+                                    <InputLabel value="Cantidad de peces"/>
                                     <TextInput
                                         type="number"
                                         className="w-full"
@@ -218,13 +224,13 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                         required
                                         onChange={(e) => setData(e.target.name, e.target.value)}
                                     />
-                                    {hasErrors?.quantity && <InputError message={hasErrors.quantity} />}
+                                    {hasErrors?.quantity && <InputError message={hasErrors.quantity}/>}
                                 </div>
                             </div>
 
                             <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Fecha estimada de finalización" />
+                                    <InputLabel value="Fecha estimada de finalización"/>
                                     <TextInput
                                         type="date"
                                         className="w-full"
@@ -232,7 +238,20 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                         value={data.fecha_estimada}
                                         onChange={(e) => setData(e.target.name, e.target.value)}
                                     />
-                                    {hasErrors?.fecha_estimada && <InputError message={hasErrors.fecha_estimada} />}
+                                    {hasErrors?.fecha_estimada && <InputError message={hasErrors.fecha_estimada}/>}
+                                </div>
+
+                                <div className="w-full md:col-span-1">
+                                    <InputLabel value="Minutos de alertas (Se enviara una alerta despues de no recibir lecturas en esta cantidad de minutos)"/>
+                                    <TextInput
+                                        type="number"
+                                        className="w-full"
+                                        name="check_interval"
+                                        value={data.check_interval}
+                                        required
+                                        onChange={(e) => setData(e.target.name, e.target.value)}
+                                    />
+                                    {hasErrors?.check_interval && <InputError message={hasErrors.check_interval}/>}
                                 </div>
                             </div>
                         </div>

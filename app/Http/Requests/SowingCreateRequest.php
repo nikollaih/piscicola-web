@@ -20,6 +20,7 @@ class SowingCreateRequest extends FormRequest
             'name' => ['required'],
             'fish_id' => ['required', 'numeric'],
             'step_id' => ['required', 'numeric'],
+            'check_interval' => ['required', 'numeric'],
             'pond_id' => [
                 'required',
                 'numeric',
@@ -49,6 +50,7 @@ class SowingCreateRequest extends FormRequest
             'step_id.required' => 'El campo etapa es requerido.',
             'step_id.numeric' => 'El campo etapa debe ser numérico.',
             'quantity.required' => 'El campo cantidad es requerido.',
+            'check_interval.required' => 'El campo minutos de alertas es requerido.',
         ];
     }
 }
