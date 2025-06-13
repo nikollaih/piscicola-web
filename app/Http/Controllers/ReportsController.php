@@ -22,7 +22,7 @@ class ReportsController extends Controller
     //metodo que inicializa los servicios del controlador
     public function __construct(
         private ReportsService $reportsService,
-        private SowingsService $sowingsService  
+        private SowingsService $sowingsService
         ){}
 
     public function index() {
