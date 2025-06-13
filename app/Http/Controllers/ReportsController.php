@@ -49,7 +49,7 @@ class ReportsController extends Controller
         $latestByBiomasse = $StatsReading->latestByBiomasse($biomasseId);
 
         if(count($latestByBiomasse)){
-            $fileName = "Lecturas " .$biomasse['approximate_weight'].'gr.xlsx';
+            $fileName = "Lecturas ".$biomasse->Sowing->Pond->name.' ('.$biomasse['approximate_weight'].'gr).xlsx';
             return Excel::download(new ReadingsBiomasseExport($biomasseId), $fileName);
         }
 
