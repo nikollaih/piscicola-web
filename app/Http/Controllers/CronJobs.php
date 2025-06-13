@@ -74,7 +74,6 @@ class CronJobs extends Controller
                                 'stat_data' => json_encode($stat->toArray(), JSON_PRETTY_PRINT),
                                 'emails' => serialize($emails),
                                 'counter' => 1,
-                                'created_at' => now(),
                             ]);
                         }
                     }

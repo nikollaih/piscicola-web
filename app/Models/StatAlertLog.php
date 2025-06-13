@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class StatAlertLog extends Model
 {
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'stats_reading_id',
         'stat_data',
         'emails',
         'counter',
-        'created_at',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 }
