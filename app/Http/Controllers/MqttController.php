@@ -114,7 +114,7 @@ class MqttController extends Controller
                     "description" => $e->getMessage(),
                     "event_date" => now(),
                     "created_at" => now()
-                ])
+                ]);
             }
 
             if (isset($data["actuadores"]) && is_array($data["actuadores"])) {
