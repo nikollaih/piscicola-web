@@ -84,8 +84,8 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
         const latestCreatedAt = Array.isArray(statsReadings) && statsReadings.length
             ? statsReadings
                 .slice()
-                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]
-                .created_at
+                .sort((a, b) => new Date(b.topic_time) - new Date(a.topic_time))[0]
+                .topic_time
             : new Date(); // Si está vacío, usa la fecha actual
 
         return (
