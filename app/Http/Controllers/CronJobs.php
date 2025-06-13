@@ -38,9 +38,14 @@ class CronJobs extends Controller
                         ->latest('created_at')
                         ->first();
 
-                    // Si ya se ha notificado 3 veces, no continuar
-                    if ($existingLog && $existingLog->counter >= 3) {
-                        continue;
+                    if ($existingLog) {
+                        // Validar si han pasado al menos 30 minutos desde el último envío
+                        $lastSentAt = Carbon::parse($existingLog->updated_at);
+                        $minutesSinceLast = $lastSentAt->diffInMinutes(now());
+
+                        if ($existingLog->counter >= 3 || $minutesSinceLast < 30) {
+                            continue;
+                        }
                     }
 
                     $productiveUnit = $ProductiveUnit->Get($stat->Sowing->productive_unit_id);
@@ -55,7 +60,7 @@ class CronJobs extends Controller
                         $emails = array_unique($emails);
 
                         // Enviar correo
-                        Mail::to($emails)->send(new StatsAlertMail($stat));
+                        //Mail::to($emails)->send(new StatsAlertMail($stat));
 
                         // Actualizar o crear log
                         if ($existingLog) {
