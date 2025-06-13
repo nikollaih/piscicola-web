@@ -91,20 +91,30 @@ class MqttController extends Controller
         try {
             $data = json_decode($message, true);
 
-            if (isset($data["estaciones"]) && is_array($data["estaciones"])) {
-                foreach ($data["estaciones"] as $sensorId => $data) {
-                    $pond = Pond::where('sensor_id', $sensorId)->first();
-                    if($pond){
-                        $isActive = ($data["conectada"] === true || $data["conectada"] === "true" || $data["conectada"] === "1") ? 1 : 0;
-                        
-                        PondStatus::create([
-                            'pond_id' => $pond->id,
-                            'status' => $isActive,
-                            'event_date' => now(),
-                            'created_at' => now()
-                        ]);
+            try {
+                if (isset($data["estaciones"]) && is_array($data["estaciones"])) {
+                    foreach ($data["estaciones"] as $sensorId => $data) {
+                        $pond = Pond::where('sensor_id', $sensorId)->first();
+                        if($pond){
+                            $isActive = ($data["conectada"] === true || $data["conectada"] === "true" || $data["conectada"] === "1") ? 1 : 0;
+
+                            PondStatus::create([
+                                'pond_id' => $pond->id,
+                                'status' => $isActive,
+                                'event_date' => now(),
+                                'created_at' => now()
+                            ]);
+                        }
                     }
                 }
+            }
+            catch (\Exception $e) {
+                SowingNews::create([
+                    "sowing_id" => 1111,
+                    "description" => $e->getMessage(),
+                    "event_date" => now(),
+                    "created_at" => now()
+                ])
             }
 
             if (isset($data["actuadores"]) && is_array($data["actuadores"])) {
