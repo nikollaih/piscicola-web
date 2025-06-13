@@ -59,4 +59,9 @@ class SowingNews
         $description = "<p>Se ha registrado una nueva alarma para el parámetro <strong>".$statReading->stepStat->name."</strong> con un valor minimo de <strong>".$statReading->stepStat->value_minimun."</strong> y un valor maximo de <strong>".$statReading->stepStat->value_maximun."</strong>, donde la lectura fue de <strong>".$statReading->value."</strong>.</p>";
         $this->addSowingNews($statReading->sowing_id, $description, "MQTT Alarma");
     }
+
+    public function newStatsReadingsLost($data) {
+        $description = "<p>Se ha detectado una perdida de datos en las lecturas continua, se ha enviado un email con la información. <br> Última lectura: <strong>".$data["topic_time"]."</strong></p>";
+        $this->addSowingNews($data["sowing_id"], $description, "Pérdida de datos");
+    }
 }

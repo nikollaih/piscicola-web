@@ -56,11 +56,11 @@ class MqttController extends Controller
                 }
             }
             else {
-                Log::log("", "MQTT Actuator ERROR: Cambio de estado actuador datos incorrectos");
+                Log::log("", "getTurnActuator -> MQTT Actuator ERROR: Cambio de estado actuador datos incorrectos");
             }
 
         } catch (\Exception $e) {
-            Log::error('Error al procesar el mensaje MQTT: ' . $e->getMessage());
+            Log::error('getTurnActuator -> Error al procesar el mensaje MQTT: ' . $e->getMessage());
         }
     }
 
@@ -74,7 +74,6 @@ class MqttController extends Controller
                 return;
             }
 
-
             PondStatus::create([
                 'pond_id' => $data["estacion_id"],
                 'status' => $data["status"],
@@ -82,7 +81,39 @@ class MqttController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Error al procesar el mensaje MQTT: ' . $e->getMessage());
+            Log::error('setPondStatus -> Error al procesar el mensaje MQTT: ' . $e->getMessage());
+        }
+    }
+
+    // UPDATE THE COMPLETE STATUS
+    public function setAllStatus($message): void
+    {
+        try {
+            $data = json_decode($message, true);
+
+            if (isset($data["actuadores"]) && is_array($data["actuadores"])) {
+                foreach ($data["actuadores"] as $mqttId => $value) {
+                    $actuator = Actuator::where('mqtt_id', $mqttId)->first();
+
+                    if ($actuator) {
+                        $mqttStatus = ($value === true || $value === "true") ? 1 : 0;
+
+                        // Solo actualiza si el estado cambió
+                        if ($actuator->is_turned_on != $mqttStatus) {
+                            $actuator->is_turned_on = $mqttStatus;
+                            $actuator->save();
+
+                            $ActuatorHelper = new ActuatorHelper();
+                            $ActuatorHelper->setActuatorUse($actuator->id, $mqttStatus);
+
+                            Log::info("Cambio de estado actuador: ID-" . $actuator->id);
+                        }
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            Log::error('setAllStatus -> Error al procesar el mensaje MQTT: ' . $e->getMessage());
         }
     }
 

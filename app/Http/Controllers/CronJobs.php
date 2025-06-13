@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SowingNews;
 use App\Mail\StatsAlertMail;
 use App\Models\ProductiveUnit;
 use App\Models\StatAlertLog;
@@ -64,6 +65,12 @@ class CronJobs extends Controller
 
                         // Enviar correo
                         Mail::to($emails)->send(new StatsAlertMail($stat));
+
+                        // Agrega la actividad a la cosecha
+                        (new SowingNews())->newStatsReadingsLost([
+                            "sowing_id" => $stat->Sowing->id,
+                            "topic_time" => $localTime,
+                        ]);
 
                         // Actualizar o crear log
                         if ($existingLog) {

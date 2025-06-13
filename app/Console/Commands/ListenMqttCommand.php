@@ -74,6 +74,13 @@ class ListenMqttCommand extends Command
                 }
             }, 1);
 
+            $mqtt->subscribe(env('MQTT_FILANDIA_STATUS'), function (string $topic, string $message, $retained) {
+                if($retained != 1) {
+                    print_r("All status");
+                    $this->MqttController->setAllStatus($message);
+                }
+            }, 1);
+
             $mqtt->subscribe(env('MQTT_POST_ACTUATOR_AUTOMATION_TIME'), function (string $topic, string $message, $retained) {
                 if($retained != 1) {
                     print_r("Actuator automation time");
