@@ -64,7 +64,7 @@ class CronJobs extends Controller
 
                         // Actualizar o crear log
                         if ($existingLog) {
-                            $existingLog->update(['counter' => $existingLog->counter + 1]);
+                            $existingLog->update(['counter' => $existingLog->counter + 1, 'updated_at' => now()]);
                         } else {
                             StatAlertLog::create([
                                 'stats_reading_id' => $stat->id,
@@ -72,6 +72,7 @@ class CronJobs extends Controller
                                 'emails' => serialize($emails),
                                 'counter' => 1,
                                 'created_at' => now(),
+                                'updated_at' => now(),
                             ]);
                         }
                     }
