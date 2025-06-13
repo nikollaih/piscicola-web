@@ -39,8 +39,11 @@ class CronJobs extends Controller
                         ->first();
 
                     if ($existingLog) {
-                        // Validar si han pasado al menos 30 minutos desde el último envío
-                        $lastSentAt = Carbon::parse($existingLog->updated_at);
+                        // Usa updated_at si está disponible, de lo contrario usa created_at
+                        $lastSentAt = $existingLog->updated_at ?? $existingLog->created_at;
+
+                        // Asegúrate de que sea una instancia de Carbon
+                        $lastSentAt = Carbon::parse($lastSentAt);
                         $minutesSinceLast = $lastSentAt->diffInMinutes(now());
 
                         if ($existingLog->counter >= 3 || $minutesSinceLast < 30) {
@@ -64,7 +67,7 @@ class CronJobs extends Controller
 
                         // Actualizar o crear log
                         if ($existingLog) {
-                            $existingLog->update(['counter' => $existingLog->counter + 1, 'updated_at' => now()]);
+                            $existingLog->update(['counter' => $existingLog->counter + 1]);
                         } else {
                             StatAlertLog::create([
                                 'stats_reading_id' => $stat->id,
@@ -72,7 +75,6 @@ class CronJobs extends Controller
                                 'emails' => serialize($emails),
                                 'counter' => 1,
                                 'created_at' => now(),
-                                'updated_at' => now(),
                             ]);
                         }
                     }
