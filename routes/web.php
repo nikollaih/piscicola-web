@@ -39,6 +39,7 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/latest_readings_check', [CronJobs::class, 'checkLatestReadings'])->name('checkLatestReadings');
 Route::get('/', [SowingsController::class, 'index'])->middleware(['auth', 'verified'])->name('first');
 
 Route::middleware(['auth', 'verified'])->group(function () {

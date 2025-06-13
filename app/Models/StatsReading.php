@@ -61,6 +61,16 @@ class StatsReading extends Model
             ->get();
     }
 
+    public function latestGeneral() {
+        return StatsReading::with('stepStat.step')
+            ->whereIn('id', function($query) {
+                $query->selectRaw('MAX(id)')
+                    ->from('stats_readings')
+                    ->groupBy('sowing_id');
+            })
+            ->get();
+    }
+
     public function latestByBiomasse($biomasseId) {
         return StatsReading::where('biomasse_id', $biomasseId)
             ->with('stepStat.step') // puedes encadenar con punto

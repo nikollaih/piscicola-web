@@ -33,4 +33,9 @@ class ProductiveUnit extends Model
         return $this->hasMany(User::class);
     }
 
+    public function Get($productiveUnitId) {
+        return ProductiveUnit::with('Users')
+            ->find($productiveUnitId);
+    }
+
 }
