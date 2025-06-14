@@ -20,7 +20,7 @@ export default function SowingInformation({ sowing }) {
     ].filter(Boolean);
 
     return (
-        <div className="w-full sm:overflow-x-auto">
+        <div className="w-full sm:overflow-x-auto mb-10">
             <div className="flex flex-wrap w-full gap-4">
                 {cards.map((card, index) => (
                     <div

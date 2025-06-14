@@ -1,21 +1,41 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import Pagination from "@/Components/Pagination.jsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import SowingNewsItem from "@/Pages/SowingNews/Partials/Item.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import SowingInformation from "@/Pages/Sowings/Partials/SowingInformation.jsx";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
+import Dropdown from "@/Components/Dropdown.jsx";
+import DropDownToggle from "@/Components/DropDownToggle.jsx";
+import DropDownItem from "@/Components/DropDownItem.jsx";
+import { Inertia } from '@inertiajs/inertia';
+
 
 export default function SowingNews({ auth, news, sowing }) {
-    let usePages = usePage();
+    const { url } = usePage();
+    const currentParams = new URLSearchParams(url.split("?")[1]);
+    const currentType = currentParams.get("type") || "Todos";
+
+    const [filterType, setFilterType] = useState(currentType);
 
     useEffect(() => {
-    }, [])
+        if (filterType !== currentType) {
+            const newParams = new URLSearchParams();
+            if (filterType !== "Todos") {
+                newParams.set("type", filterType);
+            }
+
+            Inertia.get(`${window.location.pathname}?${newParams.toString()}`, {}, {
+                preserveState: true,
+                replace: true,
+            });
+        }
+    }, [filterType]);
 
     const getNewsDom = () => {
         return news.data.map((feed) => {
-            return <SowingNewsItem feed={feed} />
+            return <SowingNewsItem key={feed.id} feed={feed} />
         })
     }
 
@@ -47,7 +67,21 @@ export default function SowingNews({ auth, news, sowing }) {
                         <SowingInformation sowing={sowing}/>
                     </div>
                     <ButtonsGroup sowing={sowing}/>
-                    <br/>
+
+                    <div className={"mb-4"}>
+                        <label htmlFor="">Filtrar</label>
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <DropDownToggle
+                                    className="items-center cursor-pointer">{filterType}</DropDownToggle>
+                            </Dropdown.Trigger>
+                            <Dropdown.Content align="left" className="px-2" width={100}>
+                                <DropDownItem key={null} onClick={() => { setFilterType("Todos") }}>Todos</DropDownItem>
+                                <DropDownItem key={null} onClick={() => { setFilterType("MQTT Alarma") }}>MQTT Alarma</DropDownItem>
+                                <DropDownItem key={null} onClick={() => { setFilterType("Pérdida de datos") }}>Pérdida de datos</DropDownItem>
+                            </Dropdown.Content>
+                        </Dropdown>
+                    </div>
                     <div className="grid grid-cols-1 md:lg:grid-cols-2 lg:grid-cols-4 gap-4">
                         {getNewsDom()}
                     </div>

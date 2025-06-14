@@ -15,11 +15,16 @@ class SowingNew extends Model
         'title'
     ];
 
-    public function getAll($sowingId) {
-        return SowingNew::where('sowing_id', $sowingId)
-            ->orderBy('created_at', 'desc')
+    public function getAll($sowingId, $type = null) {
+        $query = SowingNew::where('sowing_id', $sowingId)
             ->with('Sowing')
-            ->paginate(20);
+            ->orderBy('created_at', 'desc');
+
+        if (!is_null($type)) {
+            $query->where('title', $type);
+        }
+
+        return $query->paginate(20);
     }
 
     public function Sowing() {
