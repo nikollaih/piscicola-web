@@ -109,4 +109,14 @@ class StatsReading extends Model
         ->select('stats_reading.*','step.name as stepName','step_stat.key as measurementUnit', 'step_stat.name as statName')
         ->get();
     }
+
+    public static function latestByProductiveUnit($productiveUnitId)
+    {
+        return StatsReading::whereHas('sowing', function ($query) use ($productiveUnitId) {
+            $query->where('productive_unit_id', $productiveUnitId);
+        })
+            ->with(['stepStat.step', 'sowing.productiveUnit']) // opcional: eager loading
+            ->orderByDesc('created_at')
+            ->first(); // obtiene solo la última
+    }
 }

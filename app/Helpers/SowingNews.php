@@ -61,7 +61,7 @@ class SowingNews
     }
 
     public function newStatsReadingsLost($data) {
-        $description = "<p>Se ha detectado una perdida de datos en las lecturas continua, se ha enviado un email con la información. <br> Última lectura: <strong>".$data["topic_time"]."</strong></p>";
+        $description = "<p>Se ha detectado una perdida de datos en las lecturas continuas, se ha enviado un email con la información. <br> Última lectura: <strong>".$data["topic_time"]."</strong></p>";
         $this->addSowingNews($data["sowing_id"], $description, "Pérdida de datos");
     }
 }

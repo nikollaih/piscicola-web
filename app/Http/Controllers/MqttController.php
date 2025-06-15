@@ -10,12 +10,14 @@ use App\Models\ActuatorAutomationVariable;
 use App\Models\Biomasse;
 use App\Models\Pond;
 use App\Models\PondStatus;
+use App\Models\ProductiveUnit;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\StepStat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Facades\MQTT;
+use App\Services\ReconnectionService;
 
 class MqttController extends Controller
 {
@@ -249,9 +251,11 @@ class MqttController extends Controller
             $biomasse = (new Biomasse())->Active($sowing->id);
             $stepStatModel = new StepStat();
 
+            (new ReconnectionService())->checkAndLogReconnection($pond->productiveUnitId);
             $this->processMedida($data, $sowing, $biomasse, $stepStatModel);
 
         } catch (\Exception $e) {
+            print_r($e->getMessage());
             Log::error('MQTT Lecturas error: Get readings MQTT controller: ' . $e->getMessage());
         }
     }

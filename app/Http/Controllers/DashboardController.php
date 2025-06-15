@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ReconnectionService;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ProductiveUnit;
@@ -15,6 +16,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        (new ReconnectionService())->checkAndLogReconnection(6);
         return \inertia('Dashboard', [
             'csrfToken' => csrf_token()
         ]);

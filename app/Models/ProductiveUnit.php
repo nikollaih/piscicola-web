@@ -38,4 +38,14 @@ class ProductiveUnit extends Model
             ->find($productiveUnitId);
     }
 
+    public function GetByMQTTId($MQTTId) {
+        return ProductiveUnit::where('mqtt_id', $MQTTId)
+            ->first();
+    }
+
+    public function reconnections()
+    {
+        return $this->hasMany(Reconnection::class);
+    }
+
 }
