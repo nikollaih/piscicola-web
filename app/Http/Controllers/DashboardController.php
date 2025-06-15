@@ -16,7 +16,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        (new ReconnectionService())->checkAndLogReconnection(6);
         return \inertia('Dashboard', [
             'csrfToken' => csrf_token()
         ]);
