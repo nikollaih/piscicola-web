@@ -251,8 +251,8 @@ class MqttController extends Controller
             $biomasse = (new Biomasse())->Active($sowing->id);
             $stepStatModel = new StepStat();
 
-            (new ReconnectionService())->checkAndLogReconnection($pond->productiveUnitId);
             $this->processMedida($data, $sowing, $biomasse, $stepStatModel);
+            (new ReconnectionService())->checkAndLogReconnection($pond->productiveUnitId);
 
         } catch (\Exception $e) {
             print_r($e->getMessage());
