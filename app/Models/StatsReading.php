@@ -94,7 +94,7 @@ class StatsReading extends Model
         return StatsReading::where('biomasse_id', $biomasseId)
             ->where('step_stat_id', $stepStatId)
             ->with('stepStat')
-            ->orderBy('topic_time', 'desc')
+            ->orderBy('id', 'desc')
             ->take(100)
             ->get();
     }
@@ -116,7 +116,7 @@ class StatsReading extends Model
             $query->where('productive_unit_id', $productiveUnitId);
         })
             ->with(['stepStat.step', 'sowing.productiveUnit']) // opcional: eager loading
-            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->first(); // obtiene solo la última
     }
 }
