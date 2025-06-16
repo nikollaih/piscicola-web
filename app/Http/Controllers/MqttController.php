@@ -251,9 +251,8 @@ class MqttController extends Controller
             $biomasse = (new Biomasse())->Active($sowing->id);
             $stepStatModel = new StepStat();
 
+            (new ReconnectionService())->checkAndLogReconnection($pond->productive_unit_id);
             $this->processMedida($data, $sowing, $biomasse, $stepStatModel);
-            (new ReconnectionService())->checkAndLogReconnection($pond->productiveUnitId);
-
         } catch (\Exception $e) {
             print_r($e->getMessage());
             Log::error('MQTT Lecturas error: Get readings MQTT controller: ' . $e->getMessage());
@@ -268,36 +267,41 @@ class MqttController extends Controller
 
     private function processMedida(array $medida, $sowing, $biomasse, $stepStatModel): void
     {
-        if (empty($medida['valores']) || empty($medida['t_medida'])) {
-            Log::warning("MQTT Lecturas error: Medida incompleta: " . json_encode($medida));
-            return;
-        }
-
-        $timestamp = date("Y-m-d H:i:s", strtotime($medida["t_medida"]));
-
-        foreach ($medida["valores"] as $key => $reading) {
-            $stepStat = $stepStatModel->getByKeyStep($key, $sowing->step_id);
-
-            if (!$stepStat) {
-                continue;
+        try {
+            if (empty($medida['valores']) || empty($medida['t_medida'])) {
+                Log::warning("MQTT Lecturas error: Medida incompleta: " . json_encode($medida));
+                return;
             }
 
-            $newReading = [
-                "sowing_id" => $sowing->id,
-                "step_id" => $sowing->step_id,
-                "biomasse_id" => $biomasse->id,
-                "step_stat_id" => $stepStat->id,
-                "value" => $reading,
-                "topic_time" => $timestamp,
-                "triggered_alarm" => $this->isTriggeredAlarm(
-                    $reading,
-                    $stepStat->value_minimun,
-                    $stepStat->value_maximun
-                ),
-            ];
+            $timestamp = date("Y-m-d H:i:s", strtotime($medida["t_medida"]));
+
+            foreach ($medida["valores"] as $key => $reading) {
+                $stepStat = $stepStatModel->getByKeyStep($key, $sowing->step_id);
+
+                if (!$stepStat) {
+                    continue;
+                }
+
+                $newReading = [
+                    "sowing_id" => $sowing->id,
+                    "step_id" => $sowing->step_id,
+                    "biomasse_id" => $biomasse->id,
+                    "step_stat_id" => $stepStat->id,
+                    "value" => $reading,
+                    "topic_time" => $timestamp,
+                    "triggered_alarm" => $this->isTriggeredAlarm(
+                        $reading,
+                        $stepStat->value_minimun,
+                        $stepStat->value_maximun
+                    ),
+                ];
 
 
-            $this->storeReadingAndCheckAlarm($newReading);
+                $this->storeReadingAndCheckAlarm($newReading);
+            }
+        }
+        catch (\Exception $e) {
+            Log::error('MQTT Lecturas error: ' . $e->getMessage());
         }
     }
 

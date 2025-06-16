@@ -18,6 +18,7 @@ class ReconnectionService
     {
         try {
             $latestReading = StatsReading::latestByProductiveUnit($productiveUnitId);
+
             $ProductiveUnit = new ProductiveUnit();
             $emails = ['no-reply@redesysteco.com'];
 
@@ -63,6 +64,7 @@ class ReconnectionService
         }
         catch (\Exception $e) {
             print_r("Nuevo error: ".$e->getMessage());
+            Log::error("Nuevo error: ".$e->getMessage());
         }
     }
 }
