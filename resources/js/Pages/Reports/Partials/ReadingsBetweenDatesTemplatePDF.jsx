@@ -1,5 +1,5 @@
 import moment from "moment/moment.js";
-import LinearChart from "@/Components/LinearChart.jsx";
+import LinearChart from "@/Components/LinearChartRechart.jsx";
 
 
 

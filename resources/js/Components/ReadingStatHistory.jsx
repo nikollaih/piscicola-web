@@ -45,8 +45,6 @@ export default function ReadingStatHistory({
         ? [stepStat.key]
         : [...new Set(readings.map((r) => r.step_stat?.key).filter(Boolean))];
 
-    const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a52a2a", "#00bcd4"];
-
     return (
         <div className="bg-white rounded-lg shadow-md p-6 mb-10 pl-0">
             <p className="text-center font-bold mb-4">{stepStat.name} - {stepStat.step.name}</p>
@@ -63,7 +61,7 @@ export default function ReadingStatHistory({
                                 key={key}
                                 type="linear"
                                 dataKey={key}
-                                stroke={colors[index % colors.length]}
+                                stroke={"#8884d8"}
                                 dot={false}
                             />
                         ))}
