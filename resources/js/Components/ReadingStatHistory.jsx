@@ -1,94 +1,75 @@
-import {useEffect} from "react";
-import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy.js";
-import * as am5radar from '@amcharts/amcharts5/radar.js';
-export default function ReadingStatHistory({readings, stepStat, date = "topic_time", value = "value"}) {
-    const chartId = 'chart' + Math.floor(Math.random() * 10000000000000000);
-    useEffect(() => {
-        setChart()
-    }, []);
+import React from "react";
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    Tooltip,
+    CartesianGrid,
+    ResponsiveContainer,
+    Legend,
+} from "recharts";
 
-    const getDataStat = () => {
-        return readings.map((item) => {
-            return {
-                date: new Date(item[date]).getTime(),
-                value: parseFloat(item[value]),
-            };
-        });
-    }
+const transformReadings = (readings, dateKey, valueKey, filterStepStat = null) => {
+    const grouped = {};
 
-    const setChart = () => {
-        // Create root and chart
-        let root = am5.Root.new(chartId);
+    readings.forEach((reading) => {
+        const time = reading[dateKey];
+        const key = reading.step_stat?.key;
+        const value = parseFloat(reading[valueKey]);
 
-        let chart = root.container.children.push(
-            am5xy.XYChart.new(root, {
-                panY: true,
-                wheelY: "zoomX",
-                layout: root.verticalLayout
-            })
-        );
+        if (!key || isNaN(value)) return;
+        if (filterStepStat && reading.step_stat_id !== filterStepStat.id) return;
 
-        chart.set('scrollbarX', am5.Scrollbar.new(root, {orientation: "horizontal"}))
+        if (!grouped[time]) {
+            grouped[time] = { date: time };
+        }
 
-        // Craete Y-axis
-        let yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {})
-            })
-        );
+        grouped[time][key] = value;
+    });
 
-        // Create X-Axis
-        let xAxis = chart.xAxes.push(
-            am5xy.DateAxis.new(root, {
-                baseInterval: { timeUnit: "minute", count: 1 },
-                renderer: am5xy.AxisRendererX.new(root, {
-                    inverted: false
-                }),
-            })
-        );
+    return Object.values(grouped);
+};
 
-        // Create series
-        let series = chart.series.push(
-            am5xy.LineSeries.new(root, {
-                name: 'Test',
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: 'value',
-                valueXField: "date",
-                seriesTooltipTarget: 'bullet',
-                locationX: 0,
-            })
-        );
-        series.strokes.template.setAll({
-            strokeWidth: 2
-        });
+export default function ReadingStatHistory({
+                                               readings,
+                                               stepStat,
+                                               date = "topic_time",
+                                               value = "value",
+                                           }) {
+    // Transforma los datos (filtra por stepStat si se pasa)
+    const data = transformReadings(readings, date, value, stepStat);
 
-        series.bullets.push(function () {
-            let circle = am5.Circle.new(root, {
-                radius: 4,
-                templateField: 'bulletSettings',
-                fill: series.get('fill'),
-                strokeWidth: 3,
-                stroke: root.interfaceColors.get('background'),
-                tooltipText: "[bold]{valueY}[/]\n{valueX.formatDate(\"YYYY/MM/dd hh:mm a\")}",
-            });
+    // Claves de sensores únicos (si hay varios)
+    const keys = stepStat
+        ? [stepStat.key]
+        : [...new Set(readings.map((r) => r.step_stat?.key).filter(Boolean))];
 
-            return am5.Bullet.new(root, {
-                sprite: circle,
-                locationX: 0
-            });
-        });
-
-        series.set('fill', am5.color(0x8d375a));
-        series.set('stroke', am5.color(0x8d375a));
-        series.data.setAll(getDataStat());
-    }
+    const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a52a2a", "#00bcd4"];
 
     return (
-        <div className="bg-white p-4 rounded-md shadow-md mb-4">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-10 pl-0">
             <p className="text-center font-bold mb-4">{stepStat.name} - {stepStat.step.name}</p>
-            <div id={chartId} className="w-full h-full" style={{height: 300}}/>
+            <div style={{width: "100%", height: 350}}>
+                <ResponsiveContainer>
+                    <LineChart data={data}>
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <XAxis dataKey="date"/>
+                        <YAxis/>
+                        <Tooltip/>
+                        {keys.length > 1 && <Legend/>}
+                        {keys.map((key, index) => (
+                            <Line
+                                key={key}
+                                type="linear"
+                                dataKey={key}
+                                stroke={colors[index % colors.length]}
+                                dot={false}
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </div>
-    )
+    );
 }
