@@ -105,7 +105,7 @@ class ReportsController extends Controller
                 return back();
             }
             $readings =  $this->reportsService->getReadingsBetweenDatesGroupedByStepStats($sowing->id,$fromDate,$toDate);
-            return \inertia('Reports/ReadingsBetweenDates', [
+            return \inertia('Reports/ReadingsBetweenDate', [
                 'sowing' => $sowing,
                 'readings' => $readings,
                 'fromDate' => $fromDate,

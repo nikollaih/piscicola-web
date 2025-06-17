@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import generatePDF from 'react-to-pdf';
 import ReadingsBetweenDatesTemplatePDF from "@/Pages/Reports/Partials/ReadingsBetweenDatesTemplatePDF.jsx";
 
-export default function ReadingsBetweenDates({ auth, sowing,readings,fromDate,toDate }) {
+export default function ReadingsBetweenDate({ auth, sowing,readings,fromDate,toDate }) {
        const targetRef = useRef();
     return (
         <AuthenticatedLayout
