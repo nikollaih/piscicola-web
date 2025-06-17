@@ -12,6 +12,8 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
     const usePages = usePage();
+    const { env } = usePage().props;
+
     const [stats] = useState(statsReadings);
 
     const confirmDeleteSowing = (sowingId) => {
@@ -64,7 +66,12 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     };
 
     const getSpeedometersDom = () => {
-        return stats.map((stat) => <Speedometer key={stat.id} stat={stat} />);
+        return stats.map((stat) => {
+            const HIDDEN_READINGS = env.HIDDEN_READINGS ? env.HIDDEN_READINGS.split(",") : [];
+            if(!HIDDEN_READINGS.includes(stat.step_stat.key))
+                return <Speedometer key={stat.id} stat={stat} />
+            else return null
+        });
     };
 
 

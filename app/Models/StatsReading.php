@@ -95,7 +95,7 @@ class StatsReading extends Model
             ->where('step_stat_id', $stepStatId)
             ->with('stepStat')
             ->orderBy('id', 'desc')
-            ->take(100)
+            ->take(300)
             ->get();
     }
 

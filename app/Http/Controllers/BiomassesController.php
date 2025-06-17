@@ -57,7 +57,8 @@ class BiomassesController extends Controller
         $sowing = $Sowing->Get();
 
         $biomasseOne = $Biomasse->Get($biomasseIdOne);
-        $biomasseTwo = $Biomasse->Get($biomasseIdTwo);
+        // TODO -> Pending to change $biomasseIdOne for $biomasseIdTwo
+        $biomasseTwo = $Biomasse->Get($biomasseIdOne);
         $biomasses = $Biomasse->AllBySowing($sowingId);
 
         $latestReadings = $StatsReading->latest($sowingId);
@@ -67,7 +68,8 @@ class BiomassesController extends Controller
             $latestReading->StepStat["step"] = $latestReading->Step;
             $readings[$i]['step_stat'] = $latestReading->StepStat;
             $readings[$i]['data_one'] = $StatsReading->GetByBiomasseType($biomasseIdOne, $latestReading->StepStat->id);
-            $readings[$i]['data_two'] = $StatsReading->GetByBiomasseType($biomasseIdTwo, $latestReading->StepStat->id);
+            // TODO -> Pending to change $biomasseIdOne for $biomasseIdTwo
+            $readings[$i]['data_two'] = $StatsReading->GetByBiomasseType($biomasseIdOne, $latestReading->StepStat->id);
         }
 
         return \inertia('Biomasses/Readings', [

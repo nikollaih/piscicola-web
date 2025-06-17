@@ -28,7 +28,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
     }
 
     const getReadings = () => {
-        router.visit(route('biomasse.readings', {sowingId: sowing.id, biomasseIdOne: selectedBiomasseOne.id, biomasseIdTwo: selectedBiomasseTwo.id}))
+        router.visit(route('biomasse.readings', {sowingId: sowing.id, biomasseIdOne: selectedBiomasseOne.id, biomasseIdTwo: selectedBiomasseOne.id}))
     }
 
     return (
@@ -53,11 +53,11 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
 
                     <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6">
                         <div
-                            className="rounded-lg p-2 shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-2 bg-white p-6">
+                            className="rounded-lg shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-2 bg-white p-6">
                             <div className="md:col-span-1 sm:col-span-2">
                                 <p className="font-bold text-lg mb-1">Biomasas</p>
                                 <InputLabel className="mb-4"
-                                            value="A continuación podrá seleccionar hasta 2 biomasas para generar la comparación de lecturas entre ellas."/>
+                                            value="A continuación podrá seleccionar una biomasa para generar las graficas de leturas."/>
                                 <div className="flex align-middle items-center gap-2">
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -68,8 +68,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                                             {getBiomasseDropdownDom(1)}
                                         </Dropdown.Content>
                                     </Dropdown>
-                                    <p>Comparar con</p>
-                                    <Dropdown>
+                                    {/*<Dropdown>
                                         <Dropdown.Trigger>
                                             <DropDownToggle
                                                 className="items-center cursor-pointer">{(selectedBiomasseTwo?.approximate_weight) ? (selectedBiomasseTwo.approximate_weight + 'gr') : 'Seleccionar'}</DropDownToggle>
@@ -77,15 +76,15 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                                         <Dropdown.Content align="left" className="px-2" width={100}>
                                             {getBiomasseDropdownDom(2)}
                                         </Dropdown.Content>
-                                    </Dropdown>
+                                    </Dropdown>*/}
                                     <PrimaryButton onClick={() => {
                                         getReadings()
-                                    }} className="bg-orange-600">Comparar</PrimaryButton>
+                                    }} className="bg-orange-600">Ver lecturas</PrimaryButton>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-4">
                         <div>
                             {
                                 readings.map((reading) => {
@@ -97,7 +96,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                                 })
                             }
                         </div>
-                        <div>
+                        {/*<div>
                             {
                                 readings.map((reading) => {
                                     if(reading.data_two.length > 0) {
@@ -106,7 +105,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                                     return null
                                 })
                             }
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </div>
