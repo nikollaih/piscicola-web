@@ -20,7 +20,7 @@ class ReconnectionService
             $latestReading = StatsReading::latestByProductiveUnit($productiveUnitId);
 
             $ProductiveUnit = new ProductiveUnit();
-            $emails = ['no-reply@redesysteco.com'];
+            $emails = ['no-reply@piscicola.redesystemco.com'];
 
             if (!$latestReading) {
                 Log::info("No reading found for productive unit ID: $productiveUnitId");

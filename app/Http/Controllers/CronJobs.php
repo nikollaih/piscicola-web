@@ -28,7 +28,7 @@ class CronJobs extends Controller
 
         if (!$stats->isEmpty()) {
             foreach ($stats as $stat) {
-                $emails = ["no-reply@piscicola.redesystemco.com", "nikollaihernandezgamus@gmail.com"];
+                $emails = ["no-reply@piscicola.redesystemco.com"];
                 $localTime = Carbon::parse($stat->topic_time);
                 $checkInterval = (int) $stat->Sowing->check_interval;
 
