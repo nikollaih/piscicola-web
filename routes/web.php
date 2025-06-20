@@ -41,6 +41,14 @@ use Inertia\Inertia;
 */
 
 Route::get('/latest_readings_check', [CronJobs::class, 'checkLatestReadings'])->name('checkLatestReadings');
+
+Route::get('/mobile_app', function () {
+    if (request()->has('deviceToken')) {
+        session(['expo_token' => request('deviceToken')]);
+    }
+    return redirect()->route('first'); // redirige a "/"
+});
+
 Route::get('/', [SowingsController::class, 'index'])->middleware(['auth', 'verified'])->name('first');
 
 Route::middleware(['auth', 'verified'])->group(function () {
