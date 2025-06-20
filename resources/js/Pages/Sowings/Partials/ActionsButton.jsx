@@ -13,7 +13,7 @@ const tabs = [
 
 export default function ActionsButton({ sowing }) {
     return (
-        <div className="mb-6 overflow-x-auto">
+        <div className="mb-0 sm:mb-6 overflow-x-auto">
             {/* Vista de PC */}
             <div className="hidden sm:flex gap-4 border-b border-gray-200">
                 {tabs.map((tab) => {
@@ -37,7 +37,7 @@ export default function ActionsButton({ sowing }) {
             {/* Vista móvil */}
             <div className="sm:hidden reative">
                 <Menu as="div" className="relative inline-block w-full">
-                    <Menu.Button className="w-full px-4 py-2 bg-gray-200 rounded-md text-left">
+                    <Menu.Button className="w-full px-4 py-4 bg-gray-200 rounded-md text-left">
                         Selecciona una acción
                     </Menu.Button>
                     <Menu.Items className="relative left-0 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10">

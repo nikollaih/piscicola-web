@@ -125,19 +125,19 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4 ">
                             <div>
                                 <div className="flex items-center text-sm text-gray-500 mb-1">
-                                    <Link href="/sowings" className="hover:text-gray-700">Cultivo</Link>
+                                    <Link href="/sowings" className="hover:text-gray-700">Cosecha</Link>
                                     <span className="mx-2">{'>'}</span>
-                                    <span className="text-gray-700">{pageProps?.sowing?.id ? "Modificar" : "Agregar"} Cultivo</span>
+                                    <span className="text-gray-700">{pageProps?.sowing?.id ? "Modificar" : "Agregar"} Cosecha</span>
                                 </div>
                                 <h2 className="text-xl font-semibold text-gray-800">
-                                    {pageProps?.sowing?.id ? "Modificar" : "Nuevo"} Cultivo
+                                    {pageProps?.sowing?.id ? "Modificar" : "Nuevo"} Cosecha
                                 </h2>
                             </div>
                             <Link className="w-full sm:w-auto" href={goBackRoute}>
-                                <PrimaryButton>Regresar</PrimaryButton>
+                                <PrimaryButton className={"bg-neutral-800"}>Regresar</PrimaryButton>
                             </Link>
                         </div>
 

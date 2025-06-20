@@ -48,7 +48,7 @@ export default function Supplies({ auth, supplies, request, url, createSupplyUrl
                             </div>
                             <Link href={createSupplyUrl}>
                                 <PrimaryButton className="bg-orange-600 h-10 text-white">
-                                    Agregar Suministro
+                                    Nuevo Suministro
                                 </PrimaryButton>
                             </Link>
                         </div>

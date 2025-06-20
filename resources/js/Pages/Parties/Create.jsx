@@ -15,7 +15,7 @@ export default function CreateParty({ auth, party, partyRoles, partyRoleId, form
             user={auth.user}
         >
             <Head title={pageTitle} />
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">

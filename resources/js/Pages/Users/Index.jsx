@@ -122,7 +122,7 @@ export default function Users({ auth, users, request, url, createUserUrl }) {
                         <div className="flex gap-4 justify-between sm:justify-end mb-4">
                             <Link href={createUserUrl}>
                                 <PrimaryButton className="bg-orange-500 h-10 text-white">
-                                    Agregar Usuario
+                                    Nuevo Usuario
                                 </PrimaryButton>
                             </Link>
                         </div>

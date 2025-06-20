@@ -84,9 +84,9 @@ export default function Sales({ auth, sales }) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Ventas" />
-            <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="p-6">
+            <div className="py-4 lg:py-12 bg-gray-100">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="p-0">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Finanzas</p>
@@ -133,7 +133,7 @@ export default function Sales({ auth, sales }) {
                         </div>
                     </div>
 
-                    <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+
                         <div className="bg-white overflow-x-auto shadow-sm rounded-lg py-5">
                             <table id="table-sales" className="w-full table table-auto">
                                 <thead className="text-gray-900 font-bold">
@@ -178,7 +178,7 @@ export default function Sales({ auth, sales }) {
                             </table>
                         </div>
                         <Pagination className="mt-6" links={sales.links} />
-                    </div>
+
                 </div>
             </div>
 

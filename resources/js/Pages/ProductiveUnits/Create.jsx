@@ -95,7 +95,7 @@ export default function CreateProductiveUnit({ auth, productive_unit, associatio
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.productive_unit?.id) ? "Modificar" : "Agregar"} unidad productiva</h2>}
         >
             <Head title="Asociación" />
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage

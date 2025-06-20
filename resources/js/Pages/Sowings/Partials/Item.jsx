@@ -16,7 +16,7 @@ export default function SowingItem({ sowing, baseUrl }) {
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-md p-6 w-full max-w-sm mx-auto hover:shadow-lg transition-all space-y-4">
+        <div className="bg-white rounded-xl shadow-md p-6 w-full sm:max-w-sm mx-auto hover:shadow-lg transition-all space-y-4">
             <h3 className="text-lg font-semibold text-gray-800">
                 {sowing.name}
             </h3>
@@ -38,7 +38,7 @@ export default function SowingItem({ sowing, baseUrl }) {
                 href={`${baseUrl}/sowings/${sowing.id}/view`}
                 className="block text-center text-orange-700 font-semibold text-sm bg-orange-100 hover:bg-orange-200 transition-all rounded-md py-2"
             >
-                Ver información del cultivo
+                Ver información del cosecha
             </Link>
         </div>
     );

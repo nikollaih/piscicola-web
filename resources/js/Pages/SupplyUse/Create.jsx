@@ -91,7 +91,7 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
             // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.feed?.id) ? "Modificar" : "Agregar"} Suministro</h2>}
         >
             <Head title="Biomasa" />
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -105,7 +105,7 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                                     <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                                         <div>
                                             <div className="flex items-center text-sm text-gray-500 mb-1">
-                                                <Link href="/sowings" className="hover:text-gray-700">Cultivo</Link>
+                                                <Link href="/sowings" className="hover:text-gray-700">Cosecha</Link>
                                                 <span className="mx-2">{'>'}</span>
                                                 <span className="text-gray-700">{titleh2}</span>
                                             </div>
@@ -117,7 +117,7 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                                 </div>
                             </div>
                             <Link className="w-full sm:w-auto" href={indexRoute}>
-                                <PrimaryButton className="">Regresar</PrimaryButton>
+                                <PrimaryButton className="bg-neutral-800">Regresar</PrimaryButton>
                             </Link>
                         </div>
                         <br />

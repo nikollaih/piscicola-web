@@ -80,13 +80,13 @@ export default function Dashboard({ auth, parties, partyRoles, createPartyUrl, p
             <Head title={getTitle()} />
             <div className="py-4 lg:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                    <div className="flex justify-between items-center flex-wrap gap-4 mb-4">
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800">{getTitle()}</h2>
                         </div>
                         <Link href={createPartyUrl} className="self-end">
                             <PrimaryButton className="bg-orange-500 h-10 text-white">
-                                Agregar
+                                Nuevo {getTitle()}
                             </PrimaryButton>
                         </Link>
                     </div>

@@ -45,8 +45,8 @@ export default function SowingNews({ auth, news, sowing }) {
         >
             <Head title="Novedades" />
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="mb-10">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
+                    <div className="mb-2 sm:mb-10">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Cosecha</p>
@@ -56,14 +56,14 @@ export default function SowingNews({ auth, news, sowing }) {
                             </div>
                             <div className="flex mb-4 justify-end">
                                 <Link href="/sowings">
-                                    <PrimaryButton>
+                                    <PrimaryButton className={"bg-neutral-800"}>
                                         Regresar
                                     </PrimaryButton>
                                 </Link>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-4 mb-4">
+                    <div className="flex flex-wrap justify-center gap-4 mb-0 sm:mb-4">
                         <SowingInformation sowing={sowing}/>
                     </div>
                     <ButtonsGroup sowing={sowing}/>

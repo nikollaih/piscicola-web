@@ -87,23 +87,22 @@ export default function Actuators({ auth, actuators }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Actuadores</h2>}
         >
             <Head title="Actuadores" />
             <div className="py-4 sm:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="">
-                        <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                        <div className="flex justify-between items-center flex-wrap gap-4 mb-4">
                             <div>
                                 <p className="text-sm text-gray-500">Infraestructura</p>
                                 <h2 className="text-xl font-semibold text-gray-800">
                                     Actuadores
                                 </h2>
                             </div>
-                            <div className="flex mb-4 justify-end">
+                            <div className="flex justify-end">
                                 <Link href={route('actuator.create')}>
                                     <PrimaryButton className="bg-orange-600 h-10 text-white">
-                                        Agregar Actuador
+                                        Nuevo Actuador
                                     </PrimaryButton>
                                 </Link>
                             </div>

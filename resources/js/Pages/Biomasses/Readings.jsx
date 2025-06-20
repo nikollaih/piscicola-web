@@ -34,18 +34,18 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <div className="flex items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Lecturas de la biomasa
-                    </h2>
-                </div>
-            }
         >
             <Head title="Biomasa"/>
-            <div className="py-12">
+            <div className="py-4 lg:py-6 bg-gray-100">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="flex gap-4 justify-end mb-4">
+
+                    <div className="flex gap-4 justify-between items-center mb-4">
+                        <div>
+                            <p className="text-sm text-gray-500">Cosechas</p>
+                            <h2 className="text-xl font-semibold text-gray-800">
+                                {sowing?.pond?.name}
+                            </h2>
+                        </div>
                         <Link href={route('biomasses', {sowingId: sowing.id})}>
                             <PrimaryButton className="bg-gray-800">Regresar</PrimaryButton>
                         </Link>
@@ -54,7 +54,7 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                     <div className="md:grid-cols-1 sm:grid-cols-1 grid gap-4 mb-6">
                         <div
                             className="rounded-lg shadow-md sm:col-span-1 md:col-span-2 grid grid-cols-2 bg-white p-6">
-                            <div className="md:col-span-1 sm:col-span-2">
+                        <div className="md:col-span-1 sm:col-span-2">
                                 <p className="font-bold text-lg mb-1">Biomasas</p>
                                 <InputLabel className="mb-4"
                                             value="A continuación podrá seleccionar una biomasa para generar las graficas de leturas."/>
@@ -89,8 +89,10 @@ export default function BiomasseReadings({ auth, sowing, biomasses, readings, bi
                             {
                                 readings.map((reading) => {
 
-                                    if(reading.data_one.length > 0) {
-                                        return <ReadingStatHistory key={reading.step_stat.id} readings={reading.data_one} stepStat={reading.step_stat} />
+                                    if (reading.data_one.length > 0) {
+                                        return <ReadingStatHistory key={reading.step_stat.id}
+                                                                   readings={reading.data_one}
+                                                                   stepStat={reading.step_stat}/>
                                     }
                                     return null;
                                 })

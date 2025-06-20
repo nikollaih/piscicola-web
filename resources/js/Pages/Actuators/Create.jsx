@@ -154,7 +154,7 @@ export default function CreateActuator({ auth, ponds, actuatorTypes, goBackRoute
                         />
 
                         <div className="">
-                            <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
+                            <div className="flex justify-between items-center flex-wrap gap-4 mb-4">
                                 <div>
                                     <div className="flex items-center text-sm text-gray-500 mb-1">
                                         <Link href="/actuators/pond" className="hover:text-gray-700">Infraestructura</Link>

@@ -164,7 +164,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                 </h2>
                             </div>
                             <Link className="w-full sm:w-auto" href={route('supplies')}>
-                                <PrimaryButton>Regresar</PrimaryButton>
+                                <PrimaryButton className="bg-neutral-800">Regresar</PrimaryButton>
                             </Link>
                         </div>
 

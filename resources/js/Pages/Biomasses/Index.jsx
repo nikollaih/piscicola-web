@@ -65,27 +65,27 @@ export default function Biomasses({ auth, sowing, biomasses, latestBiomasses, cr
             <Head title="Biomasa" />
 
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="mb-10">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
-                                <p className="text-sm text-gray-500">Cultivos</p>
+                                <p className="text-sm text-gray-500">Cosechas</p>
                                 <h2 className="text-xl font-semibold text-gray-800">
                                     {sowing?.pond?.name}
                                 </h2>
                             </div>
                             <div className="flex gap-2">
-                                <Link className="hidden md:grid" href={route('biomasse.readings', { sowingId: sowing.id })}>
+                                <Link className="md:grid" href={route('biomasse.readings', { sowingId: sowing.id })}>
                                     <PrimaryButton className="bg-gray-800 text-white">Histórico de lecturas</PrimaryButton>
                                 </Link>
                                 <Link href={createBiomasseUrl}>
-                                    <PrimaryButton className='bg-orange-600 h-10 text-white'>Agregar</PrimaryButton>
+                                    <PrimaryButton className='bg-orange-600 h-10 text-white'>Nueva biomasa</PrimaryButton>
                                 </Link>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4 mb-4">
+                    <div className="flex flex-wrap justify-center gap-4 mb-0 sm:mb-4">
                         <SowingInformation sowing={sowing} />
                     </div>
 

@@ -113,7 +113,7 @@ export default function CreateSale({ auth, clients, sowings }) {
         >
             <Head title="Registrar Venta" />
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <div className="p-6">
                             <div className="flex justify-between items-start flex-wrap gap-4 mb-4">

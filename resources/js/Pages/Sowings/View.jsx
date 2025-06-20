@@ -105,11 +105,11 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
             <Head title="Cosecha" />
 
             <div className="py-4 lg:py-6 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="pb-5">
                         <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                             <div>
-                                <p className="text-sm text-gray-500">Cultivos</p>
+                                <p className="text-sm text-gray-500">Cosechas</p>
                                 <h2 className="text-xl font-semibold text-gray-800">
                                     {sowing.pond?.name}
                                 </h2>
@@ -122,7 +122,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4 mb-4">
+                    <div className="flex flex-wrap justify-center gap-4 mb-0 sm:mb-4">
                         <SowingInformation sowing={sowing} />
                     </div>
 

@@ -43,7 +43,7 @@ export default function SupplyUseReadings({ auth, sowing, biomasses, readings, b
             }
         >
             <Head title={`Registros de ${title}`}/>
-            <div className="py-12">
+            <div className="py-4 sm:py-12">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={indexRoute}>

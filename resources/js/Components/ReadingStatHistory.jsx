@@ -48,7 +48,7 @@ export default function ReadingStatHistory({
     return (
         <div className="bg-white rounded-lg shadow-md p-6 mb-10 pl-0">
             <p className="text-center font-bold mb-4">{stepStat.name} - {stepStat.step.name}</p>
-            <div style={{width: "100%", height: 350}}>
+            <div style={{width: "100%", height: 350}} className={"-ml-3 sm:ml-0"}>
                 <ResponsiveContainer>
                     <LineChart data={data}>
                         <CartesianGrid strokeDasharray="3 3"/>

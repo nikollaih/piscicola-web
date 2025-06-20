@@ -27,14 +27,14 @@ export default function Sowings({ auth, sowings, request, createSowingUrl, baseU
         <AuthenticatedLayout user={auth.user}>
             <Head title="Cosechas" />
             <div className="py-4 sm:py-8 bg-gray-100">
-                <div className="max-w-7xl mx-auto px-4">
+                <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex justify-between items-center flex-wrap gap-4 mb-4">
                         <h2 className="text-xl font-semibold text-gray-800">
-                            Cultivos
+                            Cosechas
                         </h2>
                         <Link href={createSowingUrl}>
                             <PrimaryButton className="bg-orange-600 text-white">
-                                Nuevo cultivo
+                                Nueva cosecha
                             </PrimaryButton>
                         </Link>
                     </div>

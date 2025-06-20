@@ -15,7 +15,7 @@ export default function Authenticated({ user, header, children }) {
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-4">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
@@ -226,21 +226,18 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' lg:hidden bg-white w-full h-full z-10'}>
+                <div className={(showingNavigationDropdown ? 'fixed' : 'hidden') + ' lg:hidden bg-white w-full h-screen z-10'}>
                     <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
-                        <ResponsiveNavLink href={route('dashboard')} active={(route().current('dashboard') || route().current('first'))}>
+                        <ResponsiveNavLink href={route('dashboard')} active={(route().current('dashboard'))}>
                             Resumen
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('sowings')} active={(route().current('sowings') || route().current('first'))}>
                             Cosechas
                         </ResponsiveNavLink>
-                        
-                        
-                        
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <button
-                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                    className="flex items-center text-base font-medium text-gray-600 px-4 py-4 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition duration-150 ease-in-out"
                                 >
                                     Infraestructura
                                     <svg
@@ -268,7 +265,7 @@ export default function Authenticated({ user, header, children }) {
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <button
-                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                    className="flex items-center px-4 text-base font-medium text-gray-600 py-4 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition duration-150 ease-in-out"
                                 >
                                     Finanzas
                                     <svg
@@ -291,12 +288,12 @@ export default function Authenticated({ user, header, children }) {
                         </Dropdown>
 
 
-                        
+
 
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <button
-                                    className="flex items-center px-3 py-2 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
+                                    className="flex items-center px-4 text-base font-medium text-gray-600 py-4 hover:text-gray-700 focus:outline-none focus:text-gray-700 transition duration-150 ease-in-out"
                                 >
                                     Personas
                                     <svg
@@ -364,7 +361,7 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main className="flex-1 p-2 pb-0 md:pb-40">{children}</main>
+            <main className="flex-1 p-3 pb-0 md:pb-40">{children}</main>
             <footer
                 className="hidden md:fixed md:block bottom-0 right-0 left-0 bg-white p-4 shadow-md">
                 <div className="items-center flex justify-center align-middle mt-2 gap-6 ">
