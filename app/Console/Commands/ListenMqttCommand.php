@@ -53,17 +53,16 @@ class ListenMqttCommand extends Command
             }, 1);
 
             $mqtt->subscribe(env('MQTT_GET_READINGS'), function (string $topic, string $message, $retained) {
-                print_r("Lectura automatica");
                 if($retained != 1) {
                     print_r("Lectura automatica");
-                    $this->MqttController->setReadings($message);
+                    $this->MqttController->setReadings($message, $topic);
                 }
             }, 1);
 
             $mqtt->subscribe(env('MQTT_GET_READINGS_MANUAL'), function (string $topic, string $message, $retained) {
                 if($retained != 1) {
                     print_r("Lectura manual");
-                    $this->MqttController->setReadings($message);
+                    $this->MqttController->setReadings($message, $topic);
                 }
             }, 1);
 

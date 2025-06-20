@@ -226,7 +226,7 @@ class MqttController extends Controller
         }
     }
 
-    public function setReadings($message): void
+    public function setReadings($message, $topic = ""): void
     {
         try {
             $data = json_decode($message, true);
@@ -251,7 +251,10 @@ class MqttController extends Controller
             $biomasse = (new Biomasse())->Active($sowing->id);
             $stepStatModel = new StepStat();
 
-            (new ReconnectionService())->checkAndLogReconnection($pond->productive_unit_id);
+            if (!str_contains($topic, 'MANUAL')) {
+                (new ReconnectionService())->checkAndLogReconnection($pond->productive_unit_id);
+            }
+
             $this->processMedida($data, $sowing, $biomasse, $stepStatModel);
         } catch (\Exception $e) {
             print_r($e->getMessage());
