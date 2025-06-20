@@ -97,7 +97,7 @@ export default function Reports({ auth, sowings }) {
                 </div>
                 <br />
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
-                    <div className="md:grid-cols-3 sm:grid-cols-1 grid gap-4 mb-6">
+                    <div className="md:grid-cols-2 sm:grid-cols-1 grid gap-4 mb-6">
                         <div className="col-span-1 w-full grid">
                             {getReportsDom()}
                         </div>
