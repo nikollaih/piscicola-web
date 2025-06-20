@@ -80,8 +80,8 @@ class CronJobs extends Controller
                 foreach ($user->deviceTokens ?? [] as $deviceToken) {
                     $notifications[] = [
                         'to' => $deviceToken->token,
-                        'title' => '⚠️ No se han detectado lecturas: ' . $stat->Sowing->Pond->name,
-                        'body' => 'Hay lecturas sin actualizar en uno de los estanques de la unidad productiva.',
+                        'title' => '⚠️ No se han detectado lecturas',
+                        'body' => 'Hay lecturas sin actualizar en '.$stat->Sowing->Pond->name.'.',
                         'sound' => 'default',
                         'data' => [
                             'tipo' => 'alerta_estadistica',
