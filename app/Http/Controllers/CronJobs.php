@@ -7,6 +7,7 @@ use App\Mail\StatsAlertMail;
 use App\Models\ProductiveUnit;
 use App\Models\StatAlertLog;
 use App\Models\StatsReading;
+use App\Services\ExpoPushNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Mail;
 
 class CronJobs extends Controller
 {
+
+    public mixed $expoPush;
+    public function __construct(){
+        $this->expoPush = app(ExpoPushNotificationService::class);
+    }
     //
     public function index() {
         Artisan::call('mqtt:listen');
@@ -61,10 +67,36 @@ class CronJobs extends Controller
                             }
                         }
 
+
                         $emails = array_unique($emails);
 
                         // Enviar correo
                         Mail::to($emails)->send(new StatsAlertMail($stat));
+
+                        $notifications = [];
+
+                        foreach ($productiveUnit->Users as $user) {
+                            if(!empty($user->deviceTokens)){
+                                foreach ($user->deviceTokens as $deviceToken) {
+                                    $notifications[] = [
+                                        'to' => $deviceToken->token,
+                                        'title' => '⚠️ No se han detectado lecturas',
+                                        'body' => 'Hay lecturas sin actualizar en: '.$stat->Sowing->Pond->name,
+                                        'sound' => 'default',
+                                        'data' => [
+                                            'tipo' => 'alerta_estadistica',
+                                            'sowing_id' => $stat->Sowing->id,
+                                        ]
+                                    ];
+                                }
+                            }
+                        }
+
+                        // Si hay tokens válidos, enviar notificaciones
+                        if (!empty($notifications)) {
+                            print_r($notifications);
+                            $this->expoPush->send($notifications);
+                        }
 
                         // Agrega la actividad a la cosecha
                         (new SowingNews())->newStatsReadingsLost([
