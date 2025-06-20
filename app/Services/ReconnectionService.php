@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Log;
 
 class ReconnectionService
 {
+    protected ExpoPushNotificationService $expoPush;
+
+    public function __construct()
+    {
+        $this->expoPush = app(ExpoPushNotificationService::class);
+    }
+
     public function checkAndLogReconnection(int $productiveUnitId): void
     {
         try {
@@ -56,6 +63,27 @@ class ReconnectionService
 
                 // Enviar correo
                 Mail::to($emails)->send(new ReconnectionMail($data));
+
+                // Preparar notificaciones push
+                $notifications = [];
+                foreach ($productiveUnit->Users as $user) {
+                    foreach ($user->deviceTokens ?? [] as $deviceToken) {
+                        $notifications[] = [
+                            'to' => $deviceToken->token,
+                            'title' => '✅ Conexión restablecida',
+                            'body' => 'Conexión restablecida despues de '.$data["duration"]. ' minutos.',
+                            'sound' => 'default',
+                            'data' => [
+                                'tipo' => 'alerta_reconexion',
+                            ],
+                        ];
+                    }
+                }
+
+                // Enviar notificaciones si hay tokens
+                if (!empty($notifications)) {
+                    $this->expoPush->send($notifications);
+                }
 
                 Log::info("Reconexión registrada con duración de {$durationInMinutes} minutos para unidad productiva #$productiveUnitId");
             } else {
