@@ -324,6 +324,10 @@ export default function Authenticated({ user, header, children }) {
                             </Dropdown.Content>
                         </Dropdown>
 
+                        <ResponsiveNavLink href={route('reports')} active={(route().current('reports'))}>
+                            Reportes
+                        </ResponsiveNavLink>
+
                         <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{user.name}</div>

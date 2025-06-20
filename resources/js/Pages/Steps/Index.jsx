@@ -87,7 +87,7 @@ export default function Steps({ auth, steps, csrfToken }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Etapas</h2>}
         >
             <Head title="Etapas" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-end">
                         <PrimaryButton onClick={() => {setShowAddModal(true)}} className="bg-orange-600 h-10">

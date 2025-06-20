@@ -109,7 +109,7 @@ export default function ViewClient({ auth, client, loggedUser, envRoles }) {
             }
         >
             <Head title="Clientes"/>
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="grid-cols-2 grid gap-4">
 

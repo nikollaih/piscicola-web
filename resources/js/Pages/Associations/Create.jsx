@@ -80,7 +80,7 @@ export default function CreateAssociation({ auth, association }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.association?.id) ? "Modificar" : "Agregar"} asociación</h2>}
         >
             <Head title="Asociación" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage

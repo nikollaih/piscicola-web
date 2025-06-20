@@ -91,7 +91,7 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
             // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.feed?.id) ? "Modificar" : "Agregar"} Suministro</h2>}
         >
             <Head title="Biomasa" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -122,8 +122,8 @@ export default function CreateBiomasse({ auth, sowingId, biomasseId, supplies, i
                         </div>
                         <br />
 
-                        <div class="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                        <div className="bg-white shadow-sm rounded-lg p-5">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                                 <div className="md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Producto"/>
                                     <Dropdown>

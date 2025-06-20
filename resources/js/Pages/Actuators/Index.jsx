@@ -89,7 +89,7 @@ export default function Actuators({ auth, actuators }) {
             user={auth.user}
         >
             <Head title="Actuadores" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="">
                         <div className="flex justify-between items-center flex-wrap gap-4 mb-4">

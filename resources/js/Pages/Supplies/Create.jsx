@@ -145,7 +145,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                             onClose={() => setSuccessMessage('')}
                         />
 
-                        <div className="">
+                        <div className="mb-4">
                             <div className="flex justify-between items-start flex-wrap gap-4 mb-4">
                                 <div>
                                     <div className="flex items-center text-sm text-gray-500 mb-1">
@@ -169,7 +169,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                         </div>
 
                         <div className="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                                 <div className="w-full">
                                     <InputLabel value="Nombre del producto" />
                                     <TextInput
@@ -254,7 +254,7 @@ export default function CreateSupply({ auth, measurements, suppliesUrl, supply }
                                     {hasErrors?.use_type && <InputError message={hasErrors.use_type} />}
                                 </div>
 
-                                <div className="w-full md:col-span-3">
+                                <div className="w-full md:col-span-2 lg:col-span-3">
                                     <InputLabel value="Notas" />
                                     <TextArea
                                         className="w-full"

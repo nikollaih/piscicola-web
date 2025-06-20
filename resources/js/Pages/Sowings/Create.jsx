@@ -117,7 +117,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Cosecha" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -142,7 +142,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                         </div>
 
                         <div className="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                                 <div className="w-full md:col-span-1">
                                     <InputLabel value="Nombre"/>
                                     <TextInput
@@ -183,9 +183,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                     </Dropdown>
                                     {hasErrors?.step_id && <InputError message={hasErrors.step_id}/>}
                                 </div>
-                            </div>
 
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1">
                                     <InputLabel value="Estanque"/>
                                     <Dropdown>
@@ -226,9 +224,7 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                     />
                                     {hasErrors?.quantity && <InputError message={hasErrors.quantity}/>}
                                 </div>
-                            </div>
 
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1">
                                     <InputLabel value="Fecha estimada de finalización"/>
                                     <TextInput
@@ -242,7 +238,8 @@ export default function CreateSowing({ auth, fish, steps, ponds, sowing }) {
                                 </div>
 
                                 <div className="w-full md:col-span-1">
-                                    <InputLabel value="Minutos de alertas (Se enviara una alerta despues de no recibir lecturas en esta cantidad de minutos)"/>
+                                    <InputLabel
+                                        value="Minutos de alertas (Se enviara una alerta despues de no recibir lecturas en esta cantidad de minutos)"/>
                                     <TextInput
                                         type="number"
                                         className="w-full"

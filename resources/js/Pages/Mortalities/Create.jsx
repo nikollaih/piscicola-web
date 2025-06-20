@@ -77,7 +77,7 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
             //header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.mortality?.id) ? "Modificar" : "Agregar"} mortalidad</h2>}
         >
             <Head title="Mortalidad" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -107,8 +107,8 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
                             </Link>
                         </div>
                         <br />
-                        <div class="bg-white shadow-sm rounded-lg p-5">
-                            <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4 xs:grid-cols-1 mb-4">
+                        <div className="bg-white shadow-sm rounded-lg p-5">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Cantidad de peces para la muestra"/>
                                     <TextInput

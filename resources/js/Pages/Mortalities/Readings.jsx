@@ -42,7 +42,7 @@ export default function MortalitiesReadings({ auth, sowing, biomasses, readings,
             }
         >
             <Head title="Registros de mortalidad"/>
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex gap-4 justify-end mb-4">
                         <Link href={route('mortalities', {sowingId: sowing.id})}>

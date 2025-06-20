@@ -82,7 +82,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
             // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{(pageProps?.biomasse?.id) ? "Modificar" : "Agregar"} biomasa</h2>}
         >
             <Head title="Biomasa" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <form onSubmit={handleSubmit}>
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <AlertMessage
@@ -112,7 +112,7 @@ export default function CreateBiomasse({ auth, sowingId, biomassesUrl }) {
                             </Link>
                         </div>
                         <br />
-                        <div class="bg-white shadow-sm rounded-lg p-5">
+                        <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 grid-cols-1 mb-4">
                                 <div className="w-full md:col-span-1 sm:col-span-2">
                                     <InputLabel value="Peso aproximado (gr)"/>

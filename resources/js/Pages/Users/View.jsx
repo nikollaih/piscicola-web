@@ -93,7 +93,7 @@ export default function ViewUser({ auth, user, loggedUser, envRoles }) {
             }
         >
             <Head title="Useres"/>
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                         <div className="">

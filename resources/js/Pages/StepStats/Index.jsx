@@ -89,7 +89,7 @@ export default function Dashboard({ auth, step_stats, stepId }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Configuración de parámetros</h2>}
         >
             <Head title="Configuración de parámetros" />
-            <div className="py-4 sm:py-12">
+            <div className="py-4 sm:py-6">
                 <div className="max-w-7xl mx-auto sm:px-4 lg:px-4">
                     <div className="flex mb-4 justify-between">
                         <div />

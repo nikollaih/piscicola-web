@@ -23,7 +23,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                         </div>
                     </div>
 
-                    <div className="py-4 sm:py-12">
+                    <div className="py-4 sm:py-6">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                             <div className="p-4 sm:p-8 bg-white shadow rounded-lg">
                                 <UpdateProfileInformationForm
