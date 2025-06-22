@@ -9,18 +9,18 @@ export default function ReadingsByDate({sowing}) {
     const generateReport = () => {
         let validateResoult = validateDates();
         if(validateResoult.status){
-            window.open(route('readings.betweenDates.pdf', {sowingId:sowing.id,fromDate: fromDate,toDate: toDate}), '_blank');
+            location.href = route('readings.betweenDates.pdf', {sowingId:sowing.id,fromDate: fromDate,toDate: toDate});
         }else{
             console.log(validateResoult);
         }
     }
     const validateDates = () => {
         if(fromDate == null)
-            return {"status":false,"msg":"La fecha Desde no puede estar vacía"}; 
+            return {"status":false,"msg":"La fecha Desde no puede estar vacía"};
         if(toDate == null)
-            return {"status":false,"msg":"La fecha Hasta no puede estar vacía"}; 
+            return {"status":false,"msg":"La fecha Hasta no puede estar vacía"};
         if(toDate<fromDate)
-            return {"status":false,"msg":"La fecha Desde no puede ser mayor a la fecha Hasta"}; 
+            return {"status":false,"msg":"La fecha Desde no puede ser mayor a la fecha Hasta"};
 
         return {"status":true,"msg":"Fechas ingresadas correctamente"};
 
@@ -32,22 +32,22 @@ export default function ReadingsByDate({sowing}) {
             <div class="flex items-center space-x-2 justify-start">
 
                 <label for="from-date" class="whitespace-nowrap w-11">Desde</label>
-                <input 
+                <input
                     type="date"
                     id="from-date"
-                    class="border border-orange-500 rounded p-2" 
+                    class="border border-orange-500 rounded p-2"
                     onChange={(e) => setFromDate(e.target.value)}
                     max={toDate}
                 />
 
             </div>
             <div class="flex items-center space-x-2 justify-start ">
-                
+
                 <label for="to-datetime" class="whitespace-nowrap w-11">Hasta</label>
-                <input 
+                <input
                     type="date"
                     id="to-datetime"
-                    class="border border-orange-500 rounded p-2" 
+                    class="border border-orange-500 rounded p-2"
                     onChange={(e) => setToDate(e.target.value)}
                     min={fromDate}
                 />
