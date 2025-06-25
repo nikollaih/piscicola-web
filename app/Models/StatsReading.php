@@ -94,7 +94,7 @@ class StatsReading extends Model
         return StatsReading::where('biomasse_id', $biomasseId)
             ->where('step_stat_id', $stepStatId)
             ->with('stepStat')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->take(500)
             ->get();
     }
