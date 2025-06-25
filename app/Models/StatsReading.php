@@ -96,7 +96,9 @@ class StatsReading extends Model
             ->with('stepStat')
             ->orderBy('id', 'desc')
             ->take(500)
-            ->get();
+            ->get()
+            ->sortBy('id')
+            ->values();
     }
 
     public static function getReadingsBetweenDates($sowingId = -1,$fromDate = -1,$toDate = -1){
