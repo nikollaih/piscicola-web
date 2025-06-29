@@ -72,7 +72,7 @@ class ReportsController extends Controller
             return back();
         }
     }
-    public function readingsBetweenDatesPdf($sowingId,$fromDate,$toDate){
+    public function readingsBetweenDatePdf($sowingId,$fromDate,$toDate){
         try {
             $requestData = ["sowingId"=>$sowingId,"fromDate"=>$fromDate,"toDate"=>$toDate];
 
@@ -105,7 +105,7 @@ class ReportsController extends Controller
                 return back();
             }
             $readings =  $this->reportsService->getReadingsBetweenDatesGroupedByStepStats($sowing->id,$fromDate,$toDate);
-            return \inertia('Reports/ReadingsBetweenDate', [
+            return \inertia('ReportsFixes/ReadingBetweenDates', [
                 'sowing' => $sowing,
                 'readings' => $readings,
                 'fromDate' => $fromDate,
