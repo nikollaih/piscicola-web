@@ -226,8 +226,8 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'fixed' : 'hidden') + ' lg:hidden bg-white w-full h-screen z-10'}>
-                    <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
+                <div className={(showingNavigationDropdown ? 'fixed' : 'hidden') + ' lg:hidden bg-white w-full h-[calc(100vh-50px)] z-10'}>
+                    <div className="pt-2 pb-3 space-y-1 overflow-auto h-full">
                         <ResponsiveNavLink href={route('dashboard')} active={(route().current('dashboard'))}>
                             Resumen
                         </ResponsiveNavLink>
