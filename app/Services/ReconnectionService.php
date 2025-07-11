@@ -61,8 +61,10 @@ class ReconnectionService
                     }
                 }
 
-                // Enviar correo
-                Mail::to($emails)->send(new ReconnectionMail($data));
+                if(env('ENABLED_EMAIL_ALERTS') === "TRUE"){
+                    // Enviar correo
+                    Mail::to($emails)->send(new ReconnectionMail($data));
+                }
 
                 // Preparar notificaciones push
                 $notifications = [];
@@ -82,7 +84,9 @@ class ReconnectionService
 
                 // Enviar notificaciones si hay tokens
                 if (!empty($notifications)) {
-                    $this->expoPush->send($notifications);
+                    if(env('ENABLED_PUSH_NOTIFICATIONS_ALERTS') === "TRUE") {
+                        $this->expoPush->send($notifications);
+                    }
                 }
 
                 Log::info("Reconexión registrada con duración de {$durationInMinutes} minutos para unidad productiva #$productiveUnitId");

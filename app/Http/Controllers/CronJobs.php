@@ -71,8 +71,10 @@ class CronJobs extends Controller
             }
             $emails = array_unique($emails);
 
-            // Enviar correo de alerta
-            Mail::to($emails)->send(new StatsAlertMail($stat));
+            if(env('ENABLED_EMAIL_ALERTS') === "TRUE") {
+                // Enviar correo de alerta
+                Mail::to($emails)->send(new StatsAlertMail($stat));
+            }
 
             // Preparar notificaciones push
             $notifications = [];
@@ -93,7 +95,9 @@ class CronJobs extends Controller
 
             // Enviar notificaciones si hay tokens
             if (!empty($notifications)) {
-                $this->expoPush->send($notifications);
+                if(env('ENABLED_PUSH_NOTIFICATIONS_ALERTS') === "TRUE") {
+                    $this->expoPush->send($notifications);
+                }
             }
 
             // Registrar noticia en la siembra
