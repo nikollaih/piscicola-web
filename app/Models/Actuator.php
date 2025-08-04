@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Actuator extends Model
 {
@@ -34,6 +35,7 @@ class Actuator extends Model
     }
 
     public function getAll($pondId = null) {
+        $user = Auth::user();
         if($pondId) {
             return Actuator::where('pondId')
                 ->with('Pond')
@@ -41,9 +43,11 @@ class Actuator extends Model
                 ->paginate(20);
         }
         else {
-            return Actuator::with('Pond')
-                ->with('ActuatorType')
-                ->paginate(20);
+            return Actuator::whereHas('Pond', function ($query) use ($user) {
+                $query->where('productive_unit_id', $user->productive_unit_id);
+            })
+                ->with(['Pond', 'ActuatorType'])
+                ->paginate(40);
         }
     }
 
