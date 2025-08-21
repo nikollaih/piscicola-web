@@ -145,7 +145,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     </p>
                     <LastUpdate />
 
-                    <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
                         {getSpeedometersDom()}
                     </div>
                 </div>

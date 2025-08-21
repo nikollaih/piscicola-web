@@ -68,7 +68,7 @@ export default function PHMeter({ stat }) {
         <p className="text-center text-sm mb-2">{formatDate(stat.created_at)}</p>
         <div className="flex flex-col justify-center items-center">
             <TestTubeIcon size={100} liquidColor={getPHColor}/>
-            <h2 className="font-bold text-xl">{parseFloat(stat.value).toFixed(1)}</h2>
+            <h2 className="font-bold text-xl mb-2">{parseFloat(stat.value).toFixed(1)}</h2>
             <PhScale />
         </div>
     </div>

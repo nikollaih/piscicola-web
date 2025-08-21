@@ -28,9 +28,9 @@ const SVGComponent = (props) => (
         <text
             className="label"
             x={40}
-            y={20}
+            y={25}
             textAnchor="start"
-            fontSize={16}
+            fontSize={35}
             fill="#111"
             opacity={0.8}
         >
@@ -39,9 +39,9 @@ const SVGComponent = (props) => (
         <text
             className="label"
             x={600}
-            y={20}
+            y={25}
             textAnchor="middle"
-            fontSize={16}
+            fontSize={35}
             fill="#111"
             opacity={0.8}
         >
@@ -50,13 +50,13 @@ const SVGComponent = (props) => (
         <text
             className="label"
             x={1160}
-            y={20}
+            y={25}
             textAnchor="end"
-            fontSize={16}
+            fontSize={35}
             fill="#111"
             opacity={0.8}
         >
-            {"B\xE1sico"}
+            {"Alcalino"}
         </text>
         <rect
             x={40}
