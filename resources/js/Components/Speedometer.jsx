@@ -4,6 +4,7 @@ import * as am5radar from '@amcharts/amcharts5/radar.js';
 import Alarm from '@/../images/alarm.gif';
 import { useEffect, useMemo } from "react";
 import Constants from '@/../Constants.js';
+import {formatDate} from "@/Utils.js";
 
 export default function Speedometer({ stat }) {
     useEffect(() => {
@@ -152,11 +153,12 @@ export default function Speedometer({ stat }) {
     }
 
     return <div className="bg-white col-span-1 rounded-lg shadow-md mb-4 p-2 relative" >
-        {stat.triggered_alarm &&
-            <img src={Alarm} className="absolute left-3 top-3" style={{ width: 40, height: 40 }} />
+        {stat.triggered_alarm ?
+            <img src={Alarm} className="absolute left-3 top-3" style={{ width: 40, height: 40 }} /> : null
         }
 
-        <p className="font-bold text-center mb-2">{stat.step_stat.name}</p>
+        <p className="font-bold text-center">{stat.step_stat.name}</p>
+        <p className="text-center text-sm mb-2">{formatDate(stat.created_at)}</p>
         <div id={stat.id} className="w-full" style={{ height: 200 }} />
         <div className="flex justify-between mt-4">
             <div className="text-center flex-1">

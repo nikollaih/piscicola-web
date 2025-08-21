@@ -9,6 +9,7 @@ import BiomassesChartHistory from "@/Pages/Biomasses/Partials/ChartHistory.jsx";
 import moment from "moment";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import PHMeter from "@/Components/PHMeter.jsx";
 
 export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
     const usePages = usePage();
@@ -68,8 +69,12 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     const getSpeedometersDom = () => {
         return stats.map((stat) => {
             const HIDDEN_READINGS = env.HIDDEN_READINGS ? env.HIDDEN_READINGS.split(",") : [];
-            if(!HIDDEN_READINGS.includes(stat.step_stat.key))
+            if(!HIDDEN_READINGS.includes(stat.step_stat.key)){
+                if(stat.step_stat.key.toLowerCase() === 'ph'){
+                    return <PHMeter key={stat.id} stat={stat} />
+                }
                 return <Speedometer key={stat.id} stat={stat} />
+            }
             else return null
         });
     };
@@ -140,7 +145,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     </p>
                     <LastUpdate />
 
-                    <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+                    <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                         {getSpeedometersDom()}
                     </div>
                 </div>
