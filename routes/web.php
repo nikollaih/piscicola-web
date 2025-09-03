@@ -41,6 +41,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/latest_readings_check', [CronJobs::class, 'checkLatestReadings'])->name('checkLatestReadings');
+Route::get('/notify_maintenance_digest', [CronJobs::class, 'notifyMaintenancesDigest'])->name('notifyMaintenancesDigest');
 
 Route::get('/mobile_app', function () {
     if (request()->has('deviceToken')) {
@@ -300,6 +301,45 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('get_full_status', [MqttController::class, 'askForFullStatus'])->name('mqtt.ask.full.status');
     });
 });
+
+// web.php
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    /** LISTADO por Pond (único cambio requerido) */
+    Route::get('/ponds/{pondId}/sensor-maintenances', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'index'
+    ])->name('pond.sensorMaintenances');
+
+    /** Resto igual que antes (no anidados) */
+    Route::get('/sensor-maintenances', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'legacyIndex'
+    ])->name('sensorMaintenances'); // opcional, si ya no lo usas, elimínalo
+
+    Route::get('/ponds/{pondId}/sensor-maintenances/create', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'create'
+    ])->name('sensorMaintenance.create');
+
+    Route::post('/sensor-maintenances', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'store'
+    ])->name('sensorMaintenance.store');
+
+    Route::get('/sensor-maintenances/{sensorMaintenanceId}', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'view'
+    ])->name('sensorMaintenance.view');
+
+    Route::get('/sensor-maintenances/{sensorMaintenanceId}/edit', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'edit'
+    ])->name('sensorMaintenance.edit');
+
+    Route::put('/sensor-maintenances/{sensorMaintenanceId}', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'update'
+    ])->name('sensorMaintenance.update');
+
+    Route::delete('/sensor-maintenances/{sensorMaintenanceId}', [
+        \App\Http\Controllers\SensorMaintenancesController::class, 'destroy'
+    ])->name('sensorMaintenance.delete');
+});
+
 
 // Reports routes
 Route::middleware(['auth', 'verified'])->group(function () {

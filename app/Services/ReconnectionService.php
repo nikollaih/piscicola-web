@@ -61,7 +61,7 @@ class ReconnectionService
                     }
                 }
 
-                if(env('ENABLED_EMAIL_ALERTS') === "TRUE"){
+                if(env('ENABLED_EMAIL_ALERTS') == "TRUE"){
                     // Enviar correo
                     Mail::to($emails)->send(new ReconnectionMail($data));
                 }
@@ -84,7 +84,7 @@ class ReconnectionService
 
                 // Enviar notificaciones si hay tokens
                 if (!empty($notifications)) {
-                    if(env('ENABLED_PUSH_NOTIFICATIONS_ALERTS') === "TRUE") {
+                    if(env('ENABLED_PUSH_NOTIFICATIONS_ALERTS') == "TRUE") {
                         $this->expoPush->send($notifications);
                     }
                 }

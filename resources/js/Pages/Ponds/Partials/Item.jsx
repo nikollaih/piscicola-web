@@ -1,4 +1,5 @@
 import {Link} from "@inertiajs/react";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 export default function PondItem ({pond, onDelete = () => {}}) {
     return (
         <div className="bg-white overflow-hidden shadow-sm rounded-lg p-5 w-full">
@@ -41,6 +42,11 @@ export default function PondItem ({pond, onDelete = () => {}}) {
                     <p className="ml-1 text-red-600">Eliminar</p>
                 </Link>
             </div>
+            <Link href={route('pond.sensorMaintenances', {pondId: pond.id})}>
+                <PrimaryButton className="bg-orange-500 w-full mt-4">
+                    Mantenimientos
+                </PrimaryButton>
+            </Link>
 
         </div>
     )
