@@ -8,7 +8,7 @@ import Pagination from "@/Components/Pagination.jsx";
 import Constants from "../../../Constants.js";
 import moment from "moment";
 
-export default function SensorsMaintenance({ auth, maintenances, pondId }) {
+export default function SensorsMaintenance({ auth, maintenances }) {
     const usePages = usePage();
     const [maintenancesLis, setMaintenancesLis] = useState([]);
 
@@ -74,7 +74,7 @@ export default function SensorsMaintenance({ auth, maintenances, pondId }) {
                                 <h2 className="text-xl font-semibold text-gray-800">Mantenimiento sensores</h2>
                             </div>
                             <div className="flex gap-2">
-                                <Link href={route('sensorMaintenance.create', { pondId })}>
+                                <Link href={route('sensorMaintenance.create')}>
                                     <PrimaryButton className="bg-orange-600 text-white">
                                         Nuevo mantenimiento
                                     </PrimaryButton>
@@ -87,7 +87,7 @@ export default function SensorsMaintenance({ auth, maintenances, pondId }) {
                         <table id="table-maintenances" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
                             <tr>
-                                <td className="pl-5 pr-20">Sensor</td>
+                                <td className="pl-5 pr-20">Sensor/Dispositivo</td>
                                 <td className="pr-20">Fecha y hora</td>
                                 <td className="pr-20">Encargado</td>
                                 <td className="pr-20 min-w-[200px]">Observaciones</td>
@@ -98,7 +98,7 @@ export default function SensorsMaintenance({ auth, maintenances, pondId }) {
                             <tbody>
                             {maintenancesLis.map((maintenance) => (
                                 <tr key={maintenance.id} className="hover:bg-gray-100 hover:cursor-pointer rounded-2xl overflow-hidden">
-                                    <td className="font-bold pl-5">{maintenance.sensor_name}</td>
+                                    <td className="font-bold pl-5">{maintenance?.device?.name}</td>
                                     <td className="pr-2">{moment(maintenance.maintenance_at).format(Constants.DATETIMEFORMAT)}</td>
                                     <td className="pr-2">{maintenance.operator_name}</td>
                                     <td className="pr-2">

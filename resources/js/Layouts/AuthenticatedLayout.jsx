@@ -85,6 +85,12 @@ export default function Authenticated({ user, header, children }) {
                                                         <Dropdown.Link href={route('supplies')} active={route().current('supplies')}>
                                                             Suministros
                                                         </Dropdown.Link>
+                                                        <Dropdown.Link href={route('devices')} active={route().current('devices')}>
+                                                            Dispositivos
+                                                        </Dropdown.Link>
+                                                        <Dropdown.Link href={route('sensorMaintenances')} active={route().current('sensorMaintenances')}>
+                                                            Mantenimientos
+                                                        </Dropdown.Link>
                                                     </Dropdown.Content>
                                                 </Dropdown>
                                             </div>
@@ -258,6 +264,12 @@ export default function Authenticated({ user, header, children }) {
                                 </Dropdown.Link>
                                 <Dropdown.Link href={route('supplies')} active={route().current('supplies')}>
                                     Suministros
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('devices')} active={route().current('devices')}>
+                                    Dispositivos
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('sensorMaintenances')} active={route().current('sensorMaintenances')}>
+                                    Mantenimientos
                                 </Dropdown.Link>
                             </Dropdown.Content>
                         </Dropdown>

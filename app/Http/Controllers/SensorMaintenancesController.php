@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SensorMaintenanceCreateRequest;
 use App\Http\Requests\SensorMaintenanceUpdateRequest;
-use App\Models\Pond;
+use App\Models\Device;
 use App\Models\SensorMaintenance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -13,16 +13,16 @@ use Inertia\Response;
 class SensorMaintenancesController extends Controller
 {
     /**
-     * INDEX: listado SIEMPRE por Pond (anidado por ruta)
-     * GET /ponds/{pondId}/sensor-maintenances
+     * INDEX: listado SIEMPRE por Device (anidado por ruta)
+     * GET /devices/{deviceId}/sensor-maintenances
      */
-    public function index(Request $request, int $pondId): Response
+    public function index(Request $request): Response
     {
-        $maintenances = (new SensorMaintenance())->getAllForPond($pondId);
+        // Asegúrate de tener getAllForDevice() en el modelo SensorMaintenance
+        $maintenances = (new SensorMaintenance())->getAll();
 
         return \inertia('SensorsMaintenance/Index', [
             'maintenances' => $maintenances,
-            'pondId'       => $pondId,
             'csrfToken'    => csrf_token(),
         ]);
     }
@@ -41,14 +41,20 @@ class SensorMaintenancesController extends Controller
     }
 
     /**
-     * CREATE: formulario (no anidado; el form envía pond_id)
+     * CREATE: formulario (no anidado; el form envía device_id)
+     *
+     * Añadimos además la lista de devices para poblar un select en el form.
      */
-    public function create($pondId): Response
+    public function create(?int $deviceId = null): Response
     {
+        $devices = (new Device())->getAll();
+
         return \inertia('SensorsMaintenance/Create', [
-            'pondId'          => $pondId,
-            'goBackRoute'    => route('sensorMaintenances'),
-            'formActionUrl'  => route('sensorMaintenance.store'),
+            'deviceId'        => $deviceId,
+            'devices'         => $devices,
+            'goBackRoute'     => route('sensorMaintenances'), // ajusta si tienes otra ruta
+            'formActionUrl'   => route('sensorMaintenance.store'),
+            'csrfToken'       => csrf_token(),
         ]);
     }
 
@@ -66,7 +72,8 @@ class SensorMaintenancesController extends Controller
 
         $maintenance = SensorMaintenance::create($data);
 
-        return Redirect::route('pond.sensorMaintenances', ['pondId' => $maintenance->pond->id])
+        // Redirigir al listado por device (mejor UX)
+        return redirect()->route('sensorMaintenances')
             ->with('success', 'Mantenimiento registrado');
     }
 
@@ -76,36 +83,38 @@ class SensorMaintenancesController extends Controller
     public function edit(int $sensorMaintenanceId): Response
     {
         $maintenance = (new SensorMaintenance())->getOne($sensorMaintenanceId);
-        $ponds = (new Pond())->getAll();
+
+        // Obtener devices para permitir reasignar device si hace falta
+        $devices = (new Device())->getAll();
 
         return \inertia('SensorsMaintenance/Create', [
             'maintenance'   => $maintenance,
-            'ponds'         => $ponds,
+            'devices'       => $devices,
             'goBackRoute'   => route('sensorMaintenance.view', ['sensorMaintenanceId' => $sensorMaintenanceId]),
             'formActionUrl' => route('sensorMaintenance.update', ['sensorMaintenanceId' => $sensorMaintenanceId]),
+            'csrfToken'     => csrf_token(),
         ]);
     }
 
     /**
      * UPDATE
      */
-    public function update(SensorMaintenanceUpdateRequest $request, int $sensorMaintenanceId)
+    public function update(int $sensorMaintenanceId, SensorMaintenanceUpdateRequest $request)
     {
-        dd($request);
         $maintenance = SensorMaintenance::findOrFail($sensorMaintenanceId);
-        $data = $request->validated();
 
-        dd($data);
+        $data = $request->validated();
 
         if ($request->hasFile('evidence')) {
             $data['evidence_path'] = $request->file('evidence')
                 ->store('sensor_maintenances', 'public');
         }
 
-        $maintenance->update($data);
+        $maintenance->fill($data);
+        $maintenance->save();
 
-        return Redirect::route('pond.sensorMaintenances', ['pondId' => $maintenance->pond->id])
-            ->with('success', 'Mantenimiento registrado');
+        return redirect()->route('sensorMaintenances')
+            ->with('success', 'Mantenimiento actualizado');
     }
 
     /**

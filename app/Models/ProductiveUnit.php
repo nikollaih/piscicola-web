@@ -48,4 +48,9 @@ class ProductiveUnit extends Model
         return $this->hasMany(Reconnection::class);
     }
 
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'id_unidad_productiva');
+    }
+
 }

@@ -11,8 +11,7 @@ class SensorMaintenanceCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pond_id'        => ['required', 'integer', 'exists:ponds,id'],
-            'sensor_name'    => ['nullable', 'string', 'max:150'],
+            'device_id'        => ['required', 'integer', 'exists:devices,id'],
             'operator_name'  => ['nullable', 'string', 'max:150'],
             'maintenance_at' => ['required', 'date'],
             'observations'   => ['nullable', 'string', 'max:5000'],

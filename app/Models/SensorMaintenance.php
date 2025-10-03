@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class SensorMaintenance extends Model
 {
@@ -14,8 +14,7 @@ class SensorMaintenance extends Model
     protected $table = 'sensor_maintenances';
 
     protected $fillable = [
-        'pond_id',
-        'sensor_name',     // texto
+        'device_id',
         'operator_name',   // texto
         'maintenance_at',
         'next_maintenance_at',
@@ -28,56 +27,77 @@ class SensorMaintenance extends Model
         'next_maintenance_at' => 'datetime',
     ];
 
-    public function pond()
+    /**
+     * Relación con Device
+     */
+    public function device()
     {
-        return $this->belongsTo(Pond::class);
+        return $this->belongsTo(Device::class);
     }
 
-    /** Listado SOLO de un Pond específico */
-    public function getAllForPond(int $pondId)
+    /**
+     * Listado de mantenimientos, pero solo para devices que pertenezcan
+     * a la unidad productiva del usuario logueado.
+     */
+    public function getAll()
     {
-        return self::with('pond')
-            ->where('pond_id', $pondId)
+        $user = Auth::user();
+
+        // Si por algún motivo el usuario no tiene productive_unit_id, devolvemos vacío paginado.
+        if (! $user || ! isset($user->productive_unit_id)) {
+            return self::whereRaw('0 = 1')->paginate(20);
+        }
+
+        $productiveUnitId = $user->productive_unit_id;
+
+        return self::with('device')
+            ->whereHas('device', function (Builder $q) use ($productiveUnitId) {
+                $q->where('id_unidad_productiva', $productiveUnitId);
+            })
             ->orderByDesc('maintenance_at')
             ->paginate(20);
     }
 
-    /** (Opcional) Obtener uno por id (no filtra por pond aquí) */
+    /**
+     * Obtener uno por id (cargando device y la unidad productiva relacionada)
+     */
     public function getOne(int $id)
     {
-        return self::with('pond.productiveUnit')->findOrFail($id);
+        return self::with('device.productiveUnit')->findOrFail($id);
     }
 
     /**
-    * Retorna el último mantenimiento de cada pond, ordenados DESC por next_maintenance_at.
-    * Si se provee $productiveUnitId, filtra por esa unidad productiva.
-    */
-    public static function latestActivePerPondDesc(?int $productiveUnitId = null)
+     * Retorna el último mantenimiento de cada device, ordenados DESC por next_maintenance_at.
+     * Si se provee $productiveUnitId, filtra por esa unidad productiva (vía device->productiveUnit).
+     */
+    public static function latestActivePerDeviceDesc(?int $productiveUnitId = null)
     {
         return self::query()
-            // Asegura que el pond exista y NO esté soft-deleted
-            ->whereHas('pond', function (Builder $q) use ($productiveUnitId) {
+            // Asegura que el device exista y cumpla filtro de productive unit si se provee
+            ->whereHas('device', function (Builder $q) use ($productiveUnitId) {
                 if ($productiveUnitId) {
-                    $q->where('productive_unit_id', $productiveUnitId);
+                    // Filtra dispositivos cuya unidad productiva tenga el id dado
+                    $q->whereHas('productiveUnit', function (Builder $q2) use ($productiveUnitId) {
+                        $q2->where('id', $productiveUnitId);
+                    });
                 }
             })
-            // Carga pond y productiveUnit (solo activos por defecto)
-            ->with(['pond.productiveUnit'])
-            // Toma el ÚLTIMO mantenimiento ACTIVO por cada pond
+            // Carga device y su productiveUnit
+            ->with(['device.productiveUnit'])
+            // Toma el ÚLTIMO mantenimiento ACTIVO por cada device
             ->whereRaw("
-            sensor_maintenances.id = (
-                SELECT sm2.id
-                FROM sensor_maintenances sm2
-                WHERE sm2.pond_id = sensor_maintenances.pond_id
-                  AND sm2.deleted_at IS NULL           -- solo activos
-                ORDER BY
-                  (sm2.next_maintenance_at IS NULL) ASC, -- no nulos primero
-                  sm2.next_maintenance_at DESC,
-                  sm2.id DESC
-                LIMIT 1
-            )
-        ")
-            // Orden final del resultado (colección) por fecha más reciente
+                sensor_maintenances.id = (
+                    SELECT sm2.id
+                    FROM sensor_maintenances sm2
+                    WHERE sm2.device_id = sensor_maintenances.device_id
+                      AND sm2.deleted_at IS NULL
+                    ORDER BY
+                      (sm2.next_maintenance_at IS NULL) ASC,
+                      sm2.next_maintenance_at DESC,
+                      sm2.id DESC
+                    LIMIT 1
+                )
+            ")
             ->orderByDesc('next_maintenance_at')
             ->get();
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\BiomassesController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\CronJobs;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DevicesController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicateController;
@@ -128,6 +129,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('{actuatorId}/config', [ActuatorsController::class, 'updateConfig'])->name('actuator.config.update');
         Route::post('{actuatorId}/config/delete', [ActuatorsController::class, 'deleteConfig'])->name('actuator.config.delete');
         Route::patch('{actuatorId}/update', [ActuatorsController::class, 'update'])->name('actuator.update');
+    });
+});
+
+// Devices routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('devices')->group(function() {
+        Route::get('', [DevicesController::class, 'index'])->name('devices');
+        Route::get('create', [DevicesController::class, 'create'])->name('device.create');
+        Route::get('{deviceId}/edit', [DevicesController::class, 'edit'])->name('device.edit');
+        Route::post('store', [DevicesController::class, 'store'])->name('device.store');
+        Route::patch('{deviceId}/update', [DevicesController::class, 'update'])->name('device.update');
+        Route::delete('{deviceId}', [DevicesController::class, 'destroy'])->name('device.delete');
     });
 });
 
@@ -304,18 +317,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // web.php
 Route::middleware(['auth', 'verified'])->group(function () {
-
-    /** LISTADO por Pond (único cambio requerido) */
-    Route::get('/ponds/{pondId}/sensor-maintenances', [
-        \App\Http\Controllers\SensorMaintenancesController::class, 'index'
-    ])->name('pond.sensorMaintenances');
-
     /** Resto igual que antes (no anidados) */
     Route::get('/sensor-maintenances', [
-        \App\Http\Controllers\SensorMaintenancesController::class, 'legacyIndex'
+        \App\Http\Controllers\SensorMaintenancesController::class, 'index'
     ])->name('sensorMaintenances'); // opcional, si ya no lo usas, elimínalo
 
-    Route::get('/ponds/{pondId}/sensor-maintenances/create', [
+    Route::get('/sensor-maintenances/create', [
         \App\Http\Controllers\SensorMaintenancesController::class, 'create'
     ])->name('sensorMaintenance.create');
 
