@@ -15,7 +15,6 @@ class MortalityCreateRequest extends FormRequest
     {
         return [
             'biomasse_id' => ['required', 'numeric'],
-            'sample_quantity' => ['required'],
             'dead' => ['required'],
             'manual_created_at' => ['required']
         ];

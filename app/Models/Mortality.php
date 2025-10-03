@@ -11,7 +11,6 @@ class Mortality extends Model
 
     protected $fillable = [
         'biomasse_id',
-        'sample_quantity',
         'dead',
         'manual_created_at'
     ];

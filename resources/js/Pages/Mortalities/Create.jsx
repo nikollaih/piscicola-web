@@ -19,7 +19,6 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
     const [successMessage, setSuccessMessage] = useState('');
     const { data, setData, post, patch, reset, processing } = useForm({
         biomasse_id: biomasseId,
-        sample_quantity: "",
         dead: "",
         manual_created_at: moment().format(Constants.DATEFORMAT)
     });
@@ -32,7 +31,6 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
 
     const setMortalityData = (mortality) => {
         setData({
-            sample_quantity: mortality.sample_quantity,
             dead: mortality.dead,
             manual_created_at: moment(mortality.manual_created_at).format(Constants.DATEFORMAT)
         });
@@ -109,19 +107,6 @@ export default function CreateMortality({ auth, biomasseId, mortalitiesUrl }) {
                         <br />
                         <div className="bg-white shadow-sm rounded-lg p-5">
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 grid-cols-1 mb-4">
-                                <div className="w-full md:col-span-1 sm:col-span-4">
-                                    <InputLabel value="Cantidad de peces para la muestra"/>
-                                    <TextInput
-                                        type="number"
-                                        className="w-full"
-                                        placeholder=""
-                                        name="sample_quantity"
-                                        value={data.sample_quantity}
-                                        required
-                                        onChange={(e) => setData(e.target.name, e.target.value)}/>
-                                    {(hasErrors?.sample_quantity) ?
-                                        <InputError message={hasErrors.sample_quantity}/> : ""}
-                                </div>
                                 <div className="w-full md:col-span-1 sm:col-span-4">
                                     <InputLabel value="Cantidad de peces muertos"/>
                                     <TextInput

@@ -14,7 +14,6 @@ class MortalityUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sample_quantity' => ['required'],
             'dead' => ['required'],
             'manual_created_at' => ['required']
         ];

@@ -98,8 +98,7 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
                         <table id="table-mortalities" className="w-full table table-auto">
                             <thead className="text-gray-900 font-bold">
                                 <tr>
-                                    <td className="pl-5 pr-20 min-w-[200px]">Cantidad de muestra</td>
-                                    <td className="pr-20">Mortalidad</td>
+                                    <td className="pr-20 pl-5">Mortalidad</td>
                                     <td className="pr-20">Fecha</td>
                                     <td></td>
                                 </tr>
@@ -107,8 +106,7 @@ export default function Mortalities({ auth, sowing, mortalities, latestMortaliti
                             <tbody>
                                 {mortalities.data.map((mortality) => (
                                     <tr key={mortality.id} className="hover:bg-gray-100 hover:cursor-pointer">
-                                        <td className="font-bold pl-5">{mortality.sample_quantity}</td>
-                                        <td>{mortality.dead}</td>
+                                        <td className="font-bold pl-5">{mortality.dead}</td>
                                         <td>{moment(mortality.manual_created_at).format(Constants.DATEFORMAT)}</td>
                                         <td className="flex gap-2 py-4 pr-4">
                                             <div className="flex gap-2">
