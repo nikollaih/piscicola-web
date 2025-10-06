@@ -60,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('simulate', [StatReadingsController::class, 'index'])->name('simulate');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/manual-readings', [SowingsController::class, 'manualReading'])->middleware(['auth', 'verified'])->name('manual.reading.create');
 
 
 // Parties routes

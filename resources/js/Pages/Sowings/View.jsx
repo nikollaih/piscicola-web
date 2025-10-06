@@ -10,9 +10,14 @@ import moment from "moment";
 import ButtonsGroup from "@/Pages/Sowings/Partials/ButtonsGroup.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import PHMeter from "@/Components/PHMeter.jsx";
+import {createPortal} from "react-dom";
+import Modal from "@/Components/Modal.jsx";
+import {BaseModal} from "@/Components/BaseModal.jsx";
+import {ManualReading} from "@/Pages/Sowings/Partials/ManualReading.jsx";
 
-export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings }) {
+export default function ViewSowing({ auth, sowing, statsReadings, biomasses, ponds, sowings, stepStats }) {
     const usePages = usePage();
+    const [showModalManual, setShowModalManual] = useState(false);
     const { env } = usePage().props;
 
     const [stats] = useState(statsReadings);
@@ -106,6 +111,7 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
     };
 
     return (
+        <>
         <AuthenticatedLayout user={auth.user}>
             <Head title="Cosecha" />
 
@@ -145,11 +151,32 @@ export default function ViewSowing({ auth, sowing, statsReadings, biomasses, pon
                     </p>
                     <LastUpdate />
 
+                    <div className={'flex justify-center mb-5'}>
+                        <PrimaryButton
+                            className={'bg-orange-500 mx-auto'}
+                            onClick={() => setShowModalManual(true)}
+                        >
+                            Nueva lectura manual
+                        </PrimaryButton>
+                    </div>
+
                     <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
                         {getSpeedometersDom()}
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
+            {
+                showModalManual && createPortal(
+                    <BaseModal
+                        title={"Nueva lectura manual"}
+                        onClose={() => setShowModalManual(false)}
+                    >
+                        <ManualReading stepStats={stepStats} sowing={sowing} />
+                    </BaseModal>,
+                    document.body
+                )
+            }
+        </>
     );
 }

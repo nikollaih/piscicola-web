@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SowingNews;
+use App\Http\Requests\ManualReadingRequest;
 use App\Http\Requests\SowingCreateRequest;
 use App\Http\Requests\SowingUpdateRequest;
 use App\Models\ActuatorUse;
@@ -12,6 +14,7 @@ use App\Models\Pond;
 use App\Models\Sowing;
 use App\Models\StatsReading;
 use App\Models\Step;
+use App\Models\StepStat;
 use App\Models\SupplyUse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,8 +120,11 @@ class SowingsController extends Controller
         $Biomasse = new Biomasse();
         $Sowing = new Sowing();
         $Sowing->setSowingId($sowingId);
+        $StepStat = new StepStat();
+
 
         $sowing = $Sowing->Get();
+        $stepStats = $StepStat->getAll($sowing->step_id);
         $biomasses = $Biomasse->AllBySowing($sowingId);
         $stats = $Stat->latest($sowing->id, $sowing->step_id);
 
@@ -126,6 +132,7 @@ class SowingsController extends Controller
             return inertia('Sowings/View', [
                 'biomasses' => $biomasses,
                 'statsReadings' => $stats,
+                'stepStats' => $stepStats,
                 'sowing' => $sowing,
                 'baseUrl' => url('/'),
                 'csrfToken' => csrf_token()
@@ -182,5 +189,25 @@ class SowingsController extends Controller
             'expensesCost' => $expensesCost,
             'csrfToken' => csrf_token()
         ]);
+    }
+
+    public function manualReading(ManualReadingRequest $request) {
+        $Biomasse = new Biomasse();
+        $StepStat = new Stepstat();
+
+        $manualReadingRequest = $request->all();
+        $readingValue = floatval($manualReadingRequest["value"]);
+        $stepStat = $StepStat->Get($manualReadingRequest["step_stat_id"]);
+        $manualReadingRequest["biomasse_id"] = $Biomasse->Active($manualReadingRequest["sowing_id"])->id;
+        $manualReadingRequest["topic_time"] = date('Y-m-d H:i:s', strtotime($manualReadingRequest["topic_time"]));
+        $manualReadingRequest["triggered_alarm"] = ($readingValue > floatval($stepStat->value_maximun) || $readingValue < floatval($stepStat->value_minimun)) ? 1 : 0;
+
+        $result = StatsReading::create($manualReadingRequest);
+
+        if($manualReadingRequest["triggered_alarm"] == 1) {
+            (new SowingNews())->newStatAlarm($result);
+        }
+
+        return Redirect::route('sowing.view', ["sowingId" => $manualReadingRequest["sowing_id"]]);
     }
 }

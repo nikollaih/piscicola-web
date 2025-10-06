@@ -5,5 +5,6 @@ export default {
     },
     DATETIMEFORMAT: "YYYY-MM-DD hh:mm a",
     DATEFORMAT: "YYYY-MM-DD",
+    DATETIME_INPUT_FORMAT: 'YYYY-MM-DDTHH:mm',
     SUPPLIES_USES_TYPES: {'ALIMENT': 'Alimento', 'MEDICINE': 'Medicina', 'OTHER': 'Otro'}
 }

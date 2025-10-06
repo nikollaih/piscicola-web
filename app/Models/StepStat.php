@@ -45,6 +45,11 @@ class StepStat extends Model
             ->first();
     }
 
+    public function Get($stepStatId) {
+        return StepStat::where('id', $stepStatId)
+            ->first();
+    }
+
     public function getAll($stepId) {
         if($stepId){
             return StepStat::orderBy('step_id', 'asc')
