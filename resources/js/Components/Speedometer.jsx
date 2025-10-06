@@ -158,7 +158,7 @@ export default function Speedometer({ stat }) {
         }
 
         <p className="font-bold text-center">{stat.step_stat.name}</p>
-        <p className="text-center text-sm mb-2">{formatDate(stat.created_at)}</p>
+        <p className="text-center text-sm mb-2">{formatDate(stat.topic_time)}</p>
         <div id={stat.id} className="w-full" style={{ height: 200 }} />
         <div className="flex justify-between mt-4">
             <div className="text-center flex-1">

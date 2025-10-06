@@ -26,12 +26,10 @@ export const  ManualReading = ({ stepStats = [] = [], sowing }) => {
 
     const [stepStatTitle, setStepStatTitle] = useState('Seleccionar');
     const [successMessage, setSuccessMessage] = useState('');
-    const [shouldRefresh, setShouldRefresh] = useState(false);
 
     useEffect(() => {
         return () => {
-            if(shouldRefresh)
-                location.reload();
+            location.reload();
         }
     }, []);
 
@@ -53,7 +51,6 @@ export const  ManualReading = ({ stepStats = [] = [], sowing }) => {
         setSuccessMessage('La lectura fue agregada satisfactoriamente');
         setStepStatTitle('Seleccionar');
         reset();
-        setShouldRefresh(true);
         buttonResetRef.current.click();
     };
 
