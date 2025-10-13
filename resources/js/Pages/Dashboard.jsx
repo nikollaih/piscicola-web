@@ -9,7 +9,6 @@ import {DashboardActuatorStatus} from "@/Components/Dashboard/ActuatorItem.jsx";
 import {DashboardDeviceStatus} from "@/Components/Dashboard/DeviceItem.jsx";
 
 export default function Dashboard({ auth, ponds, actuators, devices }) {
-    console.log(devices)
     let usePages = usePage();
 
     const askForGlobalStatus = async () => {

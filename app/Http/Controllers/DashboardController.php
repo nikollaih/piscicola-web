@@ -18,6 +18,10 @@ class DashboardController extends Controller
         $actuators = $Actuator->getAll();
         $devices = $Device->getAllWithLatestMaintenance();
 
+        foreach ($ponds as $pond) {
+            $pond->active_sowing = $Pond->getActiveSowing($pond->id, true);
+        }
+
         return \inertia('Dashboard', [
             'ponds' => $ponds,
             'actuators' => $actuators,

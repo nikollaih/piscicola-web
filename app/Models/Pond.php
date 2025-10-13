@@ -51,6 +51,23 @@ class Pond extends Model
             ->first();
     }
 
+    public function getActiveSowing($pondId, $includeStats = false){
+        $sowing = Sowing::where('pond_id', $pondId)
+            ->latest()
+            ->first();
+
+        if (! $sowing) {
+            return null;
+        }
+
+        if ($includeStats) {
+            $statsReader = new \App\Models\StatsReading();
+            $sowing->latest_stats = $statsReader->latest($sowing->id);
+        }
+
+        return $sowing;
+    }
+
     public function latestStatus()
     {
         return $this->hasOne(PondStatus::class)->latestOfMany('event_date');
