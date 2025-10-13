@@ -55,7 +55,7 @@ class StatsReading extends Model
             ->whereIn('id', function($query) use ($sowingId) {
                 $query->selectRaw('MAX(id)')
                     ->from('stats_readings')
-                    ->where('sowing_id', $sowingId) // 👈 FILTRAR AQUÍ
+                    ->where('sowing_id', $sowingId)
                     ->groupBy('step_stat_id');
             })
             ->get();
