@@ -1,6 +1,7 @@
 import Estanque from '@/../images/estanque.png'
 import moment from "moment";
 import Constants from "../../../Constants.js";
+import {Link} from "@inertiajs/react";
 
 export const DashboardPondStatus = ({pond}) => {
 
@@ -23,7 +24,9 @@ export const DashboardPondStatus = ({pond}) => {
     }
 
     return <div className={'bg-white px-4 pb-4 rounded-lg '}>
-        <img src={Estanque} alt="" className={'max-w-40 mx-auto'}/>
+        <Link href={pond.active_sowing ? route('sowing.view', {sowingId: pond.active_sowing.id}) : route('dashboard')}>
+            <img src={Estanque} alt="" className={'max-w-40 mx-auto hover:scale-110'}/>
+        </Link>
         <div className={'flex justify-between items-center'}>
             <div>
                 <p className={'font-semibold -mb-2'}>{pond.name}</p>
