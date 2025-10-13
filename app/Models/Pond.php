@@ -62,7 +62,7 @@ class Pond extends Model
 
         if ($includeStats) {
             $statsReader = new \App\Models\StatsReading();
-            $sowing->latest_stats = $statsReader->latest($sowing->id);
+            $sowing->latest_stats = $statsReader->latest($sowing->id, $sowing->step_stat);
         }
 
         return $sowing;
