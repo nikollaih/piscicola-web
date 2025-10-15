@@ -18,7 +18,8 @@ class StatsReading extends Model
         'biomasse_id',
         'value',
         'triggered_alarm',
-        'topic_time'
+        'topic_time',
+        'reading_type'
     ];
 
     public function Step(){
@@ -69,6 +70,12 @@ class StatsReading extends Model
                     ->groupBy('sowing_id');
             })
             ->get();
+    }
+
+    public function latestMQTT() {
+        return StatsReading::where('reading_type', 'mqtt')
+            ->orderBy('id', 'desc')
+            ->first();
     }
 
     public function latestByBiomasse($biomasseId) {

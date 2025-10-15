@@ -7,8 +7,9 @@ import {useCallback, useMemo} from "react";
 import {DashboardPondStatus} from "@/Components/Dashboard/PondItem.jsx";
 import {DashboardActuatorStatus} from "@/Components/Dashboard/ActuatorItem.jsx";
 import {DashboardDeviceStatus} from "@/Components/Dashboard/DeviceItem.jsx";
+import moment from "moment";
 
-export default function Dashboard({ auth, ponds, actuators, devices }) {
+export default function Dashboard({ auth, ponds, actuators, devices, latestReading, showReadingsAlertAfter }) {
     let usePages = usePage();
 
     const askForGlobalStatus = async () => {
@@ -80,6 +81,14 @@ export default function Dashboard({ auth, ponds, actuators, devices }) {
         ));
     }, [devices]);
 
+    const timeSinceLastReading = useMemo(() => {
+        if(!latestReading.id){
+            return 0;
+        }
+
+        return moment().diff(latestReading.created_at, 'minutes');
+    }, [latestReading])
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -101,9 +110,18 @@ export default function Dashboard({ auth, ponds, actuators, devices }) {
                     <div className="bg-white overflow-hidden shadow-sm rounded-lg">
                         <div className="p-6 text-gray-900 font-bold text-center text-xl">Estado general de la unidad</div>
                     </div>
+                    {
+                        timeSinceLastReading > showReadingsAlertAfter &&
+                        <div className={'w-full p-4 rounded-md bg-red-500 mt-5'}>
+                            <p className={'text-white'}><span className={'font-semibold'}>Alerta:</span> No se han
+                                detectado lecturas a través de MQTT, verifica que la conexión este funcionando
+                                correctamente.</p>
+                        </div>
+                    }
                     <div>
                         <p className={'font-semibold text-gray-900 mb-4 text-md mt-10'}>Estanques</p>
-                        <div className={'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 bg-gray-200 p-4 rounded-lg'}>
+                        <div
+                            className={'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 bg-gray-200 p-4 rounded-lg'}>
                             {dashboardPonds}
                         </div>
                         <p className={'font-semibold text-gray-900 mb-4 text-md mt-10'}>Actuadores</p>
